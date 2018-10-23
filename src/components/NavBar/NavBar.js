@@ -1,14 +1,22 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 
-function NavBar() {
+function NavBar(props) {
     return (
         <div>
-            <Link to="/message"><div>Message</div></Link>
-            <Link to="/home"><div>Home</div></Link>
-            <Link to="/search"><div>Search</div></Link>
+            {
+                props.location.pathname === "/"
+                    ?
+                    null
+                    :
+                    <div>
+                        <Link to="/message"><div>Message</div></Link>
+                        <Link to="/home"><div>Home</div></Link>
+                        <Link to="/search"><div>Search</div></Link>
+                    </div>
+            }
         </div>
     )
 }
 
-export default NavBar
+export default withRouter(NavBar)
