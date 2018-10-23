@@ -5,7 +5,10 @@ class Login extends Component {
         return(
             <div className="mainBody">
                 <header>
-                    <h1>Social Media for Developers</h1>
+                    <title>
+                        <h1>App Name</h1>
+                    </title>
+                    <p>A really cool app for connecting with other developers</p>
                 </header>
                 <body>
                     <button>Log In</button>

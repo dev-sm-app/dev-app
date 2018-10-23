@@ -1,5 +1,53 @@
 @import "../variables";
 
 .mainBody {
-    // background-image: url('./images/code\ image.jpg');
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+    width: 100%;
+    background-image: url('./images/loginbackground.jpg');
+    background-size: cover;
+
+    header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        height: 350px;
+        width: 80vw;
+        padding: 30px;
+        background-color: $grayeight;
+        color: $green;
+        font-family: 'Inconsolata', monospace;
+        font-size: 28px;
+        border: 1px solid $green;
+
+        title {
+            font-family: 'Inconsolata', monospace;
+            font-size: 48px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        
+        p {
+            font-family: 'Inconsolata', monospace;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    button {
+        width: 200px;
+        height: 60px;
+        background-color: $grayeight;
+        border: 1px solid $blue;
+        color: $blue;
+        font-family: 'Inconsolata', monspace;
+        font-size: 28px
+    }
 }
