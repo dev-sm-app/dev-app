@@ -20,11 +20,11 @@ module.exports = {
             let foundUser = await db.find_user([sub])
                     if(foundUser[0]){
                         req.session.user = foundUser[0];
-                        res.redirect('/#/home')
+                        res.redirect('/home')
                     }else {
                         let createUser = await db.create_user([name, email, sub])
                         req.session.user = createUser[0];
-                        res.redirect('/#/profile')
+                        res.redirect('/profile')
                     };
                 }catch(err){
                     console.error(err);
