@@ -1,6 +1,10 @@
-
-
-
+const {CONNECTION_STRING,
+    SESSION_SECRET,
+    REACT_APP_SERVER_PORT,
+    REACT_APP_DOMAIN,
+    REACT_APP_CLIENT_ID,
+    CLIENT_SECRET} = process.env;
+const axios = require('axios');
 module.exports = {
     userLogin: async (req, res) => {
         try{
