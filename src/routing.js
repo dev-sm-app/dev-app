@@ -6,6 +6,7 @@ import Home from "./components/views/Home"
 import Message from "./components/views/Message"
 import Search from "./components/views/Search"
 import Profile from "./components/views/Profile"
+import OtherUsers from "./components/views/OtherUsers"
 
 export default <Switch>
     <Route exact path="/" component={Login} />
@@ -13,5 +14,5 @@ export default <Switch>
     <Route path="/message" component={Message} />
     <Route path="/search" component={Search} />
     <Route path="/profile" component={Profile} />
-    <Route path="/user/:userid" component={Profile} />
+    <Route path="/user/:userid" component={OtherUsers} />
 </Switch>
