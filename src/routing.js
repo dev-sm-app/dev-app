@@ -8,10 +8,10 @@ import Search from "./components/views/Search"
 import Profile from "./components/views/Profile"
 
 export default <Switch>
-    <Route exact path="/" componenet={Login} />
-    <Route path="/home" componenet={Home} />
-    <Route path="/message" componenet={Message} />
-    <Route path="/search" componenet={Search} />
-    <Route path="/profile" componenet={Profile} />
-    <Route path="/user/:userid" componenet={Profile} />
+    <Route exact path="/" component={Login} />
+    <Route path="/home" component={Home} />
+    <Route path="/message" component={Message} />
+    <Route path="/search" component={Search} />
+    <Route path="/profile" component={Profile} />
+    <Route path="/user/:userid" component={Profile} />
 </Switch>
