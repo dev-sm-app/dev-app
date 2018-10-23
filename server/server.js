@@ -10,6 +10,13 @@ const mess = require('./controller/Messagecontroller');
 const post =require('./controller/Postcontroller');
 
 const app = express();
+app.use(bodyParser.json());
+const {CONNECTION_STRING,
+    SESSION_SECRET,
+    REACT_APP_SERVER_PORT,
+    REACT_APP_DOMAIN,
+    REACT_APP_CLIENT_ID,
+    CLIENT_SECRET} = process.env;
 
 app.use(session({
     secret: SESSION_SECRET,
@@ -17,7 +24,9 @@ app.use(session({
     saveUninitialized: false
 }));
 // User EndPoints //
-
+app.get('/auth/callback', user.userLogin);
+app.get('/api/auth/setUser', user.SetUser);
+app.get('/api/auth/logout', user.Logout);
 
 // Friend EndPoints //
 
