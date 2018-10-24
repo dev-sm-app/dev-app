@@ -10,10 +10,11 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <div>
-            <Header />
+          <div className="appBody">
             {routes}
-            <NavBar />
+            <div className="navBar">
+              <NavBar />
+            </div>
           </div>
         </Router>
       </div>
