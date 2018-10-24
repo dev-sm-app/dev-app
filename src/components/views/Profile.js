@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from "axios"
+import {userData} from '../../ducks/reducer';
+import {connect} from 'react-redux';
 
 class Profile extends Component {
   componentDidMount(){
@@ -18,4 +20,10 @@ class Profile extends Component {
   }
 }
 
-export default Profile
+const mapStateToProps = (state) => {
+  return {
+      user: state.user
+  }
+}
+
+export default connect (mapStateToProps, {userData})(Profile);
