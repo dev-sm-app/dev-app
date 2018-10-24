@@ -43,7 +43,7 @@ module.exports = {
     },
     Logout: (req, res) => {
         req.session.destroy();
-            res.send();
+        res.redirect("http://localhost:3000/#/");
     }
 
 }

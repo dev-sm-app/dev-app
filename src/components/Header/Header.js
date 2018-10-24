@@ -1,10 +1,9 @@
 import React from "react"
-import { withRouter } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 
 import { connect } from "react-redux"
 
 function Header(props) {
-    console.log(props)
     let text = ""
     if(props.location.pathname === "/home") {
         text = "Dev App"
@@ -25,9 +24,10 @@ function Header(props) {
                 ?
                     null
                 :
-                    <div>
+                    <div className="site_header">
                         <h1>{text}</h1>
-                        <img src="" alt=""/>
+                        <Link to="/profile"><img src={props.user.picture} alt="profile"/></Link>
+                        <a href="http://localhost:3000/api/auth/logout"><button>Logout</button></a>
                     </div>
             }
         </div>
