@@ -1,4 +1,8 @@
+// reset styles
 @import "reset";
+
+// components
 @import "./components/login";
+@import "./components/Header";
 @import "./components/navbar";
 @import "./components/app";

@@ -1,6 +1,10 @@
-
-
-
+const {CONNECTION_STRING,
+    SESSION_SECRET,
+    REACT_APP_SERVER_PORT,
+    REACT_APP_DOMAIN,
+    REACT_APP_CLIENT_ID,
+    CLIENT_SECRET} = process.env;
+const axios = require('axios');
 module.exports = {
     userLogin: async (req, res) => {
         try{
@@ -15,14 +19,14 @@ module.exports = {
             let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.data.access_token}`);
 
             const db = req.app.get('db');
-            let {sub, email, name} = resWithUserData.data;
+            let {sub, email, name, picture} = resWithUserData.data;
             
             let foundUser = await db.find_user([sub])
                     if(foundUser[0]){
                         req.session.user = foundUser[0];
                         res.redirect('/#/home')
                     }else {
-                        let createUser = await db.create_user([name, email, sub])
+                        let createUser = await db.create_user([name, email, sub, picture])
                         req.session.user = createUser[0];
                         res.redirect('/#/profile')
                     };
@@ -39,7 +43,7 @@ module.exports = {
     },
     Logout: (req, res) => {
         req.session.destroy();
-            res.send();
+        res.redirect("http://localhost:3000/#/");
     }
 
 }
