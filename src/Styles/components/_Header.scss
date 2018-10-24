@@ -2,8 +2,11 @@
 @import "../mixins";
 
 .site_header {
-    @include flexo($justify: flex-end);
+    @include flexo($justify: space-between);
+    @include border;
+    font-family: 'Inconsolata', monospace;
     width: 100vw;
+    height: 10vh;
     img {
         border-radius: 100%;
         width: 50px;

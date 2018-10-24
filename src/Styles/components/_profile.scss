@@ -1,0 +1,133 @@
+@import "../variables";
+@import "../mixins";
+
+.bg-profile {
+    width: 100%;
+    font-family: 'Inconsolata', monospace;
+}
+
+
+.img-layer {
+    @include flexo($justify: space-around, $align: top);
+    font-family: 'Inconsolata', monospace;
+    padding: 15px;
+    img {
+        @include border($orange);
+        border-radius: 100%;
+        width: 60px;
+        height: 60px;
+    }
+    div {
+        margin-top: 15px;
+        h5 {
+            text-decoration: underline;
+        }
+    }
+}
+.pers-info {
+    width: 100%;
+    padding: 10px;
+    div{
+        @include flexo($justify: left);
+        padding: 5px;
+        h7 {
+            margin-right: 5px;
+            font-size: 13px;
+        }
+        p {
+            margin-left: 5px;
+            font-size: 13px;
+           
+        }
+    }
+    p {
+        font-size: 12px;
+    }
+}
+.toggle-bar {
+        width: 100%;
+        height: 7vh;
+        @include flexo($justify: space-around);
+        border-top: 1px solid $blue;
+        border-bottom: 1px solid $blue;
+        margin-top: 10px;
+    button{
+        width: 50px;
+        height: 20px;
+        @include border($blue);
+        font-family: 'Inconsolata', monospace;
+    }
+}
+.info-boxes{
+    width: 100%;
+}
+.names {
+    @include flexo($justify: space-around);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    width: 100%;
+    div{
+        
+        p{
+            margin-bottom: 10px;
+        }
+        input{
+            height: 4vh;
+            width: 100%;
+            color: white;
+            background-color: black;
+            border: none;
+            border-bottom: 1px solid $orange;
+            border-left: 1px solid $orange;
+            margin-bottom: 20px;
+        }
+    }
+}
+.types {
+    @include flexo;
+    width: 100%;
+   div {
+    width: 100%;
+    div {
+        width: 100%;
+        p{
+            margin-bottom: 10px;
+        }
+        input {
+            height: 4vh;
+            width: 90%;
+            color: white;
+            background-color: black;
+            border: none;
+            border-bottom: 1px solid $orange;
+            border-left: 1px solid $orange;
+        }
+        div{
+            width: 100%;
+            @include flexo;
+        
+        select{
+            width: 90%;
+            height: 4vh;
+            border: none;
+            border-bottom: 1px solid $orange;
+            border-left: 1px solid $orange;
+            background-color: black;
+            color: $grayone;
+            margin-bottom: 30px;
+        }
+       button {
+           width: 50%;
+           height: 7vh;
+           @include border($orange);
+           font-family: 'Inconsolata', monospace;
+           background-color: black;
+           color: $grayone;
+           font-size: 25px;
+           margin-top: 50px;
+
+       }
+    }
+    }
+   }
+}

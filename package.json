@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "main": "./server/server.js",
-  
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
@@ -31,7 +30,6 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start"
   },
-
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -41,5 +39,4 @@
     "not ie <= 11",
     "not op_mini all"
   ]
-
 }
