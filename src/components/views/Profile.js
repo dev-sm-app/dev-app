@@ -1,11 +1,21 @@
 import React, { Component } from 'react'
+import axios from "axios"
 
-export default class Profile extends Component {
+class Profile extends Component {
+  componentDidMount(){
+    axios.get('/api/auth/setUser').then(res => {
+        this.props.userData(res.data);
+        console.log(this.props.userData)
+    })
+}
+
   render() {
     return (
       <div>
-        <h1>FJKDHFG</h1>
+        <h1>Profile</h1>
       </div>
     )
   }
 }
+
+export default Profile
