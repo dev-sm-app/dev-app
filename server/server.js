@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const app = express();
+const server = require('http').Server(app)
 const axios = require('axios');
 const massive = require('massive');
 const bodyParser = require('body-parser');
@@ -8,8 +10,8 @@ const user = require('./controller/Usercontroller');
 const friend = require('./controller/Friendcontroller');
 const mess = require('./controller/Messagecontroller');
 const post =require('./controller/Postcontroller');
+const io = require('socket.io')(server)
 
-const app = express();
 app.use(bodyParser.json());
 const {CONNECTION_STRING,
     SESSION_SECRET,
@@ -38,11 +40,14 @@ app.get('/api/auth/logout', user.Logout);
 // Message EndPoints //
 
 
+io.on('connection', socket => {
+    console.log('User Connected')
+})
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
 
-app.listen(REACT_APP_SERVER_PORT, function(){
+server.listen(REACT_APP_SERVER_PORT, function(){
     console.log(`listening on port: ${REACT_APP_SERVER_PORT}`);
     });
 });
