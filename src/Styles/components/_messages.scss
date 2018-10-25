@@ -1,0 +1,23 @@
+.mainMessages {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    background-color: $green;
+
+    .contact_container {
+        height: 100vh;
+        width: 20%;
+        background-color: $red;
+    }
+
+    .messages_container {
+        height: 50vh;
+        width: 80%;
+        background-color: orange;
+        
+        .conversation_container {
+            
+        }
+    }
+}
