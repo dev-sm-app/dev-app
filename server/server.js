@@ -25,6 +25,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(user.devEnvironment)
+
 // User EndPoints //
 app.get('/auth/callback', user.userLogin);
 app.get('/api/auth/setUser', user.SetUser);

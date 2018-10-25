@@ -3,7 +3,9 @@ const {CONNECTION_STRING,
     REACT_APP_SERVER_PORT,
     REACT_APP_DOMAIN,
     REACT_APP_CLIENT_ID,
-    CLIENT_SECRET} = process.env;
+    ENVIRONMENT,
+    CLIENT_SECRET
+} = process.env;
 const axios = require('axios');
 module.exports = {
     userLogin: async (req, res) => {
@@ -56,6 +58,19 @@ module.exports = {
     })
 
    
+    },
+    devEnvironment: (req, res, next) => {
+        if(ENVIRONMENT === "dev") {
+            req.app.get("db")
+            .set_data()
+            .then(userData => {
+                req.session.user = userData[0]
+                next()
+            })
+        }
+        else {
+            next()
+        }
     }
 
 }
