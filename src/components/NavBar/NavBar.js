@@ -15,7 +15,7 @@ function NavBar(props) {
                     <div className="bottom_nav">
                         <div className="message_divider">
                             <div className="inner_message_box">
-                                <Link to="/message"><img src={message} alt="message" className="message"/></Link>
+                                <Link to="/messages"><img src={message} alt="message" className="message"/></Link>
                             </div>
                         </div>
                         <div className="home_divider"> 

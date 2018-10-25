@@ -43,6 +43,9 @@ app.put('/api/update', user.updateUser);
 
 io.on('connection', socket => {
     console.log('User Connected')
+    socket.on('join room', data => {
+        io.to(data.room).emit('room joined', data.room)
+    })
 })
 
 massive(CONNECTION_STRING).then(db => {
