@@ -1,8 +1,8 @@
 import React from 'react';
-import userImage from '../../Styles/images/user.png';
+import userImage from '../../Styles/images/profile-blue.png';
 import postImage from '../../Styles/images/cool-stuff-geek-desk-gift-for-fathers-day.jpg'
-import likePost from '../../Styles/images/like.png'
-import commentPost from '../../Styles/images/speech-bubble.png'
+import likePost from '../../Styles/images/like-blue.png'
+import commentPost from '../../Styles/images/comment-blue.png'
 
 const Post = props => {
     
