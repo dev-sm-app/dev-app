@@ -29,6 +29,7 @@ app.use(session({
 app.get('/auth/callback', user.userLogin);
 app.get('/api/auth/setUser', user.SetUser);
 app.get('/api/auth/logout', user.Logout);
+app.put('/api/update', user.updateUser);
 
 
 // Friend EndPoints //

@@ -27,7 +27,7 @@ function Header(props) {
                     <div className="site_header">
                         <h1>{text}</h1>
                         <Link to="/profile"><img src={props.user.picture} alt="profile"/></Link>
-                        <a href="http://localhost:3000/api/auth/logout"><button>Logout</button></a>
+                        {/* <a href="http://localhost:3000/api/auth/logout"><button>Logout</button></a> */}
                     </div>
             }
         </div>
