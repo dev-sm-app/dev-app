@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, withRouter } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom";
 import home from '../../Styles/images/house_blue_32.png';
 import message from '../../Styles/images/envelope_green_32.png';
 import search from '../../Styles/images/magnifying-glass_pink_32.png';

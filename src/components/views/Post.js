@@ -1,27 +1,31 @@
-import React, {Component} from 'react';
+import React from 'react';
 import userImage from '../../Styles/images/user.png';
 import postImage from '../../Styles/images/cool-stuff-geek-desk-gift-for-fathers-day.jpg'
 import likePost from '../../Styles/images/like.png'
+import commentPost from '../../Styles/images/speech-bubble.png'
 
-class Post extends Component {
+const Post = props => {
     
-    render() {
         return(
             <div className="mainPost">
                 <header>
                     <img src={userImage} alt="user"/>
-                    <h1>Joe Hasslehoff</h1>
+                        <section>
+                            <h1>{props.firstName} {props.lastName}</h1>
+                            <h3>{props.developerType}</h3>
+                            <p>{props.date}</p>
+                        </section>
                 </header>
                 <main>
-                    <h2>Check these out...</h2>
+                    <h2>{props.description}</h2>
                     <img src={postImage} alt=""/>
                 </main>
                 <footer>
                     <img src={likePost} alt=""/>
-                    <img src="" alt=""/>
+                    <img src={commentPost} alt=""/>
                 </footer>
             </div>
         )
     }
-}
+
 export default Post;
