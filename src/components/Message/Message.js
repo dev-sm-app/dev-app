@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from "react-redux"
 
 class Message extends Component {
     render() {
@@ -15,4 +16,10 @@ class Message extends Component {
     }
 }
 
-export default Message;
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(Message);
