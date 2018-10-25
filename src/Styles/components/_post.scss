@@ -9,7 +9,7 @@
     background-color: $black;
     border: 1px solid $blue;
     font-family: 'Inconsolata', monospace;
-    color: $green;
+    color: $blue;
 
 
     header {
@@ -47,7 +47,7 @@
         align-items: flex-start;
 
         h2 {
-            margin: 20px;
+            margin: 20px 40px 20px 40px;
         }
 
         img {
