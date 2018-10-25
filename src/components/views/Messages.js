@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import axios from 'axios';
 import io from 'socket.io-client';
 import Recent from '../../components/Recent/Recent';
+import Message from "../../components/Message/Message"
 
-class Message extends Component {
+class Messages extends Component {
     constructor() {
         super()
 
@@ -89,4 +90,4 @@ class Message extends Component {
     }
 }
 
-export default Message;
+export default Messages;
