@@ -1,8 +1,8 @@
 import React from "react"
 import { Link, withRouter } from "react-router-dom";
-import home from '../../Styles/images/house_blue_32.png';
-import message from '../../Styles/images/envelope_green_32.png';
-import search from '../../Styles/images/magnifying-glass_pink_32.png';
+import home from '../../Styles/images/home-blue.png';
+import message from '../../Styles/images/message-blue.png';
+import search from '../../Styles/images/search-blue.png';
 
 function NavBar(props) {
     return (

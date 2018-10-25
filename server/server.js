@@ -46,6 +46,9 @@ io.on('connection', socket => {
     socket.on('join room', data => {
         io.to(data.room).emit('room joined', data.room)
     })
+    socket.on('disconnect', () => {
+        console.log('User Disconnected')
+    })
 })
 
 massive(CONNECTION_STRING).then(db => {

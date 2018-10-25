@@ -17,7 +17,7 @@ class Home extends Component {
                 picture: '',
                 developerType: "Web Developer",
                 date: '10/31/2018',
-                description: "This is a test description."
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc sed velit dignissim sodales ut eu sem. Habitant morbi tristique senectus et netus. Duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam. Egestas diam in arcu cursus. Sit amet nisl suscipit adipiscing bibendum. Integer quis auctor elit sed vulputate mi. Enim praesent elementum facilisis leo vel fringilla est ullamcorper eget. Urna condimentum mattis pellentesque id nibh. Risus in hendrerit gravida rutrum quisque non tellus orci. Tristique senectus et netus et malesuada fames ac turpis egestas. Ipsum dolor sit amet consectetur adipiscing. Magnis dis parturient montes nascetur ridiculus mus. Sit amet consectetur adipiscing elit."
                 },
                 {
                 firstName: "Pete",
@@ -25,7 +25,7 @@ class Home extends Component {
                 picture: '',
                 developerType: "UX/UI Developer",
                 date: '10/31/2018',
-                description: '' 
+                description: 'Tristique senectus et netus et malesuada fames ac turpis egestas. Leo integer malesuada nunc vel risus commodo. Nibh tortor id aliquet lectus proin nibh. Suspendisse in est ante in. Risus nec feugiat in fermentum posuere urna. ' 
                 }   
             ]
         }
