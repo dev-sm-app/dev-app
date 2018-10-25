@@ -44,6 +44,18 @@ module.exports = {
     Logout: (req, res) => {
         req.session.destroy();
         res.redirect("http://localhost:3000/#/");
+    },
+    updateUser: (req, res) => {
+        const db = req.app.get('db');
+
+    db.update_info([req.session.user.id, req.body.first, req.body.last, req.body.dev, req.body.company])
+    .then(user => res.status(200).send(user))
+    .catch(err => {
+        res.status(500).send()
+        console.log(err)
+    })
+
+   
     }
 
 }

@@ -9,7 +9,11 @@ class Profile extends Component {
     this.state= {
       info: true,
       posts: false,
-      friends: false
+      friends: false,
+      first: '',
+      last: '',
+      dev: '',
+      company: ''
     }
   }
   componentDidMount(){
@@ -18,6 +22,11 @@ class Profile extends Component {
         console.log(this.props.userData)
     })
 }
+
+  handleChange(prop, val){
+    this.setState({[prop]: val})
+  }
+
   infoButton(){
     this.setState({info: true, posts: false, friends: false})
   }
@@ -27,6 +36,10 @@ class Profile extends Component {
   friendButton(){
     this.setState({info: false, posts: false, friends: true})
   }
+  Save(){
+    axios.put('/api/update', {first: this.state.first, last: this.state.last,
+    dev: this.state.dev, company: this.state.company}).then(res => {})
+  }
 
   render() {
 const info = (this.state.info ? 
@@ -34,11 +47,11 @@ const info = (this.state.info ?
       <div className='names'>
         <div>
           <p>First Name</p>
-          <input />
+          <input value={this.state.first} onChange={(e) => this.handleChange('first', e.target.value)} />
         </div>
         <div>
           <p>Last Name</p>
-          <input />
+          <input value={this.state.last} onChange={(e) => this.handleChange('last', e.target.value)} />
         </div>
       </div>
       <div className='types'>
@@ -48,7 +61,7 @@ const info = (this.state.info ?
               <p>Developer Type</p>
             </div>
             <div>
-              <select>
+              <select value={this.state.dev} onChange={(e) => this.handleChange('dev', e.target.value)}>
                 <option value='Web Development'>Web</option>
                 <option value='IOS Development'>IOS</option>
                 <option value='Salesforce Development'>salesforce</option>
@@ -63,19 +76,18 @@ const info = (this.state.info ?
             <p>Current Employer</p>
           </div>
           <div>
-            <input />
+            <input value={this.state.company} onChange={(e) => this.handleChange('company', e.target.value)} />
           </div>
          <div>
-          <button>Save</button>
+          <button onClick={() => this.Save()}>Save</button>
          </div>
         </div> 
       </div>
     </div>
   </div>
-    
+        : null);
 
-   
-    : null);
+
 const post = (this.state.posts ? 
     <div><h1>post</h1></div>
     : null);
@@ -104,7 +116,7 @@ const friend = (this.state.friends ?
       </div> 
       <div className='pers-info'>
         <div>
-          <h7>Keaton Turner </h7>|<p>Web Developer</p>
+          <h7>{this.props.user.firstname}{` `}{this.props.user.lastname}</h7>|<p>{this.props.user.developertype}</p>
         </div>
           <p>// this is my bio that could take up alot of charactors so all the people can see it in the screen//</p>
       </div>
