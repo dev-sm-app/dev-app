@@ -3,7 +3,12 @@
 
 .bg-profile {
     width: 100%;
+    height: 100vh;
     font-family: 'Inconsolata', monospace;
+    background-color: black;
+    div {
+        overflow: scroll;
+    }
 }
 
 
@@ -11,6 +16,7 @@
     @include flexo($justify: space-around, $align: top);
     font-family: 'Inconsolata', monospace;
     padding: 15px;
+
     img {
         @include border($orange);
         border-radius: 100%;
@@ -27,6 +33,7 @@
 .pers-info {
     width: 100%;
     padding: 10px;
+
     div{
         @include flexo($justify: left);
         padding: 5px;
@@ -44,20 +51,7 @@
         font-size: 12px;
     }
 }
-.toggle-bar {
-        width: 100%;
-        height: 7vh;
-        @include flexo($justify: space-around);
-        border-top: 1px solid $blue;
-        border-bottom: 1px solid $blue;
-        margin-top: 10px;
-    button{
-        width: 50px;
-        height: 20px;
-        @include border($blue);
-        font-family: 'Inconsolata', monospace;
-    }
-}
+
 .info-boxes{
     width: 100%;
 }

@@ -32,6 +32,7 @@ app.get('/api/auth/logout', user.Logout);
 app.put('/api/update', user.updateUser);
 
 
+
 // Friend EndPoints //
 
 
