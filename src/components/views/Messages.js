@@ -3,6 +3,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import Recent from '../../components/Recent/Recent';
 import Message from "../../components/Message/Message"
+import userImage from '../../Styles/images/profile-blue.png';
 
 class Messages extends Component {
     constructor() {
@@ -70,18 +71,30 @@ class Messages extends Component {
         return (
             <div className="mainMessages">
                 <div className="contact_container">
+                    <div className="friend">
+                        <img src={userImage} alt="user"/>
+                        <h3>Name</h3>
+                    </div>
+                    <div className="friend">
+                        <img src={userImage} alt="user"/>
+                        <h3>Name</h3>
+                    </div>
+                    <div className="friend">
+                        <img src={userImage} alt="user"/>
+                        <h3>Name</h3>
+                    </div>
                     {recents}
                 </div>
                 <div className="messages_container">
                     <div className="friend_name">
-
+                        <h1>Chad</h1>
                     </div>
                     <div className="conversation_container">
                         {messages}
-                        <div>
-                            <button>...</button>
+                        <div className="type_send">
+                            <button className="dots">...</button>
                             <input type="text"/>
-                            <button>Send</button>
+                            <button className="send">Send</button>
                         </div>
                     </div>
                 </div>

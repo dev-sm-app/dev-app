@@ -14,19 +14,46 @@ function NavBar(props) {
                     :
                     <div className="bottom_nav">
                         <div className="message_divider">
+
+                            {props.location.pathname === "/messages"
+                            ?  
                             <div className="inner_message_box">
                                 <Link to="/messages"><img src={message} alt="message" className="message"/></Link>
                             </div>
+                            :
+                            <div className="inner_message_box_no_orange">
+                                <Link to="/messages"><img src={message} alt="message" className="message"/></Link>
+                            </div>
+                            }
+
                         </div>
+
                         <div className="home_divider"> 
+                            {props.location.pathname === "/home"
+                            ?
                             <div className="inner_message_box">
                                 <Link to="/home"><img src={home} alt="home" className="home"/></Link>
                             </div>
+                            :
+                            <div className="inner_message_box_no_orange">
+                                <Link to="/home"><img src={home} alt="home" className="home"/></Link>
+                            </div>
+                            }
+
                         </div>
+
                         <div className="search_divider">
+                            {props.location.pathname === "/search"
+                            ?
                             <div className="inner_message_box">
                                 <Link to="/search"><img src={search} alt="search" className="search"/></Link>
                             </div>
+                            :
+                            <div className="inner_message_box_no_orange">
+                                <Link to="/search"><img src={search} alt="search" className="search"/></Link>
+                            </div>
+                            }
+                            
                         </div>
                     </div>
             }

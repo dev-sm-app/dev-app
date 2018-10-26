@@ -1,23 +1,70 @@
 .mainMessages {
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 80vh;
     width: 100vw;
     background-color: $green;
+    font-family: 'Inconsolata', monospace;
 
     .contact_container {
-        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 80vh;
         width: 20%;
-        background-color: $red;
+        background-color: $graynine;
+        border-right: 1px solid $blue;
+
+        .friend {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+
+            img {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 10px;
+            }
+        }
+
     }
 
     .messages_container {
-        height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 90vh;
         width: 80%;
-        background-color: orange;
+        background-color: $black;
         
+        .friend_name {
+            text-align: center;
+            font-size: 36px;
+            margin: 20px;
+        }
+
         .conversation_container {
-            
+            margin-bottom: 10vh;
+
+            .name {
+                top: 50px;
+            }
+
+            .type_send {
+
+                .send {
+                    width: 25%;
+                }
+                
+                input {
+                    width: 65%;
+                }
+
+                .dots {
+                    width: 10%;
+                }
+            }
         }
     }
 }
