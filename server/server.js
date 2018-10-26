@@ -25,6 +25,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+app.use(user.devEnvironment)
+
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
 })
