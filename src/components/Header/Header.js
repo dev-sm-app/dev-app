@@ -8,8 +8,13 @@ function Header(props) {
     if(props.location.pathname === "/home") {
         text = "Dev App"
     }
-    if(props.location.pathname === "/message") {
-        text = "Direct Message"
+    if(props.location.pathname === "/messages") {
+        if(props.friendName) {
+            text = props.friendName
+        }
+        else {
+            text = "Direct Message"
+        }
     }
     if(props.location.pathname === "/profile") {
         text = "Your Profile"
@@ -36,7 +41,8 @@ function Header(props) {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        user: state.user,
+        friendName: state.friendName
     }
 }
 
