@@ -9,7 +9,12 @@ function Header(props) {
         text = "Dev App"
     }
     if(props.location.pathname === "/messages") {
-        text = props.friendName
+        if(props.friendName) {
+            text = props.friendName
+        }
+        else {
+            text = "Direct Message"
+        }
     }
     if(props.location.pathname === "/profile") {
         text = "Your Profile"
