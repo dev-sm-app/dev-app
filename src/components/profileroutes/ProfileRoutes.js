@@ -14,6 +14,7 @@ class ProfileRoutes extends Component {
           dev: '',
           company: '',
           bio: '',
+          toggle: false
         }
     }
 
@@ -22,12 +23,18 @@ class ProfileRoutes extends Component {
     handleChange(prop, val){
       this.setState({[prop]: val})
     }
+    editProfile(){
+      this.setState({toggle: true})
+    }
 
     Save(){
       axios.put('/api/update', {first: this.state.first, last: this.state.last,
       dev: this.state.dev, company: this.state.company, bio: this.state.bio}).then(res => {
-        
+        let updateUser = Object.assign({}, this.props.user, {firstname: this.state.first, lastname: this.state.last,
+        developertype: this.state.dev, company: this.state.company, bio: this.state.bio})
+        this.props.userData(updateUser);
       })
+      this.setState({toggle:false})
     }
     handleClick(val){
       this.setState({page: val})
@@ -37,7 +44,10 @@ class ProfileRoutes extends Component {
     
       if(this.state.page === 1){
         return (
-          <div className='info-boxes'>
+    <div className='info-boxes'>
+   
+      {this.state.toggle ? 
+    <> 
       <div className='names'>
         <div>
           <p>First Name</p>
@@ -84,7 +94,12 @@ class ProfileRoutes extends Component {
          </div>
         </div> 
       </div>
-    </div>
+    </div> 
+    </>
+    :
+    <div className='prof-btn'>
+    <button onClick={() => this.editProfile()}>Edit Profile</button>  
+    </div>}
   </div>
         )
       } else if(this.state.page === 2){

@@ -17,7 +17,7 @@ export function userData(user) {
 export default function reducer(state=initialState, action){
    switch(action.type){
        case USER:
-       return Object.assign({}, state, {user: action.payload})
+       return Object.assign({}, state, {user: action.payload});
 
        default: 
        return state;

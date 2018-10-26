@@ -33,6 +33,21 @@
 
 .info-boxes{
     width: 100%;
+    
+    button {
+        width: 50%;
+        height: 7vh;
+        @include border($orange);
+        font-family: 'Inconsolata', monospace;
+        background-color: $grayseven;
+        color: $grayone;
+        font-size: 25px;
+        margin-top: 50px;
+    }
+}
+.prof-btn{
+    width: 100%;
+    @include flexo;
 }
 .names {
     @include flexo($justify: space-around);
