@@ -4,6 +4,9 @@ import io from 'socket.io-client';
 import Recent from '../../components/Recent/Recent';
 import Message from "../../components/Message/Message"
 
+import { connect } from "react-redux"
+import { updateFriendName } from "../../ducks/reducer"
+
 class Messages extends Component {
     constructor() {
         super()
@@ -42,6 +45,7 @@ class Messages extends Component {
     joinRoom (id, name, picture) {
         const room = this.createRoom(id, this.props.user.id)
         this.socket.emit('join room', {room})
+        this.props.updateFriendName(name)
     }
 
     render() {
@@ -90,4 +94,10 @@ class Messages extends Component {
     }
 }
 
-export default Messages;
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, {updateFriendName})(Messages);
