@@ -25,5 +25,13 @@ module.exports = {
         }
         db.send_message([Number(userId), Number(friendId), authorPicture, message, newMessagePicture, type])
         .then(message => res.status(200).send(message[0]))
+    },
+    getRecents: async(req, res) => {
+        const db = req.app.get("db")
+        const { userId } = req.query
+
+        const recents = await db.get_recents([Number(userId)])
+        const filteredRecents = recents.filter(contact => !(contact.id === Number(userId)))
+        res.status(200).send(filteredRecents)
     }
 }

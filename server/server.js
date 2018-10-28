@@ -47,6 +47,7 @@ app.put('/api/update', user.updateUser);
 app.get("/api/recents", mess.getRecents)
 app.get("/api/messages", mess.getMessages)
 app.post("/api/sendmessage", mess.sendMessage)
+app.get("/api/recents", mess.getRecents)
 
 
 io.on('connection', socket => {
