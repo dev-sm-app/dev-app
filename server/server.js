@@ -36,12 +36,13 @@ app.get('/api/auth/setUser', user.SetUser);
 app.get('/api/auth/logout', user.Logout);
 app.put('/api/update', user.updateUser);
 app.get('/api/scroll/:items', user.Scroll);
-app.get('/api/search', user.Search)
+app.get('/api/user/list', user.userList);
+app.get('/api/search', user.myFriends);
 
 
 
 // Friend EndPoints //
-
+app.get('/api/friend/list', friend.myFriends);
 
 // Post EndPoints //
 

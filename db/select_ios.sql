@@ -1,0 +1,1 @@
+select * from users where developertype = 'IOS Developement' and firstname = $1;

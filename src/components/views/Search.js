@@ -6,36 +6,65 @@ class Search extends Component {
     constructor(){
         super();
         this.state = {
-            search: '',
+            input: '',
             select: '',
             items: 10,
             hasMore: true,
             users: []
         }
     }
+    componentDidMount(){
+     
+    }
     handleChange(prop, val){
         this.setState({[prop]: val})
-        this.loadMore();
+        this.Search();
+        
     }
-    loadMore(){
-        axios.get(`/api/scroll/${this.state.items}`).then(res => {
-            this.setState({users: res.data})
+    Search(){
+       axios.get(`/api/search?select=${this.state.select}&input=${this.state.input}`).then(res => {
+           let users = res.data.user.map(user => {
+               let friends = res.data.result.filter(friend => user.id === friend.friendid)
+               if(friends.length){
+                   user.friend = true
+               } else {
+                   user.friend = false
+               }
+               return user;
+           })
+           this.setState({users: users})
+       }) 
+    }
+    friendOrNot(){
+        axios.get('/api/friend/list').then(friendList => {
+            axios.get(`/api/scroll/${this.state.items}`).then(userList => {
+                let users = userList.data.map(user => {
+                    let friends = friendList.data.filter(friend => user.id === friend.friendid)
+                      if(friends.length){
+                        user.friend = true
+                    } else {
+                        user.friend = false
+                    }
+                      return user;
+                })
+                this.setState({users: users})
+            })
         })
     }
+
     fetchMoreData = () => {
         if (this.state.users.length >= 100) {
           this.setState({ hasMore: false });
           return;
         }
     }
-
-       
+ 
     render() {
         return (
             <div className='bg-search'>
                 <div>
                     <div>
-                        <input onChange={(e) => this.handleChange('search', e.target.value)} placeholder='Search...' />  
+                        <input onChange={(e) => this.handleChange('input', e.target.value)} placeholder='Search...' />  
                     </div>
                     <div className='column-6 form-select'>
                         <select onChange={(e) => this.handleChange('select', e.target.value)}>

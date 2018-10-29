@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import Recent from '../../components/Recent/Recent';
 import Message from "../../components/Message/Message"
 import userImage from '../../Styles/images/profile-blue.png';
-import sendImage from '../../Styles/images/send.png';
+import sendImage from './../../Styles/images/send.png';
 
 import { connect } from "react-redux"
 import { updateFriendName, userData } from "../../ducks/reducer"

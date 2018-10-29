@@ -48,14 +48,14 @@ module.exports = {
         res.redirect("http://localhost:3000/#/");
     },
     updateUser: (req, res) => {
-        const db = req.app.get('db');
+            const db = req.app.get('db');
 
-    db.update_info([req.session.user.id, req.body.first, req.body.last, req.body.dev, req.body.company, req.body.bio])
-    .then(user => res.status(200).send(user))
-    .catch(err => {
-        res.status(500).send()
-        console.log(err)
-    })
+        db.update_info([req.session.user.id, req.body.first, req.body.last, req.body.dev, req.body.company, req.body.bio])
+        .then(user => res.status(200).send(user))
+        .catch(err => {
+            res.status(500).send()
+            console.log(err)
+        })
     },
     devEnvironment: (req, res, next) => {
         if(ENVIRONMENT === "dev") {
@@ -73,17 +73,44 @@ module.exports = {
     Scroll: (req, res) => {
         const db = req.app.get('db');
 
-        db.get_search([req.session.user.id, req.query.items])
+        db.get_search([req.session.user.id, req.params.items])
             .then(response => res.status(200).send(response))
             .catch(err => {
                 res.status(500).send()
                 console.log(err)
             })
     },
-    Search: (req, res) => {
+    userList: (req, res) => {
         const db = req.app.get('db');
 
-    db.get_user_info(req.session.user.id).then(result => res.status(200).send(result))
+        db.get_user_info(req.session.user.id).then(result => res.status(200).send(result))
+        .catch(err => {
+        res.status(500).send()
+        console.log(err)
+        })
+    },
+    myFriends: (req, res) => {
+        const db = req.app.get('db');
+
+        db.my_friends(req.session.user.id).then(result => {
+            if(req.query.select === 'All'){
+            db.select_all(req.session.user.id, req.query.input).then(user => res.status(200).send({user, result}))
+            } else if(req.query.select === 'Web Development'){
+            db.select_web(req.query.input).then(user => res.status(200).send({user, result})) 
+            } else if(req.query.select === 'IOS Development'){
+                db.select_ios(req.query.input).then(user => res.status(200).send(user, result))
+            } else if(req.query.select === 'Salesforce Development'){
+                db.select_sales(req.query.input ).then(user => res.status(200).send({user, result})) 
+            } else if(req.query.select === 'QA Engineer'){
+                db.select_qa(req.query.input).then(user => res.status(200).send({user, result}))
+            } else if(req.query.select === 'UX/UI Design'){
+                db.select_ux(req.query.input).then(user => res.status(200).send({user, result}))
+            }
+        }).catch(err => {
+            res.status(500).send()
+            console.log(err)
+        })
     }
+
 
 }

@@ -1,0 +1,1 @@
+select * from users where user.id != $1 and firstname = $2;

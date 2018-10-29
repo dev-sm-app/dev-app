@@ -1,0 +1,1 @@
+select * from users where developertype = 'UX/UI Design' and firstname = $1;

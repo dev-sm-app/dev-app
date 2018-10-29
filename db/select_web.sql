@@ -1,0 +1,1 @@
+select * from users where developertype = 'Web Developement' and firstname = $1;

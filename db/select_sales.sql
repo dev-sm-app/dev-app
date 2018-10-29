@@ -1,0 +1,1 @@
+select * from users where developertype = 'Salesforce Developement' and firstname = $1;
