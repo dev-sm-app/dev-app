@@ -69,6 +69,21 @@ module.exports = {
         else {
             next()
         }
+    },
+    Scroll: (req, res) => {
+        const db = req.app.get('db');
+
+        db.get_search([req.session.user.id, req.query.items])
+            .then(response => res.status(200).send(response))
+            .catch(err => {
+                res.status(500).send()
+                console.log(err)
+            })
+    },
+    Search: (req, res) => {
+        const db = req.app.get('db');
+
+    db.get_user_info(req.session.user.id).then(result => res.status(200).send(result))
     }
 
 }

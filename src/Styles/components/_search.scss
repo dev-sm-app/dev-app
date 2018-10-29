@@ -1,0 +1,109 @@
+@import "../variables";
+@import "../mixins";
+
+
+.bg-search{
+    width: 100%;
+    height: 100vh;
+    div{
+        @include flexo($justify: space-between, $align: none );
+        width: 100%;
+        height: 9vh;
+        background-color: $graysix;
+        border-bottom: 1px solid $blue;
+        div{
+            width: 70%;
+
+            input{
+                height: 9vh;
+                width: 100%;
+                background-color: $graysix;
+                border: none;
+                border-right: 1px solid $blue;
+                font-size: 20px;
+                border-bottom: 1px solid $blue;
+                color: white;
+                text-indent: 4px;
+                &:focus{
+                    outline: 0;
+                }
+            }
+        }
+        
+    }
+    
+    .form-select {
+        height: 9vh;
+        width: 30%;
+        background: $graysix;
+        overflow: hidden;
+        border-radius: 3px;
+       
+        
+        
+    
+        
+    
+        &:focus,
+        &:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        &:after {
+            content: '▾';
+            position: absolute;
+            top: 1px;
+            right: 12px;
+            z-index: 0;
+            color: $blue;
+            line-height: 9vh;
+            font-size: 16px;
+    
+            .ie & {
+                display: none;
+            }
+        }
+    }
+    
+    select {
+        position: relative;
+        background: transparent;
+        background-image: none;
+        display: block;
+        width: 100%;
+        outline: none;
+        color: white;
+        cursor: pointer;
+        z-index: 2;
+        border: none;
+        padding: 10px 10px 10px 5px;
+        text-overflow: '';
+        text-indent: 1px;
+        &[multiple=multiple] {
+            height: auto;
+            border: 1px solid $blue;
+            border-radius: 3px;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.07);
+            &:hover {
+                border-color:$blue;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            }
+        }
+    
+        option[disabled] {
+            color: #eeeeee;
+            text-shadow: none;
+            border: none;
+        }
+    }
+    select:-moz-focusring {
+        color: transparent;
+        text-shadow: 0 0 0 #888888;
+    }
+    select::-ms-expand {
+        display: none;
+    }
+    .column-6 {
+       position: relative;
+    }
+}
