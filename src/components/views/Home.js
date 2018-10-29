@@ -49,12 +49,12 @@ class Home extends Component {
                     date={post.date}
                     description={post.description}
                 />
-
             )
         })
 
         return (
             <div className="mainHome">
+                <input type="text" placeholder=">_"/>
                 {displayAllPosts}
             </div>
         )
