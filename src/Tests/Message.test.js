@@ -14,17 +14,22 @@ describe("createRoom should work properly", () => {
 })
 describe("sendMessage should work properly", () => {
     let messages = []
-    test("sendMessage should push message into messages array", () => {
-        let message = {
-            id: "5",
-            userid: 6,
-            friendid: 4,
-            authorPicture: "dahdflajksdh",
-            type: "normal message",
-            message: "message to be sent"
-        }
+    let message = {
+        id: "5",
+        userid: 6,
+        friendid: 4,
+        authorPicture: "dahdflajksdh",
+        type: "normal message",
+        message: "message to be sent"
+    }
+    test("sendMessage should return a new array with the messaged pushed onto it", () => {
         let length = messages.length
         
         expect(sendMessage(messages, message).length).toBe(length + 1)
+    })
+    test("sendMessage should throw error if not given proper args", () => {
+        expect(() => sendMessage("adskjhalfjk", message)).toThrowError("You should give an array arg then message arg")
+        expect(() => sendMessage(messages, "casfdasfa")).toThrowError("You should give an array arg then message arg")
+        expect(() => sendMessage("adskjhalfjk", 33)).toThrowError("You should give an array arg then message arg")
     })
 })

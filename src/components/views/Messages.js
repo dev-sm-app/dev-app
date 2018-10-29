@@ -5,6 +5,8 @@ import Recent from '../../components/Recent/Recent';
 import Message from "../../components/Message/Message"
 import sendImage from '../../Styles/images/send.png';
 
+import { createRoom, sendMessage } from "../../Logic/MessageLogic"
+
 import { connect } from "react-redux"
 import { updateFriendName, userData } from "../../ducks/reducer"
 
@@ -33,16 +35,8 @@ class Messages extends Component {
 
     }
 
-    createRoom(friendID, userID) {
-        const string = `${friendID} ${userID}`
-        return string.split(' ')
-            .map(ID => Number(ID))
-            .sort((a, b) => a - b)
-            .join('')
-    }
-
     joinRoom(id, name, picture) {
-        const room = this.createRoom(id, this.props.user.id)
+        const room = createRoom(id, this.props.user.id)
         this.socket.emit('join room', { room })
         this.props.updateFriendName(name)
     }
@@ -76,7 +70,6 @@ class Messages extends Component {
                 </div>
                 <div className="messages_container">
                     <div className="friend_name">
-                        <h1>Chad</h1>
                     </div>
                     <div className="conversation_container">
                         {
