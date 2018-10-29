@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 
+import { connect } from  "react-redux"
+import { updateCurrentlyMessaging } from "../../ducks/reducer"
+
 class Recent extends Component {
   render() {
-    const { recent } = this.props;
+    const { recent } = this.props
     return (
-      <div className="recent_contacts">
+      <div onClick={this.props.updateCurrentlyMessaging(recent)} className="recent_contacts">
         <img src={recent.picture} alt="" />
         <p>{`${recent.firstname} ${recent.lastname[0]}`}</p>
       </div>
@@ -12,4 +15,4 @@ class Recent extends Component {
   }
 }
 
-export default Recent;
+export default connect(null, {updateCurrentlyMessaging})(Recent);

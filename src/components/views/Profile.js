@@ -118,7 +118,7 @@ const friend = (this.state.friends ?
         <div>
           <h7>{this.props.user.firstname}{` `}{this.props.user.lastname}</h7>|<p>{this.props.user.developertype}</p>
         </div>
-          <p>// this is my bio that could take up alot of charactors so all the people can see it in the screen//</p>
+          <p>this is my bio that could take up alot of charactors so all the people can see it in the screen</p>
       </div>
       <div className='toggle-bar'>
       <div>

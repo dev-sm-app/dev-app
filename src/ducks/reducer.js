@@ -1,9 +1,11 @@
 const USER = 'USER';
 const UPDATE_FRIEND_NAME = "UPDATE_FRIEND_NAME"
+const UPDATE_CURRENTLY_MESSAGING = "UPDATE_CURRENTLY_MESSAGING"
 
 const initialState = {
     user: {},
-    friendName: ""
+    friendName: "",
+    currentlyMessaging: {}
 }
 
 export function userData(user) {
@@ -20,6 +22,13 @@ export function updateFriendName(name) {
     }
 }
 
+export function updateCurrentlyMessaging(friend) {
+    return {
+        type: UPDATE_CURRENTLY_MESSAGING,
+        payload: friend
+    }
+}
+
 export default function reducer(state=initialState, action){
    switch(action.type){
        case USER:
@@ -27,6 +36,9 @@ export default function reducer(state=initialState, action){
 
        case UPDATE_FRIEND_NAME:
        return Object.assign({}, state, {friendName: action.payload})
+
+       case UPDATE_CURRENTLY_MESSAGING:
+       return Object.assign({}, state, {currentlyMessaging: action.payload})
 
        default: 
        return state;
