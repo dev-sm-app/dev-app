@@ -1,7 +1,4 @@
 module.exports = {
-    getRecents: async (req, res) => {
-        
-    },
     getMessages: async (req, res) => {
         const db = req.app.get("db")
         const { userId, friendId } = req.query

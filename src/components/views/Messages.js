@@ -5,65 +5,62 @@ import Recent from '../../components/Recent/Recent';
 import Message from "../../components/Message/Message"
 
 import { connect } from "react-redux"
-import { updateFriendName } from "../../ducks/reducer"
+import { updateFriendName, userData } from "../../ducks/reducer"
 
 class Messages extends Component {
     constructor() {
         super()
 
         this.state = {
-            messages: [{
-                id: 1,
-                userid: 5,
-                friendid: 6,
-                message: "Hello this is a random message."
-            },
-            {
-                id: 2,
-                userid: 6,
-                friendid: 5,
-                message: "And another message back to you."
-            }],
-            recents: [{
-                id: 5,
-                firstName: 'Sam',
-                picture: ''
-            }]
+            messages: [],
+            recents: []
         }
 
         this.socket = io.connect('http://localhost:3030')
     }
 
-    createRoom (friendID, userID) {
+    async componentDidMount() {
+        let userRes = await axios.get("/api/auth/setUser")
+        this.props.userData(userRes.data)
+        let recents = await axios.get(`/api/recents?userId=${this.props.user.id}`)
+        this.setState({
+            recents: recents.data
+        })
+    }
+
+    async componentDidUpdate(prevProps) {
+        
+    }
+
+    createRoom(friendID, userID) {
         const string = `${friendID} ${userID}`
-            return string.split(' ')
+        return string.split(' ')
             .map(ID => Number(ID))
-            .sort((a, b) => a - b )
+            .sort((a, b) => a - b)
             .join('')
     }
 
-    joinRoom (id, name, picture) {
+    joinRoom(id, name, picture) {
         const room = this.createRoom(id, this.props.user.id)
-        this.socket.emit('join room', {room})
+        this.socket.emit('join room', { room })
         this.props.updateFriendName(name)
     }
 
     render() {
-
-        if(this.state.recents.length){
+        if (this.state.recents.length) {
             var recents = this.state.recents.map(recent => {
                 return (
-                    <Recent 
+                    <Recent
                         key={recent.id}
                         recent={recent}
                     />
                 )
             })
         }
-        if(this.state.messages.length){
+        if (this.state.messages.length) {
             var messages = this.state.messages.map(message => {
                 return (
-                    <Message 
+                    <Message
                         key={message.id}
                         message={message}
                     />
@@ -81,10 +78,16 @@ class Messages extends Component {
 
                     </div>
                     <div className="conversation_container">
-                        {messages}
+                        {
+                            this.state.messages.length
+                                ?
+                                messages
+                                :
+                                <p>Click on a recent person to continue messaging or go to your profile page or search page to choose someone to message</p>
+                        }
                         <div>
                             <button>...</button>
-                            <input type="text"/>
+                            <input type="text" />
                             <button>Send</button>
                         </div>
                     </div>
@@ -96,8 +99,9 @@ class Messages extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        user: state.user,
+        currentlyMessaging: state.currentlyMessaging
     }
 }
 
-export default connect(mapStateToProps, {updateFriendName})(Messages);
+export default connect(mapStateToProps, { updateFriendName, userData })(Messages);
