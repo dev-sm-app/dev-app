@@ -6,8 +6,10 @@ import Message from "../../components/Message/Message";
 import userImage from "../../Styles/images/profile-blue.png";
 import sendImage from "../../Styles/images/send.png";
 
-import { connect } from "react-redux";
-import { updateFriendName, userData } from "../../ducks/reducer";
+import { createRoom, sendMessage } from "../../Logic/MessageLogic"
+
+import { connect } from "react-redux"
+import { updateFriendName, userData } from "../../ducks/reducer"
 
 class Messages extends Component {
   constructor() {
@@ -52,24 +54,23 @@ class Messages extends Component {
   }
 
   async componentDidMount() {
-    let userRes = await axios.get("/api/auth/setUser");
-    this.props.userData(userRes.data);
-  }
+    let userRes = await axios.get("/api/auth/setUser")
+    this.props.userData(userRes.data)
+    let recents = await axios.get(`/api/recents?userId=${this.props.user.id}`)
+    this.setState({
+        recents: recents.data
+    })
+}
 
-  createRoom(friendID, userID) {
-    const string = `${friendID} ${userID}`;
-    return string
-      .split(" ")
-      .map(ID => Number(ID))
-      .sort((a, b) => a - b)
-      .join("");
-  }
+async componentDidUpdate(prevProps) {
 
-  joinRoom(id, name, picture) {
-    const room = this.createRoom(id, this.props.user.id);
-    this.socket.emit("join room", { room });
-    this.props.updateFriendName(name);
-  }
+}
+
+joinRoom(id, name, picture) {
+    const room = createRoom(id, this.props.user.id)
+    this.socket.emit('join room', { room })
+    this.props.updateFriendName(name)
+}
 
   render() {
     if (this.state.recents.length) {
@@ -109,12 +110,10 @@ class Messages extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    user: state.user
-  };
+    return {
+        user: state.user,
+        currentlyMessaging: state.currentlyMessaging
+    }
 }
 
-export default connect(
-  mapStateToProps,
-  { updateFriendName, userData }
-)(Messages);
+export default connect(mapStateToProps, { updateFriendName, userData })(Messages);
