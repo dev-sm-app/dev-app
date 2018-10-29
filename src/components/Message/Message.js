@@ -4,15 +4,35 @@ import { connect } from "react-redux";
 class Message extends Component {
   render() {
     const className =
-      this.props.user.id === this.props.userid
+      this.props.user.id === this.props.message.userid
         ? "user_message"
         : "friend_message";
+        console.log("message props", this.props.message)
+    
+    const messageAlign = 
+      className === "user_message"
+      ?
+      <div className="user_message">
+        <div className="text_message">
+          <text>{this.props.message.message}</text>
+        </div>
+        <div>
+          <img src={this.props.message.picture} alt="" />
+        </div>
+      </div>
+      :
+      <div className="friend_message">
+        <div>
+          <img src={this.props.message.picture} alt="" />
+        </div>
+        <div className="text_message">
+          <text>{this.props.message.message}</text>
+        </div>
+      </div>
+
     return (
       <div className={className}>
-        <div>
-          <p />
-        </div>
-        <img src="" alt="" />
+        {messageAlign}
       </div>
     );
   }

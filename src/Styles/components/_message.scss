@@ -1,0 +1,78 @@
+.friend_message {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 95%;
+    height: auto;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    
+    .text_message {
+        width: 70%;
+        // background-color: orange;
+        border: 1px solid $orange;
+        padding: 8px;
+        
+        text {
+            // background-color: orange;
+            color: $orange;
+        }
+    }
+
+    img {
+        width: 30px;
+        height: 30px;
+        margin-right: 12px;
+    }
+
+    p {
+        display: flex;
+        align-items: center;
+        background-color: green;
+        height: 50px;
+        width: 60%;
+        margin-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+.user_message {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    
+    .text_message {
+        width: 70%;
+        border: 1px solid $blue;
+        padding: 8px;
+        
+        text {
+            // background-color: red;
+            color: $blue;
+        }
+    }
+
+    img {
+        width: 30px;
+        height: 30px;
+        margin-left: 12px;
+    }
+
+    p {
+        display: flex;
+        align-items: center;
+        background-color: green;
+        height: 50px;
+        width: 60%;
+        margin-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
