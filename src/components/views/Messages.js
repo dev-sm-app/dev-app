@@ -3,6 +3,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import Recent from '../../components/Recent/Recent';
 import Message from "../../components/Message/Message"
+import sendImage from '../../Styles/images/send.png';
 
 import { connect } from "react-redux"
 import { updateFriendName, userData } from "../../ducks/reducer"
@@ -29,7 +30,7 @@ class Messages extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        
+
     }
 
     createRoom(friendID, userID) {
@@ -75,7 +76,7 @@ class Messages extends Component {
                 </div>
                 <div className="messages_container">
                     <div className="friend_name">
-
+                        <h1>Chad</h1>
                     </div>
                     <div className="conversation_container">
                         {
@@ -85,10 +86,10 @@ class Messages extends Component {
                                 :
                                 <p>Click on a recent person to continue messaging or go to your profile page or search page to choose someone to message</p>
                         }
-                        <div>
-                            <button>...</button>
-                            <input type="text" />
-                            <button>Send</button>
+                        <div className="type_send">
+                            <button className="dots">...</button>
+                            <input type="text" placeholder="Type Your Message..." />
+                            <img src={sendImage} alt="" />
                         </div>
                     </div>
                 </div>
