@@ -3,7 +3,6 @@ import axios from "axios";
 import io from "socket.io-client";
 import Recent from "../../components/Recent/Recent";
 import Message from "../../components/Message/Message";
-import userImage from "../../Styles/images/profile-blue.png";
 import sendImage from "../../Styles/images/send.png";
 
 import { createRoom, sendMessage } from "../../Logic/MessageLogic"
@@ -16,38 +15,8 @@ class Messages extends Component {
     super();
 
     this.state = {
-      messages: [
-        {
-          id: 1,
-          userid: 5,
-          friendid: 6,
-          message:
-            "Hello this is a random message from your friend. What will happen if I add more text like this?",
-          picture: userImage
-        },
-        {
-          id: 2,
-          userid: 6,
-          friendid: 5,
-          message:
-            "And another message back to you. And another one so you see how it looks on more than one line.",
-          picture: userImage
-        }
-      ],
-      recents: [
-        {
-          id: 5,
-          firstname: "Sam",
-          lastname: "Jones",
-          picture: userImage
-        },
-        {
-          id: 9,
-          firstname: "Tim",
-          lastname: "White",
-          picture: userImage
-        }
-      ],
+      messages: [],
+      recents: [],
       room: '',
       userinput: ''
     };
@@ -78,12 +47,11 @@ async componentDidUpdate(prevProps) {
 }
 
 updateMessages (message) {
-  const room = createRoom(message.actualMessage.friendid, message.actualMessage.userid)
-  if(message.roomid === room){
-    this.setState({
-      messages: [...this.state.messages, message.actualMessage]
-    })
-  }
+    if(this.state.room === message.roomid && this.props.user.id !== message.actualMessage.userid) {
+        this.setState({
+          messages: [...this.state.messages, message.actualMessage]
+        })
+    }
 }
 
 async sendMessage (message) {

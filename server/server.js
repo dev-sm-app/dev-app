@@ -53,11 +53,9 @@ app.get("/api/recents", mess.getRecents)
 io.on('connection', socket => {
     console.log('User Connected')
     socket.on('join room', data => {
-        console.log(`user joined room ${data.room}`)
-        io.to(data.room).emit('room joined', data.room)
+        socket.join(data.room)
     })
     socket.on('send message', data => {
-        console.log(data)
         io.to(data.roomid).emit('message sent', data)
     })
 
