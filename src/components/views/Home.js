@@ -34,7 +34,6 @@ class Home extends Component {
     componentDidMount(){
         axios.get('/api/auth/setUser').then(res => {
             this.props.userData(res.data);
-            console.log(this.props.userData)
         })
     }
     render() {

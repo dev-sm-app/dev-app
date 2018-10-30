@@ -6,6 +6,8 @@ import Message from "../../components/Message/Message"
 import userImage from '../../Styles/images/profile-blue.png';
 import sendImage from './../../Styles/images/send.png';
 
+import { createRoom, sendMessage } from "../../Logic/MessageLogic"
+
 import { connect } from "react-redux"
 import { updateFriendName, userData } from "../../ducks/reducer"
 
@@ -14,72 +16,47 @@ class Messages extends Component {
         super()
 
         this.state = {
-            messages: [{
-                id: 1,
-                userid: 5,
-                friendid: 6,
-                message: "Hello this is a random message from your friend. What will happen if I add more text like this?", 
-                picture: userImage
-            },
-            {
-                id: 2,
-                userid: 6,
-                friendid: 5,
-                message: "And another message back to you. And another one so you see how it looks on more than one line.",
-                picture: userImage
-            }],
-            recents: [{
-                id: 5,
-                firstname: 'Sam',
-                lastname: 'Jones',
-                picture: userImage
-            }, 
-            {
-                id: 5,
-                firstname: 'Tim',
-                lastname: 'White',
-                picture: userImage
-            }]
+            messages: [],
+            recents: []
         }
 
         this.socket = io.connect('http://localhost:3030')
     }
 
-    async componentDidMount () {
+    async componentDidMount() {
         let userRes = await axios.get("/api/auth/setUser")
         this.props.userData(userRes.data)
+        let recents = await axios.get(`/api/recents?userId=${this.props.user.id}`)
+        this.setState({
+            recents: recents.data
+        })
     }
 
-    createRoom (friendID, userID) {
-        const string = `${friendID} ${userID}`
-            return string.split(' ')
-            .map(ID => Number(ID))
-            .sort((a, b) => a - b )
-            .join('')
+    async componentDidUpdate(prevProps) {
+
     }
 
-    joinRoom (id, name, picture) {
-        const room = this.createRoom(id, this.props.user.id)
-        this.socket.emit('join room', {room})
+    joinRoom(id, name, picture) {
+        const room = createRoom(id, this.props.user.id)
+        this.socket.emit('join room', { room })
         this.props.updateFriendName(name)
     }
 
     render() {
-
-        if(this.state.recents.length){
+        if (this.state.recents.length) {
             var recents = this.state.recents.map(recent => {
                 return (
-                    <Recent 
+                    <Recent
                         key={recent.id}
                         recent={recent}
                     />
                 )
             })
         }
-        if(this.state.messages.length){
+        if (this.state.messages.length) {
             var messages = this.state.messages.map(message => {
                 return (
-                    <Message 
+                    <Message
                         key={message.id}
                         message={message}
                     />
@@ -94,15 +71,19 @@ class Messages extends Component {
                 </div>
                 <div className="messages_container">
                     <div className="friend_name">
-                        <h1>Chad</h1>
                     </div>
                     <div className="conversation_container">
-                        {messages}
+                        {
+                            this.state.messages.length
+                                ?
+                                messages
+                                :
+                                <p>Click on a recent person to continue messaging or go to your profile page or search page to choose someone to message</p>
+                        }
                         <div className="type_send">
-                            {/* <button className="dots">...</button> */}
-                            <input type="text" placeholder="Type Your Message..."/>
-                            <img src={sendImage} alt=""/>
-                            {/* <button className="send">Send</button> */}
+                            <button className="dots">...</button>
+                            <input type="text" placeholder="Type Your Message..." />
+                            <img src={sendImage} alt="" />
                         </div>
                     </div>
                 </div>
@@ -113,8 +94,9 @@ class Messages extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        user: state.user,
+        currentlyMessaging: state.currentlyMessaging
     }
 }
 
-export default connect(mapStateToProps, {updateFriendName, userData})(Messages);
+export default connect(mapStateToProps, { updateFriendName, userData })(Messages);
