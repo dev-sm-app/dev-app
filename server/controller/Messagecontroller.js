@@ -4,7 +4,6 @@ module.exports = {
         const { userId, friendId } = req.query
 
         const messages = await db.get_messages([Number(userId)])
-        console.log("messages", messages)
         const filteredMessages = messages
         .filter(message => (message.userid === Number(userId) && message.friendid ===  Number(friendId)) 
         || (message.userid === Number(friendId) && message.friendid ===  Number(userId)))
@@ -18,7 +17,7 @@ module.exports = {
             newMessagePicture = null
         }
         else {
-            newMessagepicture = messagePicture
+            newMessagePicture = messagePicture
         }
         db.send_message([Number(userId), Number(friendId), authorPicture, message, newMessagePicture, date, type])
         .then(message => res.status(200).send(message[0]))

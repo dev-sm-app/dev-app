@@ -55,7 +55,6 @@ class Messages extends Component {
     this.socket = io.connect("http://localhost:3030");
     this.joinRoom = this.joinRoom.bind(this);
     this.handleInput = this.handleInput.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
   }
 
@@ -172,7 +171,7 @@ handleInput (e) {
               onChange={this.handleInput} 
               value={this.state.userinput}
               />
-              <img src={sendImage} alt="" onClick={this.sendMessage(this.state.userinput)} />
+              <img src={sendImage} alt="" onClick={() => this.sendMessage(this.state.userinput)} />
             </div>
           </div>
         </div>
