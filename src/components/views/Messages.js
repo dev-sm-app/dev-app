@@ -98,6 +98,9 @@ async sendMessage (message) {
     type:'normal message'
   })
   let actualMessage = messageRes.data;
+  this.setState({
+    messages: [...this.state.messages, actualMessage]
+  })
   this.socket.emit('send message', {
     actualMessage, 
     roomid:this.state.room

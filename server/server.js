@@ -25,7 +25,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-app.use(user.devEnvironment)
+// app.use(user.devEnvironment)
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
@@ -58,7 +58,7 @@ io.on('connection', socket => {
     })
     socket.on('send message', data => {
         console.log(data)
-        io.emit('message sent', data)
+        io.to(data.roomid).emit('message sent', data)
     })
 
     socket.on('disconnect', () => {

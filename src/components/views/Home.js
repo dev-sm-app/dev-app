@@ -41,6 +41,7 @@ class Home extends Component {
         let displayAllPosts = this.state.posts.map((post) => {
             return (
                 <Post 
+                    key={post.id}
                     firstName={post.firstName}
                     lastName={post.lastName}
                     picture={post.picture}
