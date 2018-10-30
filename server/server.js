@@ -25,7 +25,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-app.use(user.devEnvironment)
+// app.use(user.devEnvironment)
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
@@ -53,9 +53,14 @@ app.get("/api/recents", mess.getRecents)
 io.on('connection', socket => {
     console.log('User Connected')
     socket.on('join room', data => {
-        console.log("user connected")
+        console.log(`user joined room ${data.room}`)
         io.to(data.room).emit('room joined', data.room)
     })
+    socket.on('send message', data => {
+        console.log(data)
+        io.to(data.roomid).emit('message sent', data)
+    })
+
     socket.on('disconnect', () => {
         console.log('User Disconnected')
     })
