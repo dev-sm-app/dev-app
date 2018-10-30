@@ -57,6 +57,7 @@ io.on('connection', socket => {
         io.to(data.room).emit('room joined', data.room)
     })
     socket.on('send message', data => {
+        console.log(data)
         io.emit('message sent', data)
     })
 

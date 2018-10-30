@@ -78,24 +78,18 @@ async componentDidUpdate(prevProps) {
 }
 
 updateMessages (message) {
-  const room = this.createRoom(message.friendid, message.userid)
+  const room = createRoom(message.actualMessage.friendid, message.actualMessage.userid)
   if(message.roomid === room){
     this.setState({
-      messages: [...this.state.messages, message]
+      messages: [...this.state.messages, message.actualMessage]
     })
   }
 }
 
 async sendMessage (message) {
+  
   const date = this.createDate(new Date());
-  // this.socket.emit('send message', {
-  //   date, 
-  //   message, 
-  //   roomid:this.state.room, 
-  //   authorid:this.props.user.id, 
-  //   receiverid:this.props.currentlyMessaging.id, 
-  //   authorimage:this.props.user.picture
-  // })
+ 
   let messageRes = await axios.post('/api/sendmessage', {
     userId:this.props.user.id, 
     friendId:this.props.currentlyMessaging.id, 
@@ -103,10 +97,14 @@ async sendMessage (message) {
     date,
     type:'normal message'
   })
+  let actualMessage = messageRes.data;
   this.socket.emit('send message', {
-    messageRes, 
+    actualMessage, 
     roomid:this.state.room
   }) 
+  this.setState({
+    userinput: ''
+  })
 }
 
 createDate (date) {
@@ -153,7 +151,7 @@ handleInput (e) {
             message={message} />;
       });
     }
-    console.log(this.state.userinput)
+    
     return (
       <div className="mainMessages">
         <div className="contact_container">{recents}</div>
@@ -162,7 +160,9 @@ handleInput (e) {
         
           </div>
           <div className="conversation_container">
+            <div className="actual_messages">
             {messages}
+            </div>
             <div className="type_send">
               <button className="dots">...</button>
               <input 
