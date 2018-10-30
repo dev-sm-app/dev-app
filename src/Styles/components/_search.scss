@@ -29,7 +29,6 @@
                 }
             }
         }
-        
     }
     
     .form-select {
@@ -38,12 +37,6 @@
         background: $graysix;
         overflow: hidden;
         border-radius: 3px;
-       
-        
-        
-    
-        
-    
         &:focus,
         &:hover {
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -58,13 +51,11 @@
             color: $blue;
             line-height: 9vh;
             font-size: 16px;
-    
             .ie & {
                 display: none;
             }
         }
     }
-    
     select {
         position: relative;
         background: transparent;
@@ -89,7 +80,6 @@
                 box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             }
         }
-    
         option[disabled] {
             color: #eeeeee;
             text-shadow: none;
@@ -106,4 +96,10 @@
     .column-6 {
        position: relative;
     }
+}
+.search-info{
+    width: 100%;
+    height: 8vh;
+    border-bottom: 1px solid $blue;
+
 }

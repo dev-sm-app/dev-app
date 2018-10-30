@@ -73,10 +73,10 @@ module.exports = {
     Scroll: (req, res) => {
         const db = req.app.get('db');
 
-        db.get_search([req.session.user.id, req.params.items])
+        db.get_search([req.session.user.id, req.query.items])
             .then(response => res.status(200).send(response))
             .catch(err => {
-                res.status(500).send()
+                res.status(500).send('errors')
                 console.log(err)
             })
     },

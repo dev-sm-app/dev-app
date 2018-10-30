@@ -9,17 +9,33 @@ class Search extends Component {
             input: '',
             select: '',
             items: 10,
+            error: false,
             hasMore: true,
+            isLoading: false,
             users: []
         }
+        window.onscroll = () => {
+        const {
+            loadUsers,
+            state: {
+                error, 
+                isLoading,
+                hasMore,
+            },
+        } = this;
+        if(error || isLoading || !hasMore) return;
+        if(window.innerHeight + document.documentElement.scroltTop === document.documentElement.offsetHeight){
+            loadUsers()
+        }
+    };
+}
+    componentWillMount(){
+        this.loadUsers();
     }
-    componentDidMount(){
-     
-    }
+
+    
     handleChange(prop, val){
-        this.setState({[prop]: val})
-        this.Search();
-        
+        this.setState({[prop]: val})   
     }
     Search(){
        axios.get(`/api/search?select=${this.state.select}&input=${this.state.input}`).then(res => {
@@ -35,10 +51,11 @@ class Search extends Component {
            this.setState({users: users})
        }) 
     }
-    friendOrNot(){
+    loadUsers = () => {
+    this.setState({isLoading: true}, () => {
         axios.get('/api/friend/list').then(friendList => {
-            axios.get(`/api/scroll/${this.state.items}`).then(userList => {
-                let users = userList.data.map(user => {
+            axios.get(`/api/scroll?items=${this.state.items}`).then(userList => {
+                let nextUsers = userList.data.map(user => {
                     let friends = friendList.data.filter(friend => user.id === friend.friendid)
                       if(friends.length){
                         user.friend = true
@@ -47,10 +64,25 @@ class Search extends Component {
                     }
                       return user;
                 })
-                this.setState({users: users})
-            })
-        })
-    }
+                this.setState({
+                    hasMore: (this.state.users.length < 100),
+                    isLoading: false,
+                    users: [
+                      ...this.state.users,
+                      ...nextUsers,
+                    ],
+                    items: this.state.items += 10
+                });
+            });
+        }).catch((err) => {
+            this.setState({
+            error: err.message,
+            isLoading: false,
+             });
+          })
+    });
+};
+
 
     fetchMoreData = () => {
         if (this.state.users.length >= 100) {
@@ -60,6 +92,20 @@ class Search extends Component {
     }
  
     render() {
+        const search = this.state.users.map(user => (
+                                
+                                <div className='search-info' key={user}>
+                                    <div>
+                                        <img src={user.picture} alt='' />
+                                        <p>{user.firstname}{' '}{user.lastname}{' '}|{' '}{user.deverlopertype}</p>
+                                    </div>
+                                    <div>
+                                    {user.friend ?
+                                        <button>A</button>:
+                                        <button>M</button>}
+                                    </div>
+                                </div>
+                            ))
         return (
             <div className='bg-search'>
                 <div>
@@ -68,7 +114,7 @@ class Search extends Component {
                     </div>
                     <div className='column-6 form-select'>
                         <select onChange={(e) => this.handleChange('select', e.target.value)}>
-                            <option disabled="disabled" selected="selected">Filter by...</option>
+                            <option disabled="disabled" selected='selected'>Filter by...</option>
                             <option value='All'>All</option>
                             <option value='Web Development'>Web</option>
                             <option value='IOS Development'>IOS</option>
@@ -78,31 +124,22 @@ class Search extends Component {
                         </select>
                     </div>
                 </div>
-                    <div>
-                        <InfiniteScroll
-                            dataLength={this.state.users.length}
-                            next={this.fetchMoreData}
-                            hasMore={this.state.hasMore}
-                            loader={<h4>Loading...</h4>}
-                            endMessage={
-                                <p style={{ textAlign: "center" }}>
-                                <b>Those are all of the users.</b>
-                                </p>
-                        }>
-                            {this.state.users.map((e, i) => (
-                                <div key={i}>
-                                    <div>
-                                        <img src={e.picture} alt='' />
-                                        <p>{e.firstname}{' '}{e.lastname}{' '}|{' '}{e.deverlopertype}</p>
-                                    </div>
-                                    <div>
-                                        <button>A</button>
-                                        <button>M</button>
-                                    </div>
-                                </div>
-                            ))}
-                        </InfiniteScroll>
-                    </div>
+                <div id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
+          <InfiniteScroll
+            dataLength={this.state.items.length}
+            next={this.fetchMoreData}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+            scrollableTarget="scrollableDiv"
+          >
+            {this.state.users.map(user => (
+              <div >
+                <img src={user.picture} />
+                <p>{user.firstname}{' '}{user.lastname}{' '}|{' '}{user.developertype}</p>
+              </div>
+            ))}
+          </InfiniteScroll>
+        </div>
             </div>
         )
     }

@@ -64,16 +64,17 @@ class ProfileRoutes extends Component {
             <div>
               <p>Developer Type</p>
             </div>
-            <div className='custom-select'>
-              <select value={this.state.dev} onChange={(e) => this.handleChange('dev', e.target.value)}>
-                <option value=''>Choose Developement..</option>
-                <option value='Web Development'>Web</option>
-                <option value='IOS Development'>IOS</option>
-                <option value='Salesforce Development'>salesforce</option>
-                <option value='UI/UX Design'>UI/UX</option>
-                <option value='QA Engineer'>QA Engineer</option>
-              </select>
-                
+            <div>
+              <div className='column-7 select-form'>
+                <select className='search-box' value={this.state.dev} onChange={(e) => this.handleChange('dev', e.target.value)}>
+                  <option value='' disabled='disabled' selected='selected'>Choose Developement..</option>
+                  <option value='Web Development'>Web</option>
+                  <option value='IOS Development'>IOS</option>
+                  <option value='Salesforce Development'>salesforce</option>
+                  <option value='UI/UX Design'>UI/UX</option>
+                  <option value='QA Engineer'>QA Engineer</option>
+                </select>
+              </div>
             </div>
           </div>
         <div>
