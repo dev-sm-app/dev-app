@@ -12,7 +12,7 @@ module.exports = {
     },
     sendMessage: (req, res) => {
         const db = req.app.get("db")
-        const { userId, friendId, authorPicture, message, messagePicture, type} = req.body
+        const { userId, friendId, authorPicture, message, messagePicture, date, type} = req.body
         let newMessagePicture = ""
         if(messagePicture === "") {
             newMessagePicture = null
@@ -20,7 +20,7 @@ module.exports = {
         else {
             newMessagepicture = messagePicture
         }
-        db.send_message([Number(userId), Number(friendId), authorPicture, message, newMessagePicture, type])
+        db.send_message([Number(userId), Number(friendId), authorPicture, message, newMessagePicture, date, type])
         .then(message => res.status(200).send(message[0]))
     },
     getRecents: async(req, res) => {

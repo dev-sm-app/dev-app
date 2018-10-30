@@ -42,15 +42,21 @@ class Messages extends Component {
           picture: userImage
         },
         {
-          id: 5,
+          id: 9,
           firstname: "Tim",
           lastname: "White",
           picture: userImage
         }
-      ]
+      ],
+      room: '',
+      userinput: ''
     };
 
     this.socket = io.connect("http://localhost:3030");
+    this.joinRoom = this.joinRoom.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+    this.updateMessages = this.updateMessages.bind(this);
   }
 
   async componentDidMount() {
@@ -60,16 +66,76 @@ class Messages extends Component {
     this.setState({
         recents: recents.data
     })
+    this.socket.on('message sent', this.updateMessages)
 }
 
 async componentDidUpdate(prevProps) {
-
+  if(prevProps.currentlyMessaging.id !== this.props.currentlyMessaging.id){
+    let messages = await axios.get(`/api/messages?userId=${this.props.user.id}&friendId=${this.props.currentlyMessaging.id}`)
+    this.setState({
+      messages: messages.data
+    })
+  }
 }
 
-joinRoom(id, name, picture) {
+updateMessages (message) {
+  const room = this.createRoom(message.friendid, message.userid)
+  if(message.roomid === room){
+    this.setState({
+      messages: [...this.state.messages, message]
+    })
+  }
+}
+
+async sendMessage (message) {
+  const date = this.createDate(new Date());
+  // this.socket.emit('send message', {
+  //   date, 
+  //   message, 
+  //   roomid:this.state.room, 
+  //   authorid:this.props.user.id, 
+  //   receiverid:this.props.currentlyMessaging.id, 
+  //   authorimage:this.props.user.picture
+  // })
+  let messageRes = await axios.post('/api/sendmessage', {
+    userId:this.props.user.id, 
+    friendId:this.props.currentlyMessaging.id, 
+    authorPicture:this.props.user.picture, message, 
+    date,
+    type:'normal message'
+  })
+  this.socket.emit('send message', {
+    messageRes, 
+    roomid:this.state.room
+  }) 
+}
+
+createDate (date) {
+  // if(date.getHours() >= 10 && date.getMinutes() >= 10){
+  //   return `${date.getHours()}:${date.getMinutes}`
+  // }
+  // if(date.getHours() >= 10 && date.getMinutes < 10){
+  //   return `${date.getHours()}:0${date.getMinutes()}`
+  // }
+  // if(date.getHours() < 10 && date.getMinutes >= 10){
+  //   return `0${date.getHours()}:${date.getMinutes()}`
+  // }
+  return `${date.getHours()}:${date.getMinutes()}`
+}
+
+joinRoom(id, name) {
     const room = createRoom(id, this.props.user.id)
     this.socket.emit('join room', { room })
     this.props.updateFriendName(name)
+    this.setState({
+      room
+    })
+}
+
+handleInput (e) {
+  this.setState({
+    userinput: e.target.value
+  })
 }
 
   render() {
@@ -77,7 +143,8 @@ joinRoom(id, name, picture) {
       var recents = this.state.recents.map(recent => {
         return <Recent 
             key={recent.id} 
-            recent={recent} />;
+            recent={recent}
+            joinRoom={this.joinRoom} />;
       });
     }
     if (this.state.messages.length) {
@@ -87,7 +154,7 @@ joinRoom(id, name, picture) {
             message={message} />;
       });
     }
-
+    console.log(this.state.userinput)
     return (
       <div className="mainMessages">
         <div className="contact_container">{recents}</div>
@@ -99,8 +166,13 @@ joinRoom(id, name, picture) {
             {messages}
             <div className="type_send">
               <button className="dots">...</button>
-              <input type="text" placeholder="Type Your Message..." />
-              <img src={sendImage} alt="" />
+              <input 
+              type="text" 
+              placeholder="Type Your Message..." 
+              onChange={this.handleInput} 
+              value={this.state.userinput}
+              />
+              <img src={sendImage} alt="" onClick={this.sendMessage(this.state.userinput)} />
             </div>
           </div>
         </div>

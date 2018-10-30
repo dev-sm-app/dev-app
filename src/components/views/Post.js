@@ -17,7 +17,7 @@ const Post = props => {
                         </section>
                 </header>
                 <main>
-                    <h2>{props.description}</h2>
+                    <p>{props.description}</p>
                     <img src={postImage} alt=""/>
                 </main>
                 <footer>
