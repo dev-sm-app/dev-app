@@ -4,7 +4,6 @@ module.exports = {
         const { userId, friendId } = req.query
 
         const messages = await db.get_messages([Number(userId)])
-        console.log("messages", messages)
         const filteredMessages = messages
         .filter(message => (message.userid === Number(userId) && message.friendid ===  Number(friendId)) 
         || (message.userid === Number(friendId) && message.friendid ===  Number(userId)))
@@ -12,15 +11,15 @@ module.exports = {
     },
     sendMessage: (req, res) => {
         const db = req.app.get("db")
-        const { userId, friendId, authorPicture, message, messagePicture, type} = req.body
+        const { userId, friendId, authorPicture, message, messagePicture, date, type} = req.body
         let newMessagePicture = ""
         if(messagePicture === "") {
             newMessagePicture = null
         }
         else {
-            newMessagepicture = messagePicture
+            newMessagePicture = messagePicture
         }
-        db.send_message([Number(userId), Number(friendId), authorPicture, message, newMessagePicture, type])
+        db.send_message([Number(userId), Number(friendId), authorPicture, message, newMessagePicture, date, type])
         .then(message => res.status(200).send(message[0]))
     },
     getRecents: async(req, res) => {

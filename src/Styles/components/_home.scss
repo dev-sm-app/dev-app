@@ -4,4 +4,20 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 120px;
+
+    input {
+        width:75%;
+        height: 30px;
+        margin-top: 20px;
+        background-color: $grayeight;
+        border: 1px solid $blue;
+        padding-left:10px;
+        color: $blue;
+    }
 }
+
+::placeholder {
+    padding-left: 10px;
+    font-family: "Inconsolata", monospace;
+    color: $blue;
+  }

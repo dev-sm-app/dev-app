@@ -7,7 +7,6 @@ class Message extends Component {
       this.props.user.id === this.props.message.userid
         ? "user_message"
         : "friend_message";
-        console.log("message props", this.props.message)
     
     const messageAlign = 
       className === "user_message"
