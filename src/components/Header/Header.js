@@ -30,16 +30,9 @@ function Header(props) {
                     null
                 :
                     <div className="site_header">
-<<<<<<< HEAD
-                        <div>
-                            <h1>{text}</h1>
-                            <Link to="/profile"><img src={props.user.picture} alt="profile"/></Link>
-                        </div>
-=======
                         <Link to="/home"><img className="siteLogo" src={logo} alt=""/></Link>                        
                         <h1>{text}</h1>
                         <Link to="/profile"><img className="profilePic" src={props.user.picture} alt="profile"/></Link>
->>>>>>> master
                         {/* <a href="http://localhost:3000/api/auth/logout"><button>Logout</button></a> */}
                     </div>
             }
