@@ -14,23 +14,10 @@ class Search extends Component {
             isLoading: false,
             users: []
         }
-        window.onscroll = () => {
-        const {
-            loadUsers,
-            state: {
-                error, 
-                isLoading,
-                hasMore,
-            },
-        } = this;
-        if(error || isLoading || !hasMore) return;
-        if(window.innerHeight + document.documentElement.scroltTop === document.documentElement.offsetHeight){
-            loadUsers()
-        }
-    };
 }
-    componentWillMount(){
+    componentDidMount(){
         this.loadUsers();
+       
     }
 
     
@@ -52,10 +39,10 @@ class Search extends Component {
        }) 
     }
     loadUsers = () => {
-    this.setState({isLoading: true}, () => {
         axios.get('/api/friend/list').then(friendList => {
             axios.get(`/api/scroll?items=${this.state.items}`).then(userList => {
                 let nextUsers = userList.data.map(user => {
+                    console.log(nextUsers, 'users');
                     let friends = friendList.data.filter(friend => user.id === friend.friendid)
                       if(friends.length){
                         user.friend = true
@@ -64,40 +51,24 @@ class Search extends Component {
                     }
                       return user;
                 })
-                this.setState({
-                    hasMore: (this.state.users.length < 100),
-                    isLoading: false,
-                    users: [
-                      ...this.state.users,
-                      ...nextUsers,
-                    ],
-                    items: this.state.items += 10
-                });
+                setTimeout(() => {
+                    this.setState({
+                        users: [...this.state.users, ...nextUsers],
+                        items: (this.state.items += 10)
+                    })
+                }, 1000)
             });
-        }).catch((err) => {
-            this.setState({
-            error: err.message,
-            isLoading: false,
-             });
-          })
-    });
-};
-
-
-    fetchMoreData = () => {
-        if (this.state.users.length >= 100) {
-          this.setState({ hasMore: false });
-          return;
-        }
+        })  
     }
+
  
     render() {
-        const search = this.state.users.map(user => (
-                                
-                                <div className='search-info' key={user}>
+        const search = this.state.users.map(user => {
+             return(                   
+                                <div id='search-info' key={user.id}>
                                     <div>
-                                        <img src={user.picture} alt='' />
-                                        <p>{user.firstname}{' '}{user.lastname}{' '}|{' '}{user.deverlopertype}</p>
+                                        <img style={{width: '50px', height: '50px'}} src={user.picture} alt='' />
+                                        <p>{user.firstname}{' '}{user.lastname}{' '}|{' '}{user.developertype}</p>
                                     </div>
                                     <div>
                                     {user.friend ?
@@ -105,16 +76,16 @@ class Search extends Component {
                                         <button>M</button>}
                                     </div>
                                 </div>
-                            ))
+        )})
         return (
             <div className='bg-search'>
-                <div>
-                    <div>
+                <div id='input-edits'>
+                    <div id='div'>
                         <input onChange={(e) => this.handleChange('input', e.target.value)} placeholder='Search...' />  
                     </div>
-                    <div className='column-6 form-select'>
-                        <select onChange={(e) => this.handleChange('select', e.target.value)}>
-                            <option disabled="disabled" selected='selected'>Filter by...</option>
+                    <div id='div2' className='column-6 form-select'>
+                        <select defaultValue='All' onChange={(e) => this.handleChange('select', e.target.value)}>
+                            <option disabled="disabled" >Filter by...</option>
                             <option value='All'>All</option>
                             <option value='Web Development'>Web</option>
                             <option value='IOS Development'>IOS</option>
@@ -124,20 +95,18 @@ class Search extends Component {
                         </select>
                     </div>
                 </div>
-                <div id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
+                <div id="scrollableDiv" >
           <InfiniteScroll
-            dataLength={this.state.items.length}
-            next={this.fetchMoreData}
+            dataLength={this.state.users.length}
+            next={this.loadMore}
             hasMore={true}
             loader={<h4>Loading...</h4>}
             scrollableTarget="scrollableDiv"
           >
-            {this.state.users.map(user => (
-              <div >
-                <img src={user.picture} />
-                <p>{user.firstname}{' '}{user.lastname}{' '}|{' '}{user.developertype}</p>
-              </div>
-            ))}
+          <div id='search'>
+            {this.state.users.length > 0 ? search: null}
+              
+          </div>
           </InfiniteScroll>
         </div>
             </div>

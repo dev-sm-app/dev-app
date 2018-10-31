@@ -35,7 +35,7 @@ app.get('/auth/callback', user.userLogin);
 app.get('/api/auth/setUser', user.SetUser);
 app.get('/api/auth/logout', user.Logout);
 app.put('/api/update', user.updateUser);
-app.get('/api/scroll/:items', user.Scroll);
+app.get('/api/scroll', user.Scroll);
 app.get('/api/user/list', user.userList);
 app.get('/api/search', user.myFriends);
 

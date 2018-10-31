@@ -1,3 +1,3 @@
 select * from users
-where user.id != $1
-limit $2;
+where users.id != $1
+limit $2 offset 0;
