@@ -3,6 +3,8 @@ import axios from 'axios';
 import {userData} from '../../ducks/reducer';
 import {connect} from 'react-redux';
 import Post from '../views/Post';
+import ReactModal from 'react-modal';
+
 
 class Home extends Component {
 
@@ -10,6 +12,7 @@ class Home extends Component {
         super(props);
 
         this.state = {
+            showModal: false,
             posts: [
                 {
                 firstName: "David",
@@ -29,6 +32,10 @@ class Home extends Component {
                 }   
             ]
         }
+
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+
     }    
 
     componentDidMount(){
@@ -36,8 +43,16 @@ class Home extends Component {
             this.props.userData(res.data);
         })
     }
-    render() {
 
+    handleOpenModal () {
+        this.setState({ showModal: true });
+      }
+      
+      handleCloseModal () {
+        this.setState({ showModal: false });
+      }
+
+    render() {
         let displayAllPosts = this.state.posts.map((post) => {
             return (
                 <Post 
@@ -54,12 +69,34 @@ class Home extends Component {
 
         return (
             <div className="mainHome">
-                <input type="text" placeholder=">_"/>
+
+                <ReactModal 
+                    style={{ 
+                        overlay: {
+                            backgroundColor: "rgba(30, 30, 30, 0.85)"
+                    }, 
+                        content: {
+                            background: '#000',
+                            color: '#00AFF3',
+                            border: '#000'
+                        } 
+                    }}
+                    isOpen={this.state.showModal}
+                    contentLabel="onRequestClose Example"
+                    onRequestClose={this.handleCloseModal}
+                    >
+                    <p>Write your post here!!</p>
+                    <textarea className="coolInput" type="text"/>
+                    <button onClick={this.handleCloseModal}>Close Modal</button> 
+                </ReactModal>
+
+                <input type="text" placeholder=">_" onClick={this.handleOpenModal} />
                 {displayAllPosts}
             </div>
         )
     }
 }
+
 const mapStateToProps = (state) => {
     return {
         user: state.user

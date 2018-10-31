@@ -19,7 +19,7 @@
   .actual_messages {
     overflow: auto;
     height: 70vh;
-    // @include flexo(row-reverse)
+    // @include flexo(column, flex-end, center);
   }
 
   .messages_container {
