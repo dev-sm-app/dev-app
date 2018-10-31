@@ -51,7 +51,7 @@ app.get("/api/recents", mess.getRecents)
 
 
 io.on('connection', socket => {
-    console.log('User Connected')
+    console.log(`${socket.id} connected`)
     socket.on('join room', data => {
         socket.join(data.room)
     })
@@ -60,7 +60,7 @@ io.on('connection', socket => {
     })
 
     socket.on('disconnect', () => {
-        console.log('User Disconnected')
+        console.log(`${socket.id} disconnected`)
     })
 })
 
