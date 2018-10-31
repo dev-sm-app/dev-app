@@ -3,7 +3,6 @@ import axios from "axios";
 import io from "socket.io-client";
 import Recent from "../../components/Recent/Recent";
 import Message from "../../components/Message/Message";
-import userImage from "../../Styles/images/profile-blue.png";
 import sendImage from "../../Styles/images/send.png";
 
 import { createRoom, sendMessage } from "../../Logic/MessageLogic"
@@ -16,55 +15,25 @@ class Messages extends Component {
     super();
 
     this.state = {
-      messages: [
-        {
-          id: 1,
-          userid: 5,
-          friendid: 6,
-          message:
-            "Hello this is a random message from your friend. What will happen if I add more text like this?",
-          picture: userImage
-        },
-        {
-          id: 2,
-          userid: 6,
-          friendid: 5,
-          message:
-            "And another message back to you. And another one so you see how it looks on more than one line.",
-          picture: userImage
-        }
-      ],
-      recents: [
-        {
-          id: 5,
-          firstname: "Sam",
-          lastname: "Jones",
-          picture: userImage
-        },
-        {
-          id: 9,
-          firstname: "Tim",
-          lastname: "White",
-          picture: userImage
-        }
-      ],
+      messages: [],
+      recents: [],
       room: '',
       userinput: ''
     };
 
-    this.socket = io.connect("http://localhost:3030");
     this.joinRoom = this.joinRoom.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
   }
-
+  
   async componentDidMount() {
     let userRes = await axios.get("/api/auth/setUser")
     this.props.userData(userRes.data)
     let recents = await axios.get(`/api/recents?userId=${this.props.user.id}`)
     this.setState({
-        recents: recents.data
+      recents: recents.data
     })
+    this.socket = io("http://localhost:3030");
     this.socket.on('message sent', this.updateMessages)
 }
 
@@ -78,36 +47,39 @@ async componentDidUpdate(prevProps) {
 }
 
 updateMessages (message) {
-  const room = createRoom(message.actualMessage.friendid, message.actualMessage.userid)
-  if(message.roomid === room){
-    this.setState({
-      messages: [...this.state.messages, message.actualMessage]
-    })
-  }
+    if(this.state.room === message.roomid && this.props.user.id !== message.actualMessage.userid) {
+        this.setState({
+          messages: [...this.state.messages, message.actualMessage]
+        })
+    }
 }
 
 async sendMessage (message) {
-  
-  const date = this.createDate(new Date());
- 
-  let messageRes = await axios.post('/api/sendmessage', {
-    userId:this.props.user.id, 
-    friendId:this.props.currentlyMessaging.id, 
-    authorPicture:this.props.user.picture, message, 
-    date,
-    type:'normal message'
-  })
-  let actualMessage = messageRes.data;
-  this.setState({
-    messages: [...this.state.messages, actualMessage]
-  })
-  this.socket.emit('send message', {
-    actualMessage, 
-    roomid:this.state.room
-  }) 
-  this.setState({
-    userinput: ''
-  })
+  if(this.state.userinput.length > 0 && this.state.userinput.length <= 500) {
+    const date = this.createDate(new Date());
+   
+    let messageRes = await axios.post('/api/sendmessage', {
+      userId:this.props.user.id, 
+      friendId:this.props.currentlyMessaging.id, 
+      authorPicture:this.props.user.picture, message, 
+      date,
+      type:'normal message'
+    })
+    let actualMessage = messageRes.data;
+    this.setState({
+      messages: [...this.state.messages, actualMessage]
+    })
+    this.socket.emit('send message', {
+      actualMessage, 
+      roomid:this.state.room
+    }) 
+    this.setState({
+      userinput: ''
+    })
+  }
+  else if(this.state.room && (this.state.userinput.length === 0 || this.state.userinput.length > 500) ) {
+    alert("Your message must be betweeen 0 - 500 characters")
+  }
 }
 
 createDate (date) {
@@ -154,7 +126,7 @@ handleInput (e) {
             message={message} />;
       });
     }
-    
+    console.log(this.state.room)
     return (
       <div className="mainMessages">
         <div className="contact_container">{recents}</div>
@@ -169,7 +141,8 @@ handleInput (e) {
             <div className="type_send">
               <button className="dots">...</button>
               <input 
-              type="text" 
+              type="text"
+              disabled={!this.state.room} 
               placeholder="Type Your Message..." 
               onChange={this.handleInput} 
               value={this.state.userinput}
