@@ -25,7 +25,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-// app.use(user.devEnvironment)
+app.use(user.devEnvironment)
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
@@ -41,7 +41,8 @@ app.put('/api/update', user.updateUser);
 
 
 // Post EndPoints //
-
+app.get('/api/posts', post.getPosts)
+app.post('/api/post', post.createPost)
 
 // Message EndPoints //
 app.get("/api/recents", mess.getRecents)
