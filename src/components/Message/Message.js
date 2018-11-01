@@ -16,13 +16,13 @@ class Message extends Component {
           <text>{this.props.message.message}</text>
         </div>
         <div>
-          <img src={this.props.message.picture} alt="" />
+          <img src={this.props.message.authorpicture} alt="" />
         </div>
       </div>
       :
       <div className="friend_message">
         <div>
-          <img src={this.props.message.picture} alt="" />
+          <img src={this.props.message.authorpicture} alt="" />
         </div>
         <div className="text_message">
           <text>{this.props.message.message}</text>
