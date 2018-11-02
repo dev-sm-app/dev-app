@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    align-items: center;
+    height: 100vh;
     background-color: $black;
     color: $grayone;
     
@@ -15,5 +16,12 @@
         bottom: 0;
         width: 100%;
     }
+
+    @media (min-width: 768px) {
+        .navBar {
+            width: 630px;
+        }
+    }
 }
+
 

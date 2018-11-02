@@ -4,6 +4,7 @@ import { userData } from "../../ducks/reducer";
 import { connect } from "react-redux";
 import Post from "../views/Post";
 import ReactModal from "react-modal";
+import cancel from '../../Styles/images/cancel-icon.png'
 
 class Home extends Component {
   constructor(props) {
@@ -74,19 +75,23 @@ class Home extends Component {
         <ReactModal
           style={{
             overlay: {
-              backgroundColor: "rgba(30, 30, 30, 0.85)"
+              backgroundColor: "rgba(50, 50, 50, 0.85)",
             },
             content: {
               background: "#000",
               color: "#00AFF3",
-              border: "#000"
+              border: "1px solid #00AFF3",
+              borderRadius: '0'
             }
           }}
           isOpen={this.state.showModal}
           contentLabel="onRequestClose Example"
           onRequestClose={this.handleCloseModal}
         >
-          <p className="postHere">Write your post here!!</p>
+          <div className="modalHead">
+            {/* <p className="postHere">Write your post here!!</p> */}
+            <img src={cancel} alt="" onClick={this.handleCloseModal}/>
+          </div>
           <div className="postArea">
             <img src={this.props.user.picture} alt="" />
             <textarea
@@ -98,16 +103,17 @@ class Home extends Component {
               onChange={this.handleInput}
             />
           </div>
-          <button onClick={this.handleCloseModal}>Close Modal</button>
-          <button onClick={() => this.createPost({
-            description: this.state.postDescription, 
-            picture: this.state.postPicture,
-            authorpicture: this.props.user.picture,
-            firstname: this.props.user.firstname,
-            lastname: this.props.user.lastname,
-            postdate: `${Date.now()}`,
-            developertype: this.props.user.developertype
-            })}>Post</button>
+          <div className="modalFoot">
+            <button onClick={() => this.createPost({
+              description: this.state.postDescription, 
+              picture: this.state.postPicture,
+              authorpicture: this.props.user.picture,
+              firstname: this.props.user.firstname,
+              lastname: this.props.user.lastname,
+              postdate: `${Date.now()}`,
+              developertype: this.props.user.developertype
+              })}>Post</button>
+            </div>
         </ReactModal>
 
         <input
@@ -116,6 +122,9 @@ class Home extends Component {
           onClick={this.handleOpenModal}
         />
         {displayAllPosts}
+        <div className="bottomSpace">
+          
+        </div>
       </div>
     );
   }

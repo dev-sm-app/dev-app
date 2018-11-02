@@ -12,9 +12,10 @@ class Message extends Component {
       className === "user_message"
       ?
       <div className="user_message">
-        <div className="text_message">
-          <text>{this.props.message.message}</text>
-        </div>
+          <div className="text_message">
+            <text>{this.props.message.message}</text>
+            <div className="userMessageDateStamp">{this.props.message.messagedate}</div>
+          </div>
         <div>
           <img src={this.props.message.authorpicture} alt="" />
         </div>
@@ -26,9 +27,10 @@ class Message extends Component {
         </div>
         <div className="text_message">
           <text>{this.props.message.message}</text>
+          <div className="userMessageDateStamp">{this.props.message.messagedate}</div>
         </div>
       </div>
-
+console.log(this.props.message)
     return (
       <div className={className}>
         {messageAlign}

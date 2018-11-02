@@ -6,7 +6,9 @@
     @include border;
     font-family: 'Inconsolata', monospace;
     width: 100vw;
-    height: 10vh;
+    // height: 10vh;
+    height: 75px;
+    background-color: $graynine;
 
     .profilePic {
         border-radius: 100%;
