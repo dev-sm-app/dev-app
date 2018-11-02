@@ -12,6 +12,10 @@ function NavBar(props) {
                     ?
                     null
                     :
+                    props.location.pathname ==="/messages"
+                    ?
+                    null
+                    :
                     <div className="bottom_nav">
                         <div className="message_divider">
 
