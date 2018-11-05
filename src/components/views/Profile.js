@@ -16,11 +16,17 @@ class Profile extends Component {
       company: ''
     }
   }
-  componentDidMount(){
-    axios.get('/api/auth/setUser').then(res => {
-        this.props.userData(res.data);
-        console.log(this.props.userData)
-    })
+  async componentDidMount(){
+    try {
+      let userRes = await axios.get("/api/auth/setUser")
+        this.props.userData(userRes.data);
+    }
+    catch(err) {
+      if(err.response.status === 401) {
+        alert("You need to login")
+        this.props.history.push("/")
+      }
+    }
 }
 
   handleChange(prop, val){

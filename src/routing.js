@@ -7,7 +7,6 @@ import Messages from "./components/views/Messages"
 import Search from "./components/views/Search"
 import Profile from "./components/views/Profile"
 import OtherUsers from "./components/views/OtherUsers"
-import Post from "./components/views/Post"
 
 export default <Switch>
     <Route exact path="/" component={Login} />
@@ -16,5 +15,4 @@ export default <Switch>
     <Route path="/search" component={Search} />
     <Route path="/profile" component={Profile} />
     <Route path="/user/:userid" component={OtherUsers} />
-    <Route path="/post" component={Post} />
 </Switch>

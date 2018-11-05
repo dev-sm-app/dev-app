@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { userData } from "../../ducks/reducer";
 import { connect } from "react-redux";
-import Post from "../views/Post";
+import Post from "../Post/Post";
 import ReactModal from "react-modal";
 import cancel from '../../Styles/images/cancel-icon.png'
 
@@ -14,7 +14,9 @@ class Home extends Component {
       postDescription: '',
       postPicture: '',
       showModal: false,
-      posts: []
+      posts: [],
+      code: "",
+      mode: ""
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -22,15 +24,21 @@ class Home extends Component {
     this.handleInput = this.handleInput.bind(this);
   }
 
-  componentDidMount() {
-    axios.get("/api/auth/setUser").then(res => {
-      this.props.userData(res.data);
-    });
-    axios.get('/api/posts')
-    .then(posts => {
-        this.setState({
-            posts: posts.data
-        })
+  async componentDidMount() {
+    try {
+      let userRes = await axios.get("/api/auth/setUser")
+        this.props.userData(userRes.data);
+    }
+    catch(err) {
+      if(err.response.status === 401) {
+        alert("You need to login")
+        this.props.history.push("/")
+      }
+      return
+    }
+    let postsRes = await axios.get('/api/posts')
+    this.setState({
+      posts: postsRes.data
     })
   }
 
@@ -58,17 +66,21 @@ class Home extends Component {
     })
   }
 
+  deletePost = (id) => {
+    axios.delete(`/api/post/${id}`)
+    .then(postsRes => this.setState({posts: postsRes.data}))
+  }
+
   render() {
     let displayAllPosts = this.state.posts.map((post, i) => {
       return (
         <Post
           key={i}
           post={post}
+          deletePost={this.deletePost}
         />
       );
     });
-
-    console.log(this.state.postDescription)
 
     return (
       <div className="mainHome">

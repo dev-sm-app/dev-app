@@ -65,6 +65,9 @@
           border-right: none;
           color: $blue;
           font-size: 24px;
+          &:hover {
+            cursor: pointer;
+          }
         }
 
         .send {
@@ -223,3 +226,11 @@ button:focus {
     // width: 628px;
   }
 }
+
+// .menu_none {
+//   display: none;
+// }
+
+// .menu_display {
+//   height: 100px;
+// }

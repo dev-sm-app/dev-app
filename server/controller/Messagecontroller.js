@@ -11,23 +11,22 @@ module.exports = {
     },
     sendMessage: (req, res) => {
         const db = req.app.get("db")
-        const { userId, friendId, authorPicture, message, messagePicture, date, type} = req.body
-        let newMessagePicture = ""
-        if(messagePicture === "") {
-            newMessagePicture = null
-        }
-        else {
-            newMessagePicture = messagePicture
-        }
-        db.send_message([Number(userId), Number(friendId), authorPicture, message, newMessagePicture, date, type])
-        .then(message => res.status(200).send(message[0]))
+        const { userid, friendid, authorpicture, message, messagepicture, messagedate, code} = req.body
+
+        db.send_message([Number(userid), Number(friendid), authorpicture, message, messagepicture, messagedate, code])
+        .then(() => res.status(200))
     },
     getRecents: async(req, res) => {
         const db = req.app.get("db")
         const { userId } = req.query
 
-        const recents = await db.get_recents([Number(userId)])
-        const filteredRecents = recents.filter(contact => !(contact.id === Number(userId)))
-        res.status(200).send(filteredRecents)
+        if(req.session.user) {
+            const recents = await db.get_recents([req.session.user.id])
+            const filteredRecents = recents.filter(contact => !(contact.id === req.session.user.id))
+            res.status(200).send(filteredRecents)
+        }
+        else {
+            res.status(401).send("Need to be logged in")
+        }
     }
 }

@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { formatDate } from "../../Logic/MessageLogic"
 
 class Message extends Component {
   render() {
     const className =
-      this.props.user.id === this.props.message.userid
+      (this.props.user.id === this.props.message.userid) ||
+      (this.props.user.id === this.props.message.userId)
         ? "user_message"
-        : "friend_message";
-    
+        : "friend_message"
+
     const messageAlign = 
       className === "user_message"
       ?
       <div className="user_message">
           <div className="text_message">
             <text>{this.props.message.message}</text>
-            <div className="userMessageDateStamp">{this.props.message.messagedate}</div>
+            <div className="userMessageDateStamp">{formatDate(this.props.message.messagedate)}</div>
           </div>
         <div>
           <img src={this.props.message.authorpicture} alt="" />
@@ -27,7 +29,7 @@ class Message extends Component {
         </div>
         <div className="text_message">
           <text>{this.props.message.message}</text>
-          <div className="userMessageDateStamp">{this.props.message.messagedate}</div>
+          <div className="userMessageDateStamp">{formatDate(this.props.message.messagedate)}</div>
         </div>
       </div>
 console.log(this.props.message)
