@@ -21,7 +21,6 @@ const Post = props => {
             : difference >= minute
                 ? `${timePassed} minutes ago`
                 : 'Just barely'
-
     return (
         <div className="mainPost">
             <header>
@@ -33,13 +32,6 @@ const Post = props => {
                         <p>{date}</p>
                     </section>
                 </div>
-                {
-                    props.post.userid === props.user.id
-                        ?
-                        <button className="delete_post" onClick={() => props.deletePost(props.post.id)}>delete</button>
-                        :
-                        null
-                }
             </header>
             <main>
                 <p>{props.post.description}</p>

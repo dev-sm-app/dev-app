@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import Recent from "../../components/Recent/Recent";
 import Message from "../../components/Message/Message";
 import sendImage from "../../Styles/images/send.png";
+import CodeModal from "../CodeModal/CodeModal"
 
 import { createRoom, sendMessage } from "../../Logic/MessageLogic";
 
@@ -21,7 +22,8 @@ class Messages extends Component {
       userinput: "",
       messagepicture: "",
       code: "",
-      // menuClass: false
+      mode: "",
+      showCodeModal: false
     };
 
     this.joinRoom = this.joinRoom.bind(this);
@@ -96,7 +98,9 @@ class Messages extends Component {
         roomid: this.state.room
       });
       this.setState({
-        userinput: ""
+        userinput: "",
+        code: "",
+        mode: ""
       });
       axios.post("/api/sendmessage", actualMessage)
     } else if (
@@ -128,10 +132,20 @@ class Messages extends Component {
       userinput: e.target.value
     });
   }
-
-  toggleMenu = () => {
+  
+  toggleShow = () => {
     this.setState({
-      menuClass: !this.state.menuClass
+      showCodeModal: !this.state.showCodeModal
+    })
+  }
+
+  updateCode = (code) => {
+    this.setState({code})
+  }
+
+  updateMode = (e) => {
+    this.setState({
+      mode: e.target.value
     })
   }
 
@@ -148,7 +162,6 @@ class Messages extends Component {
         return <Message key={message.id} message={message} />;
       });
     }
-    // const menuClassName = this.state.menuClass ? "menu_display" : "menu_none"
     return (
       <div className="mainMessages">
         <div className="contact_container">{recents}</div>
@@ -156,11 +169,7 @@ class Messages extends Component {
           <div className="conversation_container">
             <div className="actual_messages">{messages}</div>
             <div className="type_send">
-              <button className="dots" onClick={this.toggleMenu}>...</button>
-              {/* <div className={menuClassName}>
-                <div>Add Code Snippet</div>
-                <div>Upload Image</div>
-              </div> */}
+              <button className="dots" onClick={() => this.toggleShow()}>...</button>
               <input
                 type="text"
                 disabled={!this.state.room}
@@ -176,6 +185,13 @@ class Messages extends Component {
             </div>
           </div>
         </div>
+        <CodeModal 
+        show={this.state.showCodeModal}
+        toggleShow={this.toggleShow} 
+        code={this.state.code} 
+        mode={this.state.mode}
+        updateCode={this.updateCode}
+        updateMode={this.updateMode}/>
       </div>
     );
   }

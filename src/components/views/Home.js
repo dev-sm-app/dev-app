@@ -4,6 +4,7 @@ import { userData } from "../../ducks/reducer";
 import { connect } from "react-redux";
 import Post from "../Post/Post";
 import ReactModal from "react-modal";
+import CodeModal from "../CodeModal/CodeModal"
 import cancel from '../../Styles/images/cancel-icon.png'
 
 class Home extends Component {
@@ -16,7 +17,8 @@ class Home extends Component {
       showModal: false,
       posts: [],
       code: "",
-      mode: ""
+      mode: "",
+      showCodeModal: false
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -71,6 +73,22 @@ class Home extends Component {
     .then(postsRes => this.setState({posts: postsRes.data}))
   }
 
+  toggleShow = () => {
+    this.setState({
+      showCodeModal: !this.state.showCodeModal
+    })
+  }
+
+  updateCode = (code) => {
+    this.setState({code})
+  }
+
+  updateMode = (e) => {
+    this.setState({
+      mode: e.target.value
+    })
+  }
+
   render() {
     let displayAllPosts = this.state.posts.map((post, i) => {
       return (
@@ -101,7 +119,6 @@ class Home extends Component {
           onRequestClose={this.handleCloseModal}
         >
           <div className="modalHead">
-            {/* <p className="postHere">Write your post here!!</p> */}
             <img src={cancel} alt="" onClick={this.handleCloseModal}/>
           </div>
           <div className="postArea">
@@ -116,13 +133,16 @@ class Home extends Component {
             />
           </div>
           <div className="modalFoot">
+          <button onClick={() => this.toggleShow()}>...</button>
             <button onClick={() => this.createPost({
               description: this.state.postDescription, 
+              postdate: `${Date.now()}`,
               picture: this.state.postPicture,
+              code: this.state.code,
+              mode: this.state.mode,
               authorpicture: this.props.user.picture,
               firstname: this.props.user.firstname,
               lastname: this.props.user.lastname,
-              postdate: `${Date.now()}`,
               developertype: this.props.user.developertype
               })}>Post</button>
             </div>
@@ -137,6 +157,13 @@ class Home extends Component {
         <div className="bottomSpace">
           
         </div>
+        <CodeModal 
+        show={this.state.showCodeModal}
+        toggleShow={this.toggleShow}
+        code={this.state.code}
+        mode={this.state.mode}
+        updateCode={this.updateCode}
+        updateMode={this.updateMode}/>
       </div>
     );
   }

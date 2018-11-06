@@ -12,14 +12,8 @@ module.exports = {
 
     createPost: (req, res) => {
         const db = req.app.get("db")
-        const {post} = req.body
-        let actualpicture = ''
-        if(post.picture === ''){
-            actualpicture = null
-        } else {
-            actualpicture = post.picture
-        }
-        db.create_post([req.session.user.id, post.description, actualpicture, post.authorpicture, post.firstname, post.lastname, post.postdate, post.developertype])
+        const {post} = req.body  
+        db.create_post([req.session.user.id, post.description, post.picture, post.postdate, post.code, post.mode])
         res.status(200)
     },
     deletePost: async (req, res) => {
