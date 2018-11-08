@@ -54,21 +54,21 @@
         height: 10vh;
         justify-content: center;
         border-top: 1px solid $blue;
+        overflow: hidden;
 
-        .dots {
+        #dots {
           height: 40px;
           width: 40px;
           background-color: $grayeight;
-          border-top: 1px solid $blue;
-          border-left: 1px solid $blue;
-          border-bottom: 1px solid $blue;
+          @include border;
           border-right: none;
           color: $blue;
           font-size: 24px;
-        }
-
-        .send {
-          width: 25%;
+          padding-right: 40px;
+          padding-bottom: 10px;
+          &:hover {
+            cursor: pointer;
+          }
         }
 
         input {
@@ -81,8 +81,10 @@
           padding-left: 10px;
         }
 
-        .dots {
-          width: 10%;
+        img {
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
     }

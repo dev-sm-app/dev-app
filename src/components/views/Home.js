@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import { userData } from "../../ducks/reducer";
 import { connect } from "react-redux";
-import Post from "../views/Post";
+import Post from "../Post/Post";
 import ReactModal from "react-modal";
+import PullUpMenu from "../PullUpMenu/PullUpMenu"
 import cancel from '../../Styles/images/cancel-icon.png'
 
 class Home extends Component {
@@ -14,7 +15,9 @@ class Home extends Component {
       postDescription: '',
       postPicture: '',
       showModal: false,
-      posts: []
+      posts: [],
+      code: "",
+      mode: "javascript"
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -22,15 +25,21 @@ class Home extends Component {
     this.handleInput = this.handleInput.bind(this);
   }
 
-  componentDidMount() {
-    axios.get("/api/auth/setUser").then(res => {
-      this.props.userData(res.data);
-    });
-    axios.get('/api/posts')
-    .then(posts => {
-        this.setState({
-            posts: posts.data
-        })
+  async componentDidMount() {
+    try {
+      let userRes = await axios.get("/api/auth/setUser")
+        this.props.userData(userRes.data);
+    }
+    catch(err) {
+      if(err.response.status === 401) {
+        alert("You need to login")
+        this.props.history.push("/")
+      }
+      return
+    }
+    let postsRes = await axios.get('/api/posts')
+    this.setState({
+      posts: postsRes.data
     })
   }
 
@@ -46,7 +55,9 @@ class Home extends Component {
     this.setState({
       posts: [post, ...this.state.posts], 
       postDescription: '',
-      postPicture: ''
+      postPicture: '',
+      code: "",
+      mode: "javascript"
     })
     axios.post('/api/post', {post})
     this.handleCloseModal()
@@ -58,17 +69,53 @@ class Home extends Component {
     })
   }
 
+  deletePost = (id) => {
+    axios.delete(`/api/post/${id}`)
+    .then(postsRes => this.setState({posts: postsRes.data}))
+  }
+
+  updateCode = (code) => {
+    this.setState({code})
+  }
+
+  updateMode = (e) => {
+    this.setState({
+      mode: e.target.value
+    })
+  }
+
+  handleDrop = (files) => {
+    const {
+      REACT_APP_CLOUDINARY_URL,
+      REACT_APP_CLOUDINARY_API,
+      REACT_APP_CLOUDINARY_PRESET
+    } = process.env
+
+    const formData = new FormData()
+    formData.append("file", files[0])
+    formData.append("tags", "DevApp, medium, gist")
+    formData.append("upload_preset", `${REACT_APP_CLOUDINARY_PRESET}`)
+    formData.append("api_key", `${REACT_APP_CLOUDINARY_API}`)
+    formData.append("timestamp", (Date.now() / 1000 | 0))
+
+    axios.post(`${REACT_APP_CLOUDINARY_URL}`, formData)
+    .then(res => {
+      this.setState({
+        postPicture: res.data.secure_url
+      })
+    })
+  }
+
   render() {
     let displayAllPosts = this.state.posts.map((post, i) => {
       return (
         <Post
           key={i}
           post={post}
+          deletePost={this.deletePost}
         />
       );
     });
-
-    console.log(this.state.postDescription)
 
     return (
       <div className="mainHome">
@@ -81,7 +128,8 @@ class Home extends Component {
               background: "#000",
               color: "#00AFF3",
               border: "1px solid #00AFF3",
-              borderRadius: '0'
+              borderRadius: '0',
+              overflow: 'hidden'
             }
           }}
           isOpen={this.state.showModal}
@@ -89,7 +137,6 @@ class Home extends Component {
           onRequestClose={this.handleCloseModal}
         >
           <div className="modalHead">
-          
             <img src={cancel} alt="" onClick={this.handleCloseModal}/>
           </div>
           <div className="postArea">
@@ -104,13 +151,23 @@ class Home extends Component {
             />
           </div>
           <div className="modalFoot">
+          <PullUpMenu
+          code={this.state.code}
+          mode={this.state.mode}
+          updateCode={this.updateCode}
+          updateMode={this.updateMode}
+          handleDrop={this.handleDrop}
+          roomCheck={true}
+          />
             <button onClick={() => this.createPost({
               description: this.state.postDescription, 
+              postdate: `${Date.now()}`,
               picture: this.state.postPicture,
+              code: this.state.code,
+              mode: this.state.mode,
               authorpicture: this.props.user.picture,
               firstname: this.props.user.firstname,
               lastname: this.props.user.lastname,
-              postdate: `${Date.now()}`,
               developertype: this.props.user.developertype
               })}>Post</button>
             </div>

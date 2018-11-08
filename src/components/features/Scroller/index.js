@@ -132,7 +132,7 @@ class index extends Component {
                 <SearchScroll user={users} />
                 </li>
             )}
-        </ul>: <><h4 style={{height: '20vh', width: '100%', color: 'grey', paddingLeft: '15%', paddingTop: '20%', border: '1px solid grey'}}>Search For Developer...</h4>
+        </ul>: <><h4 style={{height: '20vh', width: '100%', color: 'grey', paddingLeft: '15%', paddingTop: '10px', border: '1px solid grey'}}>Search For Developer...</h4>
                 </>}
             <div id='empty-block'></div>
     </div>

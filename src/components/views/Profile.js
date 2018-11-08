@@ -14,24 +14,30 @@ class Profile extends Component {
         posts: 0
     }
   }
-    componentDidMount(){
-      axios.get('/api/auth/setUser').then(res => {
-        if (res.data.developertype === "Web Development") {
-          return (document.getElementById("myH1").style.color = '#00A4F3')
-        } else if (res.data.developertype === "IOS Development") {
-            return (document.getElementById("myH1").style.color = '#F3002B')
-        } else if (res.data.developertype === "Salesforce Development") {
-          return (document.getElementById("myH1").style.color = '#F3C900')
-        } else if (res.data.developertype === "QA Engineer") {
-          return(document.getElementById("myH1").style.color = '#FF41C1')
-        } else if (res.data.developertype === "UX/UI Design") {
-           return (document.getElementById("myH1").style.color = '#00F3C9')
-}
-          this.props.userData(res.data);
-        })
-        this.Counts();
-
+  async componentDidMount(){
+    try {
+      let userRes = await axios.get("/api/auth/setUser")
+      if (userRes.data.developertype === "Web Development") {
+        return (document.getElementById("myH1").style.color = '#00A4F3')
+      } else if (userRes.data.developertype === "IOS Development") {
+          return (document.getElementById("myH1").style.color = '#F3002B')
+      } else if (userRes.data.developertype === "Salesforce Development") {
+        return (document.getElementById("myH1").style.color = '#F3C900')
+      } else if (userRes.data.developertype === "QA Engineer") {
+        return(document.getElementById("myH1").style.color = '#FF41C1')
+      } else if (userRes.data.developertype === "UX/UI Design") {
+         return (document.getElementById("myH1").style.color = '#00F3C9')
+      }
+      this.props.userData(userRes.data);
+      this.Counts();
     }
+    catch(err) {
+      if(err.response.status === 401) {
+        alert("You need to login")
+        this.props.history.push("/")
+      }
+    }
+  }
     Counts() {
       axios.get('/api/followers/count').then(wers => {
         axios.get('/api/following/count').then(wing => {

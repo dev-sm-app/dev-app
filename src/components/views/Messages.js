@@ -4,10 +4,7 @@ import io from "socket.io-client";
 import Recent from "../../components/Recent/Recent";
 import Message from "../../components/Message/Message";
 import sendImage from "../../Styles/images/send.png";
-import { Link, withRouter } from "react-router-dom";
-import message from "../../Styles/images/message-blue.png";
-import home from "../../Styles/images/home-blue.png";
-import search from "../../Styles/images/search-blue.png";
+import PullUpMenu from "../PullUpMenu/PullUpMenu"
 
 import { createRoom, sendMessage } from "../../Logic/MessageLogic";
 
@@ -22,7 +19,10 @@ class Messages extends Component {
       messages: [],
       recents: [],
       room: "",
-      userinput: ""
+      userinput: "",
+      messagepicture: "",
+      code: "",
+      mode: "javascript"
     };
 
     this.joinRoom = this.joinRoom.bind(this);
@@ -31,9 +31,17 @@ class Messages extends Component {
   }
 
   async componentDidMount() {
-    let userRes = await axios.get("/api/auth/setUser");
-    this.props.userData(userRes.data);
-    let recents = await axios.get(`/api/recents?userId=${this.props.user.id}`);
+    try {
+      let userRes = await axios.get("/api/auth/setUser")
+        this.props.userData(userRes.data);
+    }
+    catch(err) {
+      if(err.response.status === 401) {
+        alert("You need to login")
+        this.props.history.push("/")
+      }
+    }
+    let recents = await axios.get("/api/recents");
     this.setState({
       recents: recents.data
     });
@@ -65,34 +73,38 @@ class Messages extends Component {
     }
   }
 
-  async sendMessage(message) {
-    if (this.state.userinput.length > 0 && this.state.userinput.length <= 500) {
+  createMessage(message) {
+    if ((this.state.userinput.length > 0 && this.state.userinput.length <= 500 && this.state.room)
+    || (this.state.messagepicture.length > 0 && this.state.room)
+    || (this.state.code.length > 0 && this.state.code.length < 500 && this.state.room)) {
       const date = this.createDate(new Date());
 
-      let messageRes = await axios.post("/api/sendmessage", {
-        userId: this.props.user.id,
-        friendId: this.props.currentlyMessaging.id,
-        authorPicture: this.props.user.picture,
+      let actualMessage = {
+        userid: this.props.user.id,
+        friendid: this.props.currentlyMessaging.id,
+        authorpicture: this.props.user.picture,
         message,
-        date,
-        type: "normal message"
-      });
-      let actualMessage = messageRes.data;
+        messagepicture: this.state.messagepicture,
+        messagedate: date,
+        code: this.state.code,
+        mode: this.state.mode
+      }
+      let newMessageArr = sendMessage(this.state.messages, actualMessage)
       this.setState({
-        messages: [...this.state.messages, actualMessage]
+        messages: newMessageArr
       });
       this.socket.emit("send message", {
         actualMessage,
         roomid: this.state.room
       });
       this.setState({
-        userinput: ""
+        userinput: "",
+        code: "",
+        mode: ""
       });
-    } else if (
-      this.state.room &&
-      (this.state.userinput.length === 0 || this.state.userinput.length > 500)
-    ) {
-      alert("Your message must be betweeen 0 - 500 characters");
+      axios.post("/api/sendmessage", actualMessage)
+    } else {
+      alert("You must be in a chat room and You must send a message, picture, or code snippet (messages and code snippets have a 500 character limit)");
     }
   }
 
@@ -118,7 +130,41 @@ class Messages extends Component {
     });
   }
 
+  updateCode = (code) => {
+    this.setState({code})
+  }
+
+  updateMode = (e) => {
+    this.setState({
+      mode: e.target.value
+    })
+  }
+
+  handleDrop = (files) => {
+    const {
+      REACT_APP_CLOUDINARY_URL,
+      REACT_APP_CLOUDINARY_API,
+      REACT_APP_CLOUDINARY_PRESET
+    } = process.env
+
+    const formData = new FormData()
+    formData.append("file", files[0])
+    formData.append("tags", "DevApp, medium, gist")
+    formData.append("upload_preset", `${REACT_APP_CLOUDINARY_PRESET}`)
+    formData.append("api_key", `${REACT_APP_CLOUDINARY_API}`)
+    formData.append("timestamp", (Date.now() / 1000 | 0))
+
+    axios.post(`${REACT_APP_CLOUDINARY_URL}`, formData)
+    .then(res => {
+      console.log(res.data)
+      this.setState({
+        messagepicture: res.data.secure_url
+      })
+    })
+  }
+
   render() {
+    console.log("url", this.state.messagepicture)
     if (this.state.recents.length) {
       var recents = this.state.recents.map(recent => {
         return (
@@ -127,22 +173,25 @@ class Messages extends Component {
       });
     }
     if (this.state.messages.length) {
-      var messages = this.state.messages.map(message => {
-        return <Message key={message.id} message={message} />;
+      var messages = this.state.messages.map((message, i) => {
+        return <Message key={i} message={message} />;
       });
     }
-    console.log(this.state.room);
     return (
       <div className="mainMessages">
         <div className="contact_container">{recents}</div>
         <div className="messages_container">
-          {/* <div className="friend_name">
-        
-          </div> */}
           <div className="conversation_container">
             <div className="actual_messages">{messages}</div>
             <div className="type_send">
-              <button className="dots">...</button>
+            <PullUpMenu 
+            code={this.state.code}
+            mode={this.state.mode}
+            updateCode={this.updateCode}
+            updateMode={this.updateMode}
+            handleDrop={this.handleDrop}
+            roomCheck={this.state.room}
+            />
               <input
                 type="text"
                 disabled={!this.state.room}
@@ -153,60 +202,9 @@ class Messages extends Component {
               <img
                 src={sendImage}
                 alt=""
-                onClick={() => this.sendMessage(this.state.userinput)}
+                onClick={() => this.createMessage(this.state.userinput)}
               />
             </div>
-            {/* <div className="altNavBarContainer">
-            <div className="altNavBar">
-              <div className="message_divider">
-                {this.props.location.pathname === "/messages" ? (
-                  <div className="inner_message_box">
-                    <Link to="/messages">
-                      <img src={message} alt="message" className="message" />
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="inner_message_box_no_orange">
-                    <Link to="/messages">
-                      <img src={message} alt="message" className="message" />
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              <div className="home_divider">
-                {this.props.location.pathname === "/home" ? (
-                  <div className="inner_message_box">
-                    <Link to="/home">
-                      <img src={home} alt="home" className="home" />
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="inner_message_box_no_orange">
-                    <Link to="/home">
-                      <img src={home} alt="home" className="home" />
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              <div className="search_divider">
-                {this.props.location.pathname === "/search" ? (
-                  <div className="inner_message_box">
-                    <Link to="/search">
-                      <img src={search} alt="search" className="search" />
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="inner_message_box_no_orange">
-                    <Link to="/search">
-                      <img src={search} alt="search" className="search" />
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div> */}
           </div>
         </div>
       </div>
@@ -221,9 +219,4 @@ function mapStateToProps(state) {
   };
 }
 
-const MessagesWithRouter = withRouter(Messages)
-
-export default connect(
-  mapStateToProps,
-  { updateFriendName, userData }
-)(MessagesWithRouter);
+export default connect(mapStateToProps, {updateFriendName, userData})(Messages)
