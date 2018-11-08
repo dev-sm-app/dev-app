@@ -17,10 +17,11 @@
             width: 70%;
             height: 10vh;
             border: 1px solid $blue;
-            // padding: 3%;
+            background: $black;
             input{
                 height: 8vh;
-                width: 98.5%;
+                width: 95.5%;
+                margin: 7px;
                 background-color: $graysix;
                 border: none;
                 font-size: 15px;
@@ -34,6 +35,12 @@
                     outline: 0;
                 }
 
+                @media only screen and (min-width: 500px) {
+                    margin-left: 5px
+                }
+                @media only screen and (min-width: 700px) {
+                    width: 98%;
+                }
             }
         }
     }
@@ -54,7 +61,7 @@
         }
     
         &:after {
-            content: '▾';
+            // content: '▾';
             position: absolute;
             top: 1px;
             right: 20px;

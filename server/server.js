@@ -53,6 +53,7 @@ app.get('/api/followers/count', friend.followersCount);
 app.get('/api/posts', post.getPosts);
 app.post('/api/post', post.createPost);
 app.get('/api/post/count', post.postCount);
+app.delete("/api/post/:id", post.deletePost)
 
 // Message EndPoints //
 app.get("/api/recents", mess.getRecents)

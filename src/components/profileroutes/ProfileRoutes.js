@@ -50,7 +50,7 @@ class ProfileRoutes extends Component {
    
       {this.state.toggle ? 
     <> 
-      <div className='names'>
+      <div className='names_routes'>
         <div>
           <p>First Name</p>
           <input value={this.state.first} onChange={(e) => this.handleChange('first', e.target.value)} />
