@@ -28,13 +28,29 @@ module.exports = {
             res.status(401).send("Need to be logged in")
         }
     },
-    addRecent: (req, res) => {
+    addRecent: async (req, res) => {
         const db = req.app.get('db');
 
-    db.add_recents([req.session.user.id, req.body.id, `${Date.now()}`]).then(response => res.status(200))
-    .catch(err => {
-        res.status(500).send()
-        console.log(err)
-    })
+        try {
+            if(req.session.user) {
+                const recents = db.get_recents([req.session.user.id])
+                const filteredRecents = recents.filter(contact => !(contact.id === req.session.user.id))
+                const index = filteredRecents.findIndex((contact) => contact.id === req.session.user.id && contact.friendid === req.body.id)
+                if(index >= 0) {
+                    await db.update_last_messaged([`${Date.now()}`, req.session.user.id, req.body.id])
+                    res.status(200)
+    
+                }
+                else {
+                    await db.add_recents([req.session.user.id, req.body.id, `${Date.now()}`])
+                    res.status(200)
+                }
+            }
+            else {
+                res.status(401).send("Need to be logged in")
+            }
+        } catch(err) {
+            console.log(err)
+        }
     }
 }
