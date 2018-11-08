@@ -75,17 +75,6 @@
         border-radius: 50%;
         border: 1px solid $blue;
     }
-
-    p {
-        display: flex;
-        align-items: center;
-        background-color: green;
-        height: 50px;
-        width: 60%;
-        margin-right: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -126,4 +115,22 @@
             border-radius: 4px;
         }
     }
+}
+
+#message_picture {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    margin-left: 0;
+    margin-top: 10px;
+}
+
+#code_mode {
+color: $yellow;
+margin-top: 10px;
+margin-bottom: 0;
+}
+
+.code_container {
+    @include border
 }

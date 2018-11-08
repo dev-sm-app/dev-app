@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import Recent from "../../components/Recent/Recent";
 import Message from "../../components/Message/Message";
 import sendImage from "../../Styles/images/send.png";
-import CodeModal from "../CodeModal/CodeModal"
+import PullUpMenu from "../PullUpMenu/PullUpMenu"
 
 import { createRoom, sendMessage } from "../../Logic/MessageLogic";
 
@@ -22,8 +22,7 @@ class Messages extends Component {
       userinput: "",
       messagepicture: "",
       code: "",
-      mode: "",
-      showCodeModal: false
+      mode: "javascript"
     };
 
     this.joinRoom = this.joinRoom.bind(this);
@@ -75,9 +74,9 @@ class Messages extends Component {
   }
 
   createMessage(message) {
-    if ((this.state.userinput.length > 0 && this.state.userinput.length <= 500)
-    || (this.state.messagepicture.length > 0)
-    || (this.state.code !== "// Enter you code here" && this.state.code.length < 500)) {
+    if ((this.state.userinput.length > 0 && this.state.userinput.length <= 500 && this.state.room)
+    || (this.state.messagepicture.length > 0 && this.state.room)
+    || (this.state.code.length > 0 && this.state.code.length < 500 && this.state.room)) {
       const date = this.createDate(new Date());
 
       let actualMessage = {
@@ -87,7 +86,8 @@ class Messages extends Component {
         message,
         messagepicture: this.state.messagepicture,
         messagedate: date,
-        code: this.state.code
+        code: this.state.code,
+        mode: this.state.mode
       }
       let newMessageArr = sendMessage(this.state.messages, actualMessage)
       this.setState({
@@ -103,11 +103,8 @@ class Messages extends Component {
         mode: ""
       });
       axios.post("/api/sendmessage", actualMessage)
-    } else if (
-      this.state.room &&
-      (this.state.userinput.length === 0 || this.state.userinput.length > 500)
-    ) {
-      alert("You must send a message, picture, or code snippet (messages and code snippets have a 500 character limit)");
+    } else {
+      alert("You must be in a chat room and You must send a message, picture, or code snippet (messages and code snippets have a 500 character limit)");
     }
   }
 
@@ -132,12 +129,6 @@ class Messages extends Component {
       userinput: e.target.value
     });
   }
-  
-  toggleShow = () => {
-    this.setState({
-      showCodeModal: !this.state.showCodeModal
-    })
-  }
 
   updateCode = (code) => {
     this.setState({code})
@@ -146,6 +137,23 @@ class Messages extends Component {
   updateMode = (e) => {
     this.setState({
       mode: e.target.value
+    })
+  }
+
+  handleDrop = (files) => {
+    const formData = new FormData()
+    formData.append("file", files[0])
+    formData.append("tags", "DevApp, medium, gist")
+    formData.append("upload_preset", "v2qmuwut")
+    formData.append("api_key", "659836475541174")
+    formData.append("timestamp", (Date.now() / 1000 | 0))
+
+    axios.post("https://api.cloudinary.com/v1_1/dzimxib6y/image/upload", formData)
+    .then(res => {
+      console.log(res.data)
+      this.setState({
+        messagepicture: res.data.secure_url
+      })
     })
   }
 
@@ -169,7 +177,14 @@ class Messages extends Component {
           <div className="conversation_container">
             <div className="actual_messages">{messages}</div>
             <div className="type_send">
-              <button className="dots" onClick={() => this.toggleShow()}>...</button>
+            <PullUpMenu 
+            code={this.state.code}
+            mode={this.state.mode}
+            updateCode={this.updateCode}
+            updateMode={this.updateMode}
+            handleDrop={this.handleDrop}
+            roomCheck={this.state.room}
+            />
               <input
                 type="text"
                 disabled={!this.state.room}
@@ -185,13 +200,6 @@ class Messages extends Component {
             </div>
           </div>
         </div>
-        <CodeModal 
-        show={this.state.showCodeModal}
-        toggleShow={this.toggleShow} 
-        code={this.state.code} 
-        mode={this.state.mode}
-        updateCode={this.updateCode}
-        updateMode={this.updateMode}/>
       </div>
     );
   }

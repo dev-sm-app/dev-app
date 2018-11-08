@@ -11,14 +11,13 @@ module.exports = {
     },
     sendMessage: (req, res) => {
         const db = req.app.get("db")
-        const { userid, friendid, authorpicture, message, messagepicture, messagedate, code} = req.body
+        const { userid, friendid, authorpicture, message, messagepicture, messagedate, code, mode} = req.body
 
-        db.send_message([Number(userid), Number(friendid), authorpicture, message, messagepicture, messagedate, code])
+        db.send_message([Number(userid), Number(friendid), authorpicture, message, messagepicture, messagedate, code, mode])
         .then(() => res.status(200))
     },
     getRecents: async(req, res) => {
         const db = req.app.get("db")
-        const { userId } = req.query
 
         if(req.session.user) {
             const recents = await db.get_recents([req.session.user.id])

@@ -9,20 +9,19 @@ import "codemirror/mode/sass/sass"
 import "codemirror/mode/markdown/markdown"
 
 import "codemirror/lib/codemirror.css"
-import "codemirror/theme/material.css"
+import "codemirror/theme/seti.css"
 
 function CodeModal(props) {
     const className = props.show ? "code_display" : "code_none"
     const options = {
         mode: props.mode,
-        theme: "material",
+        theme: "seti",
         lineNumbers: true
     }
     return (
         <div className={className}>
             <div className="code_modal_content">
-                <select defaultValue="" onChange={props.updateMode}>
-                    <option value="" disabled={true}>Select Language</option>
+                <select defaultValue="javascript" onChange={props.updateMode}>
                     <option value="javascript">javascript</option>
                     <option value="python">python</option>
                     <option value="ruby">ruby</option>
@@ -38,7 +37,10 @@ function CodeModal(props) {
                     props.updateCode(code)
                 }}
                 onChange={(editor, data, value) => {}}/>
-                <button onClick={() => props.toggleShow()}>Save</button>
+                <button
+                name="showModal"
+                onClick={props.toggleShow}
+                >Save</button>
             </div>
         </div>
     )

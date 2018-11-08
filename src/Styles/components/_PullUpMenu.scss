@@ -1,0 +1,47 @@
+@import "../mixins";
+@import "../variables";
+
+.pull_up_menu {
+    overflow: hidden;
+}
+
+.pull_up_none {
+    display: none;
+}
+
+.pull_up_menu_content {
+    z-index: 4;
+    background: $grayeight;
+    @include flexo(column, space-around, center);
+    position: absolute;
+    height: 10vh;
+    bottom: 10vh;
+    width: 15%;
+    @include border;
+    button {
+        background: $grayseven;
+        color: white;
+        @include border($orange);
+        width: 95%;
+        text-align: left;
+        height: 4vh;
+        padding: 3px;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.dropzone {
+    width: 97%;
+    @include border($orange);
+    height: 4vh;
+    &:hover {
+        cursor: pointer;
+    }
+
+    p {
+        text-align: left;
+        padding: 3px;
+    }
+}
