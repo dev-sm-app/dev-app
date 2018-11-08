@@ -4,7 +4,7 @@ import { userData } from "../../ducks/reducer";
 import { connect } from "react-redux";
 import Post from "../Post/Post";
 import ReactModal from "react-modal";
-import CodeModal from "../CodeModal/CodeModal"
+import PullUpMenu from "../PullUpMenu/PullUpMenu"
 import cancel from '../../Styles/images/cancel-icon.png'
 
 class Home extends Component {
@@ -17,8 +17,7 @@ class Home extends Component {
       showModal: false,
       posts: [],
       code: "",
-      mode: "",
-      showCodeModal: false
+      mode: "javascript"
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -56,7 +55,9 @@ class Home extends Component {
     this.setState({
       posts: [post, ...this.state.posts], 
       postDescription: '',
-      postPicture: ''
+      postPicture: '',
+      code: "",
+      mode: "javascript"
     })
     axios.post('/api/post', {post})
     this.handleCloseModal()
@@ -73,12 +74,6 @@ class Home extends Component {
     .then(postsRes => this.setState({posts: postsRes.data}))
   }
 
-  toggleShow = () => {
-    this.setState({
-      showCodeModal: !this.state.showCodeModal
-    })
-  }
-
   updateCode = (code) => {
     this.setState({code})
   }
@@ -86,6 +81,28 @@ class Home extends Component {
   updateMode = (e) => {
     this.setState({
       mode: e.target.value
+    })
+  }
+
+  handleDrop = (files) => {
+    const {
+      REACT_APP_CLOUDINARY_URL,
+      REACT_APP_CLOUDINARY_API,
+      REACT_APP_CLOUDINARY_PRESET
+    } = process.env
+
+    const formData = new FormData()
+    formData.append("file", files[0])
+    formData.append("tags", "DevApp, medium, gist")
+    formData.append("upload_preset", `${REACT_APP_CLOUDINARY_PRESET}`)
+    formData.append("api_key", `${REACT_APP_CLOUDINARY_API}`)
+    formData.append("timestamp", (Date.now() / 1000 | 0))
+
+    axios.post(`${REACT_APP_CLOUDINARY_URL}`, formData)
+    .then(res => {
+      this.setState({
+        postPicture: res.data.secure_url
+      })
     })
   }
 
@@ -111,7 +128,8 @@ class Home extends Component {
               background: "#000",
               color: "#00AFF3",
               border: "1px solid #00AFF3",
-              borderRadius: '0'
+              borderRadius: '0',
+              overflow: 'hidden'
             }
           }}
           isOpen={this.state.showModal}
@@ -133,7 +151,14 @@ class Home extends Component {
             />
           </div>
           <div className="modalFoot">
-          <button onClick={() => this.toggleShow()}>...</button>
+          <PullUpMenu
+          code={this.state.code}
+          mode={this.state.mode}
+          updateCode={this.updateCode}
+          updateMode={this.updateMode}
+          handleDrop={this.handleDrop}
+          roomCheck={true}
+          />
             <button onClick={() => this.createPost({
               description: this.state.postDescription, 
               postdate: `${Date.now()}`,
@@ -157,13 +182,6 @@ class Home extends Component {
         <div className="bottomSpace">
           
         </div>
-        <CodeModal 
-        show={this.state.showCodeModal}
-        toggleShow={this.toggleShow}
-        code={this.state.code}
-        mode={this.state.mode}
-        updateCode={this.updateCode}
-        updateMode={this.updateMode}/>
       </div>
     );
   }

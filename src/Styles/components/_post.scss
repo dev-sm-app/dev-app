@@ -1,3 +1,6 @@
+@import "../variables";
+@import "../mixins";
+
 .mainPost {
     // display: flex;
     flex-direction: column;
@@ -85,5 +88,21 @@
             margin-left: 20px;
             margin-right: 20px;
         }
+    }
+}
+
+.message_picture_container {
+    margin: 10px;
+    margin-bottom: -10px;
+}
+
+.post_code_container {
+    margin: 10px;
+    padding-right: 5px;
+    margin-top: 0;
+    width: 97%;
+    z-index: 0;
+    @media only screen and (min-width: 700px) {
+        padding-right: 2px;
     }
 }

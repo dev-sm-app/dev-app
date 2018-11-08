@@ -36,7 +36,7 @@ class PullUpMenu extends Component {
                     >Add Code Snippet</button>
                 </div>
                 <button
-                    className="dots"
+                    id="dots"
                     name="showMenu"
                     onClick={this.toggleShow}
                     disabled={!this.props.roomCheck}

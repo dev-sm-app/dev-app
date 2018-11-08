@@ -2,8 +2,18 @@ import React from 'react';
 import likePost from '../../Styles/images/like-blue.png'
 import commentPost from '../../Styles/images/comment-blue.png'
 import { connect } from "react-redux"
+import { Controlled as CodeMirror } from "react-codemirror2"
+
+import "codemirror/lib/codemirror.css"
+import "codemirror/theme/seti.css"
 
 const Post = props => {
+    const options = {
+        mode: props.post.mode,
+        theme: "seti",
+        lineNumbers: true,
+        lineWrapping: true
+      }
     const difference = Date.now() - Number(props.post.postdate)
     const day = 86400000
     const hour = 3600000
@@ -35,7 +45,30 @@ const Post = props => {
             </header>
             <main>
                 <p>{props.post.description}</p>
-                <img src={props.post.picture} alt="" />
+                {
+                    props.post.picture
+                    ?
+                    <div className="message_picture_container">
+                        <img id="message_picture" src={props.post.picture} alt="" />
+                    </div>
+                    :
+                        null
+                }
+                {
+                    props.post.code
+                    ?
+                        <div className="post_code_container">
+                            <p id="code_mode">{props.post.mode}</p>
+                            <div className="code_container">
+                            <CodeMirror 
+                            options={options}
+                            value={props.post.code}
+                            />
+                            </div>
+                        </div>
+                    :
+                        null
+                }
             </main>
             <footer>
                 <img src={likePost} alt="" />

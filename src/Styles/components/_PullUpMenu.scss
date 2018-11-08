@@ -10,12 +10,12 @@
 }
 
 .pull_up_menu_content {
-    z-index: 4;
+    z-index: 2;
     background: $grayeight;
     @include flexo(column, space-around, center);
     position: absolute;
     height: 10vh;
-    bottom: 10vh;
+    bottom: 14vh;
     width: 15%;
     @include border;
     button {
