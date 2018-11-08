@@ -3,41 +3,60 @@
 
 .bg-profile {
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     font-family: 'Inconsolata', monospace;
+    background-color: black;
+
 }
 
 
 .img-layer {
     @include flexo($justify: space-around, $align: top);
     font-family: 'Inconsolata', monospace;
-    padding: 15px;
+    // padding: 15px;
+    width:100%;
+    height: 15vh;
+
     img {
-        @include border($orange);
+        @include border($blue);
         border-radius: 100%;
         width: 60px;
         height: 60px;
+        object-fit: cover;
     }
     div {
+        @include flexo($direction: column, $align: center);
         margin-top: 15px;
+        width: 25%;
+        height: 10vh;
         h5 {
             text-decoration: underline;
+            font-size: 18px;
+            // @include border($orange);
+            padding: 5px 5px 5px 5px;
+            color: $blue;
+        }
+        p{
+            font-size: 18px;
+            color: $graytwo;
         }
     }
 }
 .pers-info {
     width: 100%;
     padding: 10px 20px 10px 20px;
+    height: 20vh;
+    // padding: 10px;
+
     div{
-        @include flexo($justify: left);
+        // @include flexo($justify: left);
         padding: 5px;
-        h7 {
-            margin-right: 5px;
-            font-size: 13px;
-        }
+        width: 100%;
+        height: 10vh;
         p {
             margin-left: 5px;
             font-size: 13px;
+           line-height: 3px;
            
         }
         span {
@@ -50,20 +69,7 @@
         margin-left: 5px;
     }
 }
-.toggle-bar {
-        width: 100%;
-        height: 7vh;
-        @include flexo($justify: space-around);
-        border-top: 1px solid $blue;
-        border-bottom: 1px solid $blue;
-        margin-top: 10px;
-    button{
-        width: 50px;
-        height: 20px;
-        @include border($blue);
-        font-family: 'Inconsolata', monospace;
-    }
-}
+
 .info-boxes{
     width: 100%;
 }
@@ -124,21 +130,27 @@
             color: $grayone;
             margin-bottom: 30px;
         }
+        #load-btn{
+            width: 100%;
+            @include flexo;
+            height: 10vh;
+        
        button {
            width: 50%;
-           height: 7vh;
+           height: 5vh;
            @include border($orange);
            font-family: 'Inconsolata', monospace;
            background-color: black;
            color: $grayone;
            font-size: 25px;
            margin-top: 50px;
-
-       }
+                }
+            }
+        }
     }
-    }
-   }
 }
+}
+
 
 @media (min-width: 768px) {
     .bg-profile {

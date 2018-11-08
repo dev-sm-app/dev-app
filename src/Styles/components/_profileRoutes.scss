@@ -1,0 +1,277 @@
+@import "../variables";
+@import "../mixins";
+
+.bg-profile {
+    width: 100%;
+    font-family: 'Inconsolata', monospace; 
+}
+
+.routes{
+    width: 100%;
+    height: auto;
+    overflow: scroll;
+}
+.toggle-bar {
+    width: 100%;
+    height: 7vh;
+    @include flexo($justify: space-around);
+    border-top: 1px solid $blue;
+    border-bottom: 1px solid $blue;
+    margin-top: 10px;
+
+    div{
+        width: 33%;
+        @include flexo($justify: space-around);
+        button{
+            width: 96%;
+            height: 5.8vh;
+            font-family: 'Inconsolata', monospace;
+            color: white;
+            background-color: black;
+            border: none;
+            &:focus{
+                @include border($orange);
+                background: transparent;
+            }
+        }
+    }
+}
+
+.info-boxes{
+    width: 100%;
+    
+    button {
+        width: 50%;
+        height: 7vh;
+        @include border($orange);
+        font-family: 'Inconsolata', monospace;
+        background-color: $grayseven;
+        color: $grayone;
+        font-size: 25px;
+        margin-top: 50px;
+    }
+}
+.prof-btn{
+    width: 100%;
+    @include flexo;
+}
+.names_routes {
+    @include flexo($justify: space-around);
+    margin-top: 15px;
+    width: 100%;
+  
+    div{
+        width: 40%;
+        
+        p{
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+        input{
+            height: 4vh;
+            width: 100%;
+            color: white;
+            background-color: black;
+            border: none;
+            border-bottom: 1px solid $orange;
+            // border-left: 1px solid $orange;
+            margin-bottom: 10px;
+            &:focus {
+                outline: 0;
+                background: $grayseven;       
+            }
+        }
+       
+    }
+}
+.types {
+    @include flexo;
+    width: 100%;
+   div {
+    width: 100%;
+    div {
+        width: 100%;
+        p{
+            margin-bottom: 15px;
+            text-decoration: underline;
+        }
+        input {
+            height: 4vh;
+            width: 90%;
+            color: white;
+            background-color: black;
+            border: none;
+            border-bottom: 1px solid $orange;
+            // border-left: 1px solid $orange;
+            margin-bottom: 30px;
+            &:focus {
+                outline: none;
+                background: $grayseven; 
+        }  
+        }
+        div{
+            @include flexo;
+            width: 100%;
+            .select-form {
+                margin-bottom: 20px;
+                height: 4vh;
+                width: 90%;
+                background: black;
+                overflow: hidden;
+                border-radius: 3px;
+                &:focus,
+                &:hover {
+                    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                    outline: none;
+                }
+            
+                &:after {
+                    width: 10%;
+                    content: '▾';
+                    position: absolute;
+                    top: 1px;
+                    right: 10%;
+                    z-index: 0;
+                    color: $orange;
+                    line-height: 4vh;
+                    font-size: 16px;
+                    border: 1px solid $orange;
+                    padding-left: 4%;
+                    &:hover,
+                    &:focus{
+                        width: 8%;
+                        content: '▾';
+                        position: absolute;
+                        top: 1px;
+                        right: 1px;
+                        z-index: 1;
+                        color: $orange;
+                        line-height: 4vh;
+                        font-size: 16px;
+                        border: 1px solid $orange;
+                        padding-left: 10px;
+                    }
+                    .ie & {
+                        display: none;
+                    }
+                }
+            }
+            
+            select {
+                position: relative;
+                background: transparent;
+                background-image: none;
+                display: block;
+                width: 100%;
+                height: 4vh;
+                outline: none;
+                color: white;
+                cursor: pointer;
+                z-index: 2;
+                border: none;
+                text-overflow: '';
+                text-indent: 1px;
+                margin-top: 30px;
+                border-bottom: 1px solid $orange;
+                &:focus{
+                    background: $grayseven;
+                }
+                &[multiple=multiple] {
+                    height: auto;
+                    border: 1px solid $orange;
+                    border-radius: 3px;
+                    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.07);
+                    &:hover,
+                    &:focus {
+                        border-color:$orange;
+                        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                        outline: none;
+                    }
+                }
+            
+                option[disabled] {
+                    color: #eeeeee;
+                    text-shadow: none;
+                    border: none;
+                }
+            }
+            select:-moz-focusring {
+                color: transparent;
+                text-shadow: 0 0 0 #888888;
+            }
+            select::-ms-expand {
+                display: none;
+            }
+            .column-7 {
+               position: relative;
+            }
+        }
+       button {
+           width: 50%;
+           height: 7vh;
+           @include border($orange);
+           font-family: 'Inconsolata', monospace;
+           background-color: $grayseven;
+           color: $grayone;
+           font-size: 25px;
+           margin-top: 50px;
+       }
+       textarea{
+           width: 90%;
+           height: 10vh;
+           color: $grayone;
+           background-color: black;
+           border: none;
+           border: 1px solid $orange;
+           &:focus {
+            outline: 0;
+            background: $grayseven; 
+    }  
+       }
+    }
+    }
+   }
+
+
+   @media (min-width: 768px) {
+    .bg-profile {
+        width: 630px;
+        border-right: 1px solid $blue;
+        border-left: 1px solid $blue;
+    }
+
+    .names {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .names_routes {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+
+    .types {
+        
+        div {
+
+            div {
+
+                textarea {
+                    width: 77%;
+                }
+
+                input {
+                    width: 483px;
+                }
+
+                div {
+
+                    select {
+                        width: 483px;
+                    }
+                }
+            }
+        }
+    }
+}

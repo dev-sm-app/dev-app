@@ -26,7 +26,8 @@
     "react-scripts": "2.0.5",
     "reactstrap": "^6.5.0",
     "redux": "^4.0.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "superagent": "^4.0.0-beta.5"
   },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",

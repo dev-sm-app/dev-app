@@ -89,7 +89,7 @@ class Home extends Component {
           onRequestClose={this.handleCloseModal}
         >
           <div className="modalHead">
-            {/* <p className="postHere">Write your post here!!</p> */}
+          
             <img src={cancel} alt="" onClick={this.handleCloseModal}/>
           </div>
           <div className="postArea">

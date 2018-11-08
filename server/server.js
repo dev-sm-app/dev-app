@@ -25,7 +25,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-app.use(user.devEnvironment)
+// app.use(user.devEnvironment)
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
@@ -35,10 +35,20 @@ app.get('/auth/callback', user.userLogin);
 app.get('/api/auth/setUser', user.SetUser);
 app.get('/api/auth/logout', user.Logout);
 app.put('/api/update', user.updateUser);
+// app.get('/api/scroll', user.Scroll);
+app.get('/api/user/list', user.userList);
+app.get('/api/search', user.myFriends);
+app.get('/api/friends/list', user.getFriends)
+
 
 
 // Friend EndPoints //
-
+app.get('/api/friend/list', friend.myFriends);
+app.post('/api/addfriend', friend.addFriend);
+app.delete('/api/removeFriend/:id', friend.removeFriend);
+app.get('/api/following/count', friend.followingCount);
+app.get('/api/followers/count', friend.followersCount);
+// app.get('/api/post/count', friend.postCount);
 
 // Post EndPoints //
 app.get('/api/posts', post.getPosts)
@@ -49,6 +59,7 @@ app.get("/api/recents", mess.getRecents)
 app.get("/api/messages", mess.getMessages)
 app.post("/api/sendmessage", mess.sendMessage)
 app.get("/api/recents", mess.getRecents)
+app.post('/api/recents', mess.addRecent)
 
 
 io.on('connection', socket => {
