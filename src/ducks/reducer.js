@@ -32,7 +32,7 @@ export function updateCurrentlyMessaging(friend) {
 export default function reducer(state=initialState, action){
    switch(action.type){
        case USER:
-       return Object.assign({}, state, {user: action.payload})
+       return Object.assign({}, state, {user: action.payload});
 
        case UPDATE_FRIEND_NAME:
        return Object.assign({}, state, {friendName: action.payload})

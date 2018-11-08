@@ -1,13 +1,11 @@
-import React, { Component } from "react"
 
-class Search extends Component {
-    render() {
-        return (
-            <div>
-                <h1>Search</h1>
-            </div>
-        )
-    }
+import Scroller from './../features/Scroller';
+import React from 'react'
+
+export default function Search() {
+  return (
+    <div className='main-search'>
+      <Scroller />
+    </div>
+  )
 }
-
-export default Search

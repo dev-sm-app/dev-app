@@ -1,0 +1,1 @@
+insert into recents(userid, friendid, lastmessaged) values($1, $2, $3);

@@ -29,5 +29,14 @@ module.exports = {
         const recents = await db.get_recents([Number(userId)])
         const filteredRecents = recents.filter(contact => !(contact.id === Number(userId)))
         res.status(200).send(filteredRecents)
+    },
+    addRecent: (req, res) => {
+        const db = req.app.get('db');
+
+    db.add_recents([req.session.user.id, req.body.id, `${Date.now()}`]).then(response => res.status(200))
+    .catch(err => {
+        res.status(500).send()
+        console.log(err)
+    })
     }
 }
