@@ -1,1 +1,2 @@
-select * from users where developertype = 'IOS Developement' and firstname = $1;
+select * from users where developertype = 'IOS Development' and id != $3
+limit $1 offset $2;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {userData} from './../../ducks/reducer';
+import FR from './Friendroutes';
 
 
 class ProfileRoutes extends Component {
@@ -67,7 +68,7 @@ class ProfileRoutes extends Component {
             <div>
               <div className='column-7 select-form'>
                 <select className='search-box' value={this.state.dev} onChange={(e) => this.handleChange('dev', e.target.value)}>
-                  <option value='' disabled='disabled' selected='selected'>Choose Developement..</option>
+                  <option value='' disabled='disabled' >Choose Developement..</option>
                   <option value='Web Development'>Web</option>
                   <option value='IOS Development'>IOS</option>
                   <option value='Salesforce Development'>salesforce</option>
@@ -105,14 +106,14 @@ class ProfileRoutes extends Component {
         )
       } else if(this.state.page === 2){
         return (
-          <div>
-
+          <div className='info-boxes'>
+          
           </div>
         )
       } else if(this.state.page === 3){
         return(
-          <div>
-
+          <div className='info-boxes'>
+          <FR />
           </div>
         )
       }

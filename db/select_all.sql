@@ -1,1 +1,3 @@
-select * from users where user.id != $1 and firstname = $2;
+select * from users 
+where id != $1 
+limit $2 offset $3;

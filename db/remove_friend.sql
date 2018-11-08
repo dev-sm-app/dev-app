@@ -1,0 +1,1 @@
+delete from friends where userid = $1 and friendid = $2;

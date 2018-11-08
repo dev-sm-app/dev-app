@@ -3,10 +3,13 @@
 
 .bg-profile {
     width: 100%;
-    font-family: 'Inconsolata', monospace;
-    overflow: scroll;
+    font-family: 'Inconsolata', monospace; 
+}
 
-   
+.routes{
+    width: 100%;
+    height: auto;
+    overflow: scroll;
 }
 .toggle-bar {
     width: 100%;
@@ -54,7 +57,7 @@
     @include flexo($justify: space-around);
     margin-top: 15px;
     width: 100%;
-    overflow: scroll;
+  
     div{
         width: 40%;
         
@@ -121,7 +124,7 @@
                 }
             
                 &:after {
-                    width: 8%;
+                    width: 10%;
                     content: '▾';
                     position: absolute;
                     top: 1px;
@@ -131,7 +134,7 @@
                     line-height: 4vh;
                     font-size: 16px;
                     border: 1px solid $orange;
-                    padding-left: 5%;
+                    padding-left: 4%;
                     &:hover,
                     &:focus{
                         width: 8%;
@@ -144,7 +147,7 @@
                         line-height: 4vh;
                         font-size: 16px;
                         border: 1px solid $orange;
-                        padding-left: 15px;
+                        padding-left: 10px;
                     }
                     .ie & {
                         display: none;

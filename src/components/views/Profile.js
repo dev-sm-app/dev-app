@@ -4,22 +4,47 @@ import {userData} from '../../ducks/reducer';
 import {connect} from 'react-redux';
 import PR from './../profileroutes/ProfileRoutes';
 
+
 class Profile extends Component {
   constructor(){
     super();
     this.state= {
-      
+        followers: [0],
+        following: [0],
+        posts: 0
     }
   }
-  componentDidMount(){
-    axios.get('/api/auth/setUser').then(res => {
-        this.props.userData(res.data);
-    })
+    componentDidMount(){
+      axios.get('/api/auth/setUser').then(res => {
+        if (res.data.developertype === "Web Development") {
+          return (document.getElementById("myH1").style.color = '#00A4F3')
+        } else if (res.data.developertype === "IOS Development") {
+            return (document.getElementById("myH1").style.color = '#F3002B')
+        } else if (res.data.developertype === "Salesforce Development") {
+          return (document.getElementById("myH1").style.color = '#F3C900')
+        } else if (res.data.developertype === "QA Engineer") {
+          return(document.getElementById("myH1").style.color = '#FF41C1')
+        } else if (res.data.developertype === "UX/UI Design") {
+           return (document.getElementById("myH1").style.color = '#00F3C9')
 }
+          this.props.userData(res.data);
+        })
+        this.Counts();
 
-
+    }
+    Counts() {
+      axios.get('/api/followers/count').then(wers => {
+        axios.get('/api/following/count').then(wing => {
+          console.log('wers', wers.data, 'wing', wing.data);
+          this.setState({
+            followers: wers.data[0].count,
+            following: wing.data[0].count,
+            posts: 0
+          });
+        });
+      });
+    }
   render() {
-
     return (
     <div className='bg-profile'>
       <div className="img-layer">
@@ -28,19 +53,25 @@ class Profile extends Component {
         </div>
         <div>
               <h5>Posts</h5>
+              <p>{this.state.posts}</p>
         </div>
         <div>
               <h5>Followers</h5>
+              <p>{this.state.followers}</p>
         </div>
         <div>
               <h5>Following</h5> 
+              <p>{this.state.following}</p>
         </div>
       </div> 
       <div className='pers-info'>
           <div>
-              <h7>{this.props.user.firstname}{` `}{this.props.user.lastname}</h7>|<p>{this.props.user.developertype}</p>
+              <p>{this.props.user.firstname}{` `}{this.props.user.lastname}</p>
+              <p id='myH1' >{' - '}{this.props.user.developertype}</p>
+              <p>{' - '}{this.props.user.company}</p>
+              <br />
           </div>
-              <p>{'   -'}{this.props.user.bio}</p>
+              <p>{' - '}{this.props.user.bio}</p>
       </div>
         <div>
           <PR />
