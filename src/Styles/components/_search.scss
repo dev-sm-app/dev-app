@@ -17,10 +17,10 @@
             width: 70%;
             height: 10vh;
             border: 1px solid $blue;
-            padding: 3%;
+            // padding: 3%;
             input{
-                height: 6.5vh;
-                width: 100%;
+                height: 8vh;
+                width: 98.5%;
                 background-color: $graysix;
                 border: none;
                 font-size: 15px;
@@ -28,6 +28,8 @@
                 text-indent: 4px;
                 font-family: 'Inconsolata', monospace;
                 border: 1px solid $orange;
+                margin: 9px;
+                border-radius: 5px;
                 &:focus{
                     outline: 0;
                 }
@@ -46,7 +48,6 @@
         width: 30%;
         background: black;
         border: 1px solid $blue;
-        padding: 3%;
         &:focus,
         &:hover {
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -56,8 +57,8 @@
             content: '▾';
             position: absolute;
             top: 1px;
-            right: 13px;
-            z-index: 0;
+            right: 20px;
+            z-index: 1;
             color: $orange;
             line-height: 9vh;
             font-size: 30px;
@@ -73,7 +74,7 @@
         background-image: none;
         display: block;
         width: 100%;
-        height: 6.5vh;
+        height: 8vh;
         outline: none;
         color: $orange;
         cursor: pointer;
@@ -85,7 +86,7 @@
         font-size: 15px;
         font-family: 'Inconsolata', monospace;
         border: 1px solid $orange;
-        margin: 0;
+        margin: 7px;
         &[multiple=multiple] {
             height: auto;
             &:hover {

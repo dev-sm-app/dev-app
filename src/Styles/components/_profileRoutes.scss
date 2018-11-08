@@ -133,7 +133,6 @@
                     color: $orange;
                     line-height: 4vh;
                     font-size: 16px;
-                    border: 1px solid $orange;
                     padding-left: 4%;
                     &:hover,
                     &:focus{
@@ -146,7 +145,6 @@
                         color: $orange;
                         line-height: 4vh;
                         font-size: 16px;
-                        border: 1px solid $orange;
                         padding-left: 10px;
                     }
                     .ie & {

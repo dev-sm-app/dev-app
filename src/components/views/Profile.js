@@ -11,7 +11,8 @@ class Profile extends Component {
     this.state= {
         followers: [0],
         following: [0],
-        posts: 0
+        post: 0,
+        posts: []
     }
   }
     componentDidMount(){
@@ -19,14 +20,14 @@ class Profile extends Component {
         if (res.data.developertype === "Web Development") {
           return (document.getElementById("myH1").style.color = '#00A4F3')
         } else if (res.data.developertype === "IOS Development") {
-            return (document.getElementById("myH1").style.color = '#F3002B')
+          return (document.getElementById("myH1").style.color = '#F3002B')
         } else if (res.data.developertype === "Salesforce Development") {
           return (document.getElementById("myH1").style.color = '#F3C900')
         } else if (res.data.developertype === "QA Engineer") {
           return(document.getElementById("myH1").style.color = '#FF41C1')
         } else if (res.data.developertype === "UX/UI Design") {
-           return (document.getElementById("myH1").style.color = '#00F3C9')
-}
+          return (document.getElementById("myH1").style.color = '#00F3C9')
+        }
           this.props.userData(res.data);
         })
         this.Counts();
@@ -35,17 +36,19 @@ class Profile extends Component {
     Counts() {
       axios.get('/api/followers/count').then(wers => {
         axios.get('/api/following/count').then(wing => {
-          console.log('wers', wers.data, 'wing', wing.data);
-          this.setState({
-            followers: wers.data[0].count,
-            following: wing.data[0].count,
-            posts: 0
-          });
+          axios.get('/api/post/count').then(post => {
+            console.log('wers', wers.data, 'wing', wing.data);
+            this.setState({
+              followers: wers.data[0].count,
+              following: wing.data[0].count,
+              post: post.data.length,
+              
+            });
+          })
         });
       });
     }
   render() {
-    console.log(this.props.user, 'company')
     return (
     <div className='bg-profile'>
       <div className="img-layer">
@@ -54,7 +57,7 @@ class Profile extends Component {
         </div>
         <div>
               <h5>Posts</h5>
-              <p>{this.state.posts}</p>
+              <p>{this.state.post}</p>
         </div>
         <div>
               <h5>Followers</h5>
