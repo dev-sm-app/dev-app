@@ -64,7 +64,6 @@ class Message extends Component {
             <div className="userMessageDateStamp">{formatDate(this.props.message.messagedate)}</div>
           </div>
         </div>
-    console.log(this.props.message)
     return (
       <div className={className}>
         {messageAlign}

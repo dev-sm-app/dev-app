@@ -141,14 +141,20 @@ class Messages extends Component {
   }
 
   handleDrop = (files) => {
+    const {
+      REACT_APP_CLOUDINARY_URL,
+      REACT_APP_CLOUDINARY_API,
+      REACT_APP_CLOUDINARY_PRESET
+    } = process.env
+
     const formData = new FormData()
     formData.append("file", files[0])
     formData.append("tags", "DevApp, medium, gist")
-    formData.append("upload_preset", "v2qmuwut")
-    formData.append("api_key", "659836475541174")
+    formData.append("upload_preset", `${REACT_APP_CLOUDINARY_PRESET}`)
+    formData.append("api_key", `${REACT_APP_CLOUDINARY_API}`)
     formData.append("timestamp", (Date.now() / 1000 | 0))
 
-    axios.post("https://api.cloudinary.com/v1_1/dzimxib6y/image/upload", formData)
+    axios.post(`${REACT_APP_CLOUDINARY_URL}`, formData)
     .then(res => {
       console.log(res.data)
       this.setState({
@@ -158,6 +164,7 @@ class Messages extends Component {
   }
 
   render() {
+    console.log("url", this.state.messagepicture)
     if (this.state.recents.length) {
       var recents = this.state.recents.map(recent => {
         return (
@@ -166,8 +173,8 @@ class Messages extends Component {
       });
     }
     if (this.state.messages.length) {
-      var messages = this.state.messages.map(message => {
-        return <Message key={message.id} message={message} />;
+      var messages = this.state.messages.map((message, i) => {
+        return <Message key={i} message={message} />;
       });
     }
     return (
