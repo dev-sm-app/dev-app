@@ -27,6 +27,8 @@
             height: 5.8vh;
             font-family: 'Inconsolata', monospace;
             color: white;
+            background-color: black;
+            border: none;
             &:focus{
                 @include border($orange);
                 background: transparent;
@@ -53,7 +55,7 @@
     width: 100%;
     @include flexo;
 }
-.names {
+.names_routes {
     @include flexo($justify: space-around);
     margin-top: 15px;
     width: 100%;
@@ -128,7 +130,7 @@
                     content: '▾';
                     position: absolute;
                     top: 1px;
-                    right: 1px;
+                    right: 10%;
                     z-index: 0;
                     color: $orange;
                     line-height: 4vh;
@@ -142,7 +144,7 @@
                         position: absolute;
                         top: 1px;
                         right: 1px;
-                        z-index: 0;
+                        z-index: 1;
                         color: $orange;
                         line-height: 4vh;
                         font-size: 16px;
@@ -229,3 +231,47 @@
     }
     }
    }
+
+
+   @media (min-width: 768px) {
+    .bg-profile {
+        width: 630px;
+        border-right: 1px solid $blue;
+        border-left: 1px solid $blue;
+    }
+
+    .names {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .names_routes {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+
+    .types {
+        
+        div {
+
+            div {
+
+                textarea {
+                    width: 77%;
+                }
+
+                input {
+                    width: 483px;
+                }
+
+                div {
+
+                    select {
+                        width: 483px;
+                    }
+                }
+            }
+        }
+    }
+}

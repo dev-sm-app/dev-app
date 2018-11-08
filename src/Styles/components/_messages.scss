@@ -1,7 +1,7 @@
 .mainMessages {
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   background-color: $black;
   font-family: "Inconsolata", monospace;
@@ -18,7 +18,7 @@
 
   .actual_messages {
     overflow: auto;
-    height: 82vh;
+    height: 80vh;
     // @include flexo(column, flex-end, center);
   }
 
