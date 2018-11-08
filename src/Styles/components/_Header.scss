@@ -6,9 +6,7 @@
     @include border;
     font-family: 'Inconsolata', monospace;
     width: 100vw;
-    // height: 10vh;
-    height: 75px;
-    background-color: $graynine;
+    height: 10vh;
 
     .profilePic {
         border-radius: 100%;
@@ -17,6 +15,7 @@
         height: 50px;
         margin-left: 20px;
         margin-right: 20px;
+        object-fit: cover;
     }
 
     .siteLogo {

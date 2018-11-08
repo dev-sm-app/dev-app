@@ -1,0 +1,198 @@
+@import "../variables";
+@import "../mixins";
+
+
+.bg-search{
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    // overflow: auto;
+    #input-edits{
+        @include flexo($justify: space-between, $align: none );
+        width: 100%;
+        height: 10vh;
+        background-color: $grayseven;
+        
+        #div{
+            width: 70%;
+            height: 10vh;
+            border: 1px solid $blue;
+            background: $black;
+            input{
+                height: 8vh;
+                width: 95.5%;
+                margin: 7px;
+                background-color: $graysix;
+                border: none;
+                font-size: 15px;
+                color: $orange;
+                text-indent: 4px;
+                font-family: 'Inconsolata', monospace;
+                border: 1px solid $orange;
+                &:focus{
+                    outline: 0;
+                }
+
+                @media only screen and (min-width: 500px) {
+                    margin-left: 5px
+                }
+                @media only screen and (min-width: 700px) {
+                    width: 98%;
+                }
+            }
+        }
+    }
+
+    #div2{
+        @include flexo($justify: space-between, $align: none );
+        
+    }
+    
+    .form-select {
+        height: 10vh;
+        width: 30%;
+        background: black;
+        border: 1px solid $blue;
+        &:focus,
+        &:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        &:after {
+            content: '▾';
+            position: absolute;
+            top: 1px;
+            right: 13px;
+            z-index: 0;
+            color: $orange;
+            line-height: 9vh;
+            font-size: 30px;
+
+            .ie & {
+                display: none;
+            }
+        }
+    }
+    select {
+        position: relative;
+        background: $graysix;
+        background-image: none;
+        display: block;
+        width: 100%;
+        height: 8vh;
+        outline: none;
+        color: $orange;
+        cursor: pointer;
+        z-index: 0;
+        border: none;
+        padding: 0px 0px 0px 0px;
+        text-overflow: '';
+        text-indent: 1px;
+        font-size: 15px;
+        font-family: 'Inconsolata', monospace;
+        border: 1px solid $orange;
+        margin: 7px;
+        &[multiple=multiple] {
+            height: auto;
+            &:hover {
+                border-color:$blue;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            }
+        }
+        option[disabled] {
+            color: #eeeeee;
+            text-shadow: none;
+            border: none;
+        }
+    }
+    select:-moz-focusring {
+        color: transparent;
+        text-shadow: 0 0 0 #888888;
+    }
+    select::-ms-expand {
+        display: none;
+    }
+    .column-6 {
+       position: relative;
+    }
+}
+#search-info{
+    width: 100%;
+    height: 10vh;
+    border: 1px solid $blue;
+    @include flexo($justify: space-between);
+    background-color: $graysix;
+    div{
+        @include flexo;
+        width: auto;
+        .img{
+            height: 50px;
+            width: 50px;
+            margin-right: 5px;
+            border-radius: 50%;
+            border: 1px solid $orange;
+            object-fit: cover;
+            margin-left: 10px;
+        }
+        div{
+             
+           p{
+            font-size: 14px;
+            font-family: 'Inconsolata', monospace;
+            margin: 5px;
+            }
+        }
+    }
+}
+.users{
+    width: 100%;
+    height: auto;
+    // overflow: scroll;
+    @include flexo($direction: column);
+    bottom: 10vh;
+    overflow: auto;
+}
+#empty-block{
+    width: 100%;
+    height: 10vh;
+    background: transparent;
+}
+.search{
+    width: 90%;
+    height: 10vh;
+    border: none;
+    margin: 10px;
+}
+
+input::placeholder{
+    color: $orange;
+}
+
+#bg-scroll{
+    height:auto;
+    width: 100%;
+    background-color: black;
+    overflow: inherit;
+}
+
+#add-friend{
+    
+    div{
+        width: 15vw;
+        height: 7vh;
+        border-left: 1px solid $blue;
+        img {
+            height: 30px;
+            width: 30px;
+            color: $orange;
+            background-color: transparent;
+            // margin-right: 15px;
+            object-fit: cover;
+            &:focus{
+            border: 1px solid $orange;
+            }
+        
+    }
+    }
+}
+
