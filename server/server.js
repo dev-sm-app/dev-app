@@ -51,7 +51,8 @@ app.get('/api/followers/count', friend.followersCount);
 // app.get('/api/post/count', friend.postCount);
 
 // Post EndPoints //
-
+app.get('/api/posts', post.getPosts)
+app.post('/api/post', post.createPost)
 
 // Message EndPoints //
 app.get("/api/recents", mess.getRecents)

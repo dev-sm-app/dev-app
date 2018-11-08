@@ -1,16 +1,16 @@
 .mainMessages {
   display: flex;
   flex-direction: row;
-  height: 80vh;
+  height: 100vh;
   width: 100vw;
-  background-color: $green;
+  background-color: $black;
   font-family: "Inconsolata", monospace;
 
   .contact_container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 80vh;
+    // height: 100vh;
     width: 20%;
     background-color: $graynine;
     border-right: 1px solid $blue;
@@ -18,15 +18,15 @@
 
   .actual_messages {
     overflow: auto;
-    height: 70vh;
-    // @include flexo(row-reverse)
+    height: 82vh;
+    // @include flexo(column, flex-end, center);
   }
 
   .messages_container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 90vh;
+    // height: 100vh;
     width: 80%;
     background-color: $black;
 
@@ -40,7 +40,7 @@
       display: flex;
       flex-direction: column;
       align-items: space-around;
-      margin-bottom: 10vh;
+      // margin-bottom: 10vh;
       margin-top: 5px;
 
       .name {
@@ -108,4 +108,118 @@ button:active {
 
 button:focus {
   outline: 0;
+}
+
+.altNavBarContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: $graynine;
+}
+
+.altNavBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 2px solid $blue;
+  border-right: 2px solid $blue;
+  border-left: 2px solid $blue;
+  border-bottom: 2px solid $blue;
+  background-color: $grayeight;
+  width: 630px;
+  height: 75px;
+  
+  .message_divider {
+      background-color: $graynine;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 33.3333333%;
+      border-right: 2px solid $blue;
+  }
+
+  .inner_message_box {
+      background-color: $graynine;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid $orange;
+      height: 94%;
+      width: 94%;
+  }
+
+  .inner_message_box_no_orange {
+      background-color: $graynine;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 94%;
+      width: 94%;
+  }
+
+  .home_divider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 33.3333333%;
+      border-right: 2px solid $blue;
+      background-color: $graynine;
+  }
+
+  .search_divider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 33.3333333%;
+      background-color: $graynine;
+  }
+
+  .message {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 32px;
+      width: 32px;
+  }
+
+  .home {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 32px;
+      width: 32px;
+  }
+
+  .search {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 32px;
+      width: 32px;
+  }
+}
+
+@media (min-width: 768px) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 2px solid $blue;
+  border-right: 2px solid $blue;
+  border-left: 2px solid $blue;
+  border-bottom: 2px solid $blue;
+  background-color: $grayeight;
+  width: 700px;
+  height: 75px;
+}
+
+
+@media (min-width: 768px) {
+  .mainMessages {
+    // width: 628px;
+  }
 }

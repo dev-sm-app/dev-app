@@ -5,7 +5,7 @@
     @include flexo($justify: space-between);
     @include border;
     font-family: 'Inconsolata', monospace;
-    width: 100%;
+    width: 100vw;
     height: 10vh;
 
     .profilePic {
@@ -15,6 +15,7 @@
         height: 50px;
         margin-left: 20px;
         margin-right: 20px;
+        object-fit: cover;
     }
 
     .siteLogo {

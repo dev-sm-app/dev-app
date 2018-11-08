@@ -69,7 +69,7 @@ class index extends Component {
         }
         const lastItemOffset = lastItem.offsetTop + lastItem.clientHeight
         const pageOffset = window.pageYOffset + window.innerHeight
-        var bottomOffset = 1
+        var bottomOffset = 20
         if(pageOffset > lastItemOffset - bottomOffset) this.loadMore();
 
     }
