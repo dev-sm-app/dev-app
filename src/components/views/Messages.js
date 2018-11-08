@@ -97,16 +97,10 @@ class Messages extends Component {
   }
 
   createDate(date) {
-    if(date.getHours() >= 10 && date.getMinutes() >= 10){
-      return `${date.getHours()}:${date.getMinutes}`
-    }
-    if(date.getHours() >= 10 && date.getMinutes < 10){
+    if(date.getMinutes() < 10) {
       return `${date.getHours()}:0${date.getMinutes()}`
     }
-    if(date.getHours() < 10 && date.getMinutes >= 10){
-      return `0${date.getHours()}:${date.getMinutes()}`
-    }
-    // return `${date.getHours()}:${date.getMinutes()}`;
+    return `${date.getHours()}:${date.getMinutes()}`
   }
 
   joinRoom(id, name) {
