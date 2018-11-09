@@ -35,6 +35,11 @@
             }
         }
     }
+    button {
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 .info-boxes{
@@ -54,6 +59,11 @@
 .prof-btn{
     width: 100%;
     @include flexo;
+    button {
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 .names_routes {
     @include flexo($justify: space-around);

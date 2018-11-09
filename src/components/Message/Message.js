@@ -8,6 +8,7 @@ import "codemirror/theme/seti.css"
 
 class Message extends Component {
   render() {
+    console.log(this.props.message.mode)
     const options = {
       mode: this.props.message.mode,
       theme: "seti",

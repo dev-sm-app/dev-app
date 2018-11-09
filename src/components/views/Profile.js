@@ -31,6 +31,7 @@ class Profile extends Component {
          return (document.getElementById("myH1").style.color = '#00F3C9')
       }
       this.props.userData(userRes.data);
+      this.Counts();
     }
     catch(err) {
       if(err.response.status === 401) {

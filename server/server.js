@@ -27,6 +27,22 @@ app.use(session({
 }));
 // app.use(user.devEnvironment)
 
+app.use((req, res, next) => {
+    if(req.query.test) {
+        let user = {
+            id: 8,
+            firstname: 'Keaton',
+            lastname: 'turner',
+            developertype: 'Web Development',
+            company: 'Devmountain',
+            bio: 'this is my bio'
+        }
+        req.session.user = user;
+        next()
+    }
+    next()
+})
+
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
 })

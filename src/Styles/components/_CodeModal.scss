@@ -1,3 +1,6 @@
+@import "../variables";
+@import "../mixins";
+
 .code_none {
     display: none
 }
@@ -11,4 +14,44 @@
     right: 0;
     bottom: 0;
     overflow: hidden;
+}
+
+.code_modal_content {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 90vw;
+    select {
+        background: $graysix;
+        display: block;
+        height: 5vh;
+        outline: none;
+        color: $orange;
+        cursor: pointer;
+        border: none;
+        padding: 0px 0px 0px 0px;
+        text-overflow: '';
+        text-indent: 1px;
+        font-size: 15px;
+        font-family: 'Inconsolata', monospace;
+        border: 1px solid $orange;
+        margin: 7px;
+        &[multiple=multiple] {
+            height: auto;
+            &:hover {
+                border-color:$blue;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            }
+        }
+    }
+    button {
+        background: $black;
+        color: $blue;
+        @include border;
+        height: 5vh;
+        width: 50px;
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }

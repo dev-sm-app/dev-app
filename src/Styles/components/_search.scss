@@ -202,3 +202,24 @@ input::placeholder{
     }
 }
 
+@media (min-width: 768px) {
+    .bg-search {
+        width: 700px;
+    }
+}
+
+.add-remove {
+    img {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.tomess {
+    img {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
