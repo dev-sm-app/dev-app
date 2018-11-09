@@ -15,7 +15,7 @@ module.exports = {
                 client_secret: CLIENT_SECRET,
                 code: req.query.code,
                 grant_type: "authorization_code",
-                redirect_uri: `http://${req.headers.host}/auth/callback`
+                redirect_uri: `${process.env.HTTP}://${req.headers.host}/auth/callback`
             }
             let resWithToken = await axios.post(`https://${REACT_APP_DOMAIN}/oauth/token`, payload);
             let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.data.access_token}`);
@@ -37,6 +37,18 @@ module.exports = {
         }
     },
     SetUser: (req, res) => {
+        if(req.query.test){
+            let user = {
+                id: 8,
+                firstname: 'Keaton',
+                lastname: 'turner',
+                developertype: 'Web Development',
+                company: 'Devmountain',
+                bio: 'this is my bio'
+            }
+            req.session.user = user;
+        
+        }
         if(req.session.user){
             res.status(200).send(req.session.user)
         }else{
@@ -45,7 +57,7 @@ module.exports = {
     },
     Logout: (req, res) => {
         req.session.destroy();
-        res.redirect("http://localhost:3000/#/");
+        res.redirect(`${process.env.REACT_APP_SITE_HOST}/#/`);
     },
     updateUser: async (req, res) => {
             const db = req.app.get('db');

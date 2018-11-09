@@ -12,6 +12,7 @@ const mess = require('./controller/Messagecontroller');
 const post = require('./controller/Postcontroller');
 const io = require('socket.io')(server)
 
+app.use(express.static(`${__dirname}/../build`));
 app.use(bodyParser.json());
 const { CONNECTION_STRING,
     SESSION_SECRET,

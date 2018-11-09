@@ -49,7 +49,7 @@ class Messages extends Component {
     this.setState({
       recents: recents.data
     });
-    this.socket = io("http://localhost:3030");
+    this.socket = io(`${process.env.REACT_APP_SERVER_HOST}`);
     this.socket.on("message sent", this.updateMessages);
     if(this.props.currentlyMessaging.id) {
       this.joinRoom(this.props.currentlyMessaging.id, `${this.props.currentlyMessaging.firstname} ${this.props.currentlyMessaging.lastname[0]}`)
