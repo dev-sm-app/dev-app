@@ -29,6 +29,7 @@ class Profile extends Component {
          return (document.getElementById("myH1").style.color = '#00F3C9')
       }
       this.props.userData(userRes.data);
+      console.log("user", this.props.user)
       this.Counts();
     }
     catch(err) {
@@ -41,7 +42,6 @@ class Profile extends Component {
     Counts() {
       axios.get('/api/followers/count').then(wers => {
         axios.get('/api/following/count').then(wing => {
-          console.log('wers', wers.data, 'wing', wing.data);
           this.setState({
             followers: wers.data[0].count,
             following: wing.data[0].count,
@@ -51,7 +51,6 @@ class Profile extends Component {
       });
     }
   render() {
-    console.log(this.props.user, 'company')
     return (
     <div className='bg-profile'>
       <div className="img-layer">

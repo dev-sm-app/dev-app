@@ -47,15 +47,22 @@ module.exports = {
         req.session.destroy();
         res.redirect("http://localhost:3000/#/");
     },
-    updateUser: (req, res) => {
+    updateUser: async (req, res) => {
             const db = req.app.get('db');
-
-        db.update_info([req.session.user.id, req.body.first, req.body.last, req.body.dev, req.body.company, req.body.bio])
-        .then(user => res.status(200).send(user))
-        .catch(err => {
-            res.status(500).send()
-            console.log(err)
-        })
+            if(req.session.user) {
+                try {
+                    let user = await db.update_info([req.session.user.id, req.body.first, req.body.last, req.body.dev, req.body.company, req.body.bio])
+                    let updatedUser = await db.get_updated_user([req.session.user.id])
+                    req.session.user = updatedUser[0]
+                    res.status(200).send(user)
+                }catch(err) {
+                    console.log(err)
+                    res.sendStatus(500)
+                }
+            }
+            else {
+                res.sendStatus(401)
+            }
     },
     devEnvironment: (req, res, next) => {
         if(ENVIRONMENT === "dev") {

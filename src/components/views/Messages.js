@@ -34,6 +34,10 @@ class Messages extends Component {
     try {
       let userRes = await axios.get("/api/auth/setUser")
         this.props.userData(userRes.data);
+        if(!this.props.user.firstname || !this.props.user.lastname || !this.props.user.developertype) {
+          alert("Please edit your profile and fill out the fields")
+          this.props.history.push("/profile")
+      }
     }
     catch(err) {
       if(err.response.status === 401) {
@@ -163,7 +167,6 @@ class Messages extends Component {
 
     axios.post(`${REACT_APP_CLOUDINARY_URL}`, formData)
     .then(res => {
-      console.log(res.data)
       this.setState({
         messagepicture: res.data.secure_url
       })
@@ -171,7 +174,6 @@ class Messages extends Component {
   }
 
   render() {
-    console.log(this.state.recents)
     if (this.state.recents.length) {
       var recents = this.state.recents.map(recent => {
         return (

@@ -23,14 +23,18 @@ class index extends Component {
 
         }
     }
-    componentWillMount(){
+    async componentWillMount(){
         this.loadUsers();
          window.addEventListener('scroll', this.invokeScroll)
     }
     async componentDidMount() {
         try {
             let userRes = await axios.get("/api/auth/setUser")
-              this.props.userData(userRes.data);
+            this.props.userData(userRes.data);
+            if(!this.props.user.firstname || !this.props.user.lastname || !this.props.user.developertype) {
+                alert("Please edit your profile and fill out the fields")
+                this.props.history.push("/profile")
+            }
         }
         catch(err) {
             console.log(err)
@@ -154,4 +158,10 @@ class index extends Component {
   }
 }
 
-export default connect(null, {updateFriendName, updateCurrentlyMessaging, userData})(withRouter(index));
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, {updateFriendName, updateCurrentlyMessaging, userData})(withRouter(index));
