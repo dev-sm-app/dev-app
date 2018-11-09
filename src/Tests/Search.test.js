@@ -1,21 +1,23 @@
-const {handleChange, handleScroll} = require('./../Logic/SearchLogic');
+const {Page, totalPage} = require('./../Logic/SearchLogic');
 
-describe('handleChange should take in the correct values', () => {
-    test('check for String values', () => {
-
+describe('checking to see if page has correct values', () => {
+    test('check type number', () => {
+        expect(() => Page('hi')).toThrowError('page needs to be a number')
     })
-    test('either or values', () => {
-
+    test('increments value passed in', () => {
+        expect(Page(1)).toBe(2)
     })
 })
-describe('handleScroll should pass to allowing scrolling',() => {
-    test('check if boolean value exists', () => {
- 
+describe('total page should get correct values',() => {
+    test('check type number', () => {
+        expect(() => totalPage('hi')).toThrowError('totalPage to be a number')
     })
-    test('check to make sure page and total page is a number', () => {
-
-    })
-    test('page hasto be less then totalPage', () => {
-
+    test('getting correct values back', () => {
+        expect(totalPage(2)).toBe(3)
+        })
+    test('page has to be less then totalPage', () => {
+        var pageNum = Page(0)
+        var totalPages = totalPage(1)
+        expect(pageNum < totalPages).toBe(true);
     })
 })

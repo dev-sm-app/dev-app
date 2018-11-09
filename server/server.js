@@ -48,18 +48,17 @@ app.post('/api/addfriend', friend.addFriend);
 app.delete('/api/removeFriend/:id', friend.removeFriend);
 app.get('/api/following/count', friend.followingCount);
 app.get('/api/followers/count', friend.followersCount);
-// app.get('/api/post/count', friend.postCount);
 
 // Post EndPoints //
-app.get('/api/posts', post.getPosts)
-app.post('/api/post', post.createPost)
+app.get('/api/posts', post.getPosts);
+app.post('/api/post', post.createPost);
+app.get('/api/post/count', post.postCount);
 app.delete("/api/post/:id", post.deletePost)
 
 // Message EndPoints //
 app.get("/api/recents", mess.getRecents)
 app.get("/api/messages", mess.getMessages)
 app.post("/api/sendmessage", mess.sendMessage)
-app.get("/api/recents", mess.getRecents)
 app.post('/api/recents', mess.addRecent)
 
 
