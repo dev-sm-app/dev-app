@@ -22,7 +22,7 @@ module.exports = {
     removeFriend: (req, res) => {
         const db = req.app.get('db');
 
-    db.remove_friend([req.session.user.id, req.params.id]).then(friend => res.status(200))
+    db.remove_friend([req.session.user.id, req.params.id]).then(friend => res.sendStatus(200))
      .catch(err => {
          res.status(500).send()
          console.log(err)

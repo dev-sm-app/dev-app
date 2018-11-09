@@ -52,6 +52,7 @@ class Home extends Component {
   }
 
   createPost (post) {
+    axios.post('/api/post', {post})
     this.setState({
       posts: [post, ...this.state.posts], 
       postDescription: '',
@@ -59,7 +60,6 @@ class Home extends Component {
       code: "",
       mode: "javascript"
     })
-    axios.post('/api/post', {post})
     this.handleCloseModal()
   }
 

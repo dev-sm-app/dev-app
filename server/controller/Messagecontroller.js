@@ -33,17 +33,17 @@ module.exports = {
 
         try {
             if(req.session.user) {
-                const recents = await db.get_recents([req.session.user.id])
-                const filteredRecents = recents.filter(contact => !(contact.id === req.session.user.id))
-                const index = filteredRecents.findIndex((contact) => contact.id === req.session.user.id && contact.friendid === req.body.id)
+                const recentsArrOne = await db.get_recents([req.session.user.id])
+                const recentsArrTwo = await db.get_recents_two([req.session.user.id])
+                const recents = [...recentsArrOne, ...recentsArrTwo]
+                const index = recents.findIndex((contact) => contact.id === req.body.id)
                 console.log(index)
                 if(index === -1) {
-                    await db.update_last_messaged([`${Date.now()}`, req.session.user.id, req.body.id])
+                    await db.add_recents([req.session.user.id, req.body.id, `${Date.now()}`])
                     res.sendStatus(200)
-    
                 }
                 else {
-                    await db.add_recents([req.session.user.id, req.body.id, `${Date.now()}`])
+                    await db.update_last_messaged([`${Date.now()}`, req.session.user.id, req.body.id])
                     res.sendStatus(200)
                 }
             }

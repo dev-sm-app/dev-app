@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 function Header(props) {
     let text = ""
     if(props.location.pathname === "/home") {
-        text = "Dev App"
+        text = "Dev Stack"
     }
     if(props.location.pathname === "/messages") {
         if(props.friendName) {

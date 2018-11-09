@@ -3,8 +3,11 @@ import axios from 'axios';
 import removeFriend from './../../Styles/images/remove.png';
 // import addFriend from './../../Styles/images/user.png';
 import message from './../../Styles/images/speech-bubble.png';
+import {connect} from "react-redux"
+import { updateFriendName, updateCurrentlyMessaging} from "../../ducks/reducer"
+import { withRouter } from "react-router-dom"
 
-export default class Friendroutes extends Component {
+class Friendroutes extends Component {
     constructor(){
         super();
         this.state = {
@@ -41,6 +44,18 @@ export default class Friendroutes extends Component {
         }), this.getFriends());
     }
 
+    directMessage = async (e) => {
+        await axios.post('/api/recents', {id: e.id})
+        this.props.updateFriendName(`${e.firstname} ${e.lastname[0]}`);
+        this.props.updateCurrentlyMessaging(e);
+        this.props.history.push('/messages')
+    }
+
+    removeFriend = (e) => {
+        axios.delete(`/api/removefriend/${e.id}`)
+        this.setState({friend: false})  
+    }
+
   render() {
      const btnStyle = {
          bottom: '12vh',
@@ -63,7 +78,7 @@ export default class Friendroutes extends Component {
                          
             </div>
             <div className='tomess'>
-                  <img src={message} alt='' onClick={this.directMessage}/>        
+                  <img src={message} alt='' onClick={() => this.directMessage(users)}/>        
             </div>
         </div>
               </div>
@@ -84,3 +99,5 @@ export default class Friendroutes extends Component {
     )
   }
 }
+
+export default connect(null, { updateFriendName, updateCurrentlyMessaging})(withRouter(Friendroutes))

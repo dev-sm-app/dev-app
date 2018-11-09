@@ -171,7 +171,7 @@ class Messages extends Component {
   }
 
   render() {
-    console.log("url", this.state.messagepicture)
+    console.log(this.state.recents)
     if (this.state.recents.length) {
       var recents = this.state.recents.map(recent => {
         return (
