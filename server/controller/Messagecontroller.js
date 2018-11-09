@@ -20,9 +20,9 @@ module.exports = {
         const db = req.app.get("db")
 
         if(req.session.user) {
-            const recents = await db.get_recents([req.session.user.id])
-            const filteredRecents = recents.filter(contact => !(contact.id === req.session.user.id))
-            res.status(200).send(filteredRecents)
+            const recentsOne = await db.get_recents([req.session.user.id])
+            const recentsTwo = await db.get_recents_two([req.session.user.id])
+            res.status(200).send([...recentsOne, ...recentsTwo])
         }
         else {
             res.status(401).send("Need to be logged in")
@@ -33,17 +33,18 @@ module.exports = {
 
         try {
             if(req.session.user) {
-                const recents = db.get_recents([req.session.user.id])
+                const recents = await db.get_recents([req.session.user.id])
                 const filteredRecents = recents.filter(contact => !(contact.id === req.session.user.id))
                 const index = filteredRecents.findIndex((contact) => contact.id === req.session.user.id && contact.friendid === req.body.id)
-                if(index >= 0) {
+                console.log(index)
+                if(index === -1) {
                     await db.update_last_messaged([`${Date.now()}`, req.session.user.id, req.body.id])
-                    res.status(200)
+                    res.sendStatus(200)
     
                 }
                 else {
                     await db.add_recents([req.session.user.id, req.body.id, `${Date.now()}`])
-                    res.status(200)
+                    res.sendStatus(200)
                 }
             }
             else {

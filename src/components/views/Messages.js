@@ -47,6 +47,13 @@ class Messages extends Component {
     });
     this.socket = io("http://localhost:3030");
     this.socket.on("message sent", this.updateMessages);
+    if(this.props.currentlyMessaging.id) {
+      this.joinRoom(this.props.currentlyMessaging.id, `${this.props.currentlyMessaging.firstname} ${this.props.currentlyMessaging.lastname[0]}`)
+      let messages = await axios.get(`/api/messages?userId=${this.props.user.id}&friendId=${this.props.currentlyMessaging.id}`)
+      this.setState({
+        messages: messages.data
+      })
+    }
   }
 
   async componentDidUpdate(prevProps) {
