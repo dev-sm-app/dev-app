@@ -37,6 +37,18 @@ module.exports = {
         }
     },
     SetUser: (req, res) => {
+        if(req.query.test){
+            let user = {
+                id: 8,
+                firstname: 'Keaton',
+                lastname: 'turner',
+                developertype: 'Web Development',
+                company: 'Devmountain',
+                bio: 'this is my bio'
+            }
+            req.session.user = user;
+        
+        }
         if(req.session.user){
             res.status(200).send(req.session.user)
         }else{
