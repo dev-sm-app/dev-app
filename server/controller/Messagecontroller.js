@@ -12,10 +12,9 @@ module.exports = {
     sendMessage: (req, res) => {
         const db = req.app.get("db")
         const { userid, friendid, authorpicture, message, messagepicture, messagedate, code, mode } = req.body
-        console.log("hi")
 
         db.send_message([Number(userid), Number(friendid), authorpicture, message, messagepicture, messagedate, code, mode])
-        .then(() => res.status(200).send("Adsfa"))
+        .then(() => res.sendStatus(200))
         .catch(err => console.log(err))
     },
     getRecents: async (req, res) => {
