@@ -57,16 +57,17 @@ class Home extends Component {
   }
 
   createPost (post) {
-    axios.post('/api/post', {post})
-    this.setState({
-      posts: [post, ...this.state.posts], 
-      postDescription: '',
-      postPicture: '',
-      code: "",
-      mode: "javascript"
-    })
-    this.handleCloseModal()
-  }
+    
+      axios.post('/api/post', {post})
+      this.setState({
+        posts: [post, ...this.state.posts], 
+        postDescription: '',
+        postPicture: '',
+        code: "",
+        mode: "javascript"
+      })
+      this.handleCloseModal()
+    }
 
   handleInput(e) {
     this.setState({

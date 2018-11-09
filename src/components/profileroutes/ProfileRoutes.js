@@ -3,6 +3,7 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import {userData} from './../../ducks/reducer';
 import FR from './Friendroutes';
+import PR from './Postroutes';
 
 
 class ProfileRoutes extends Component {
@@ -107,7 +108,8 @@ class ProfileRoutes extends Component {
       } else if(this.state.page === 2){
         return (
           <div className='info-boxes'>
-          
+          <PR />
+          <div id='dead-space'></div>
           </div>
         )
       } else if(this.state.page === 3){

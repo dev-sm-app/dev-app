@@ -27,6 +27,22 @@ app.use(session({
 }));
 // app.use(user.devEnvironment)
 
+app.use((req, res, next) => {
+    if(req.query.test) {
+        let user = {
+            id: 8,
+            firstname: 'Keaton',
+            lastname: 'turner',
+            developertype: 'Web Development',
+            company: 'Devmountain',
+            bio: 'this is my bio'
+        }
+        req.session.user = user;
+        next()
+    }
+    next()
+})
+
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
 })
@@ -48,11 +64,11 @@ app.post('/api/addfriend', friend.addFriend);
 app.delete('/api/removeFriend/:id', friend.removeFriend);
 app.get('/api/following/count', friend.followingCount);
 app.get('/api/followers/count', friend.followersCount);
-// app.get('/api/post/count', friend.postCount);
 
 // Post EndPoints //
-app.get('/api/posts', post.getPosts)
-app.post('/api/post', post.createPost)
+app.get('/api/posts', post.getPosts);
+app.post('/api/post', post.createPost);
+app.get('/api/post/count', post.postCount);
 app.delete("/api/post/:id", post.deletePost)
 
 // Message EndPoints //

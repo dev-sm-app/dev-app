@@ -21,7 +21,6 @@
             input{
                 height: 8vh;
                 width: 95.5%;
-                margin: 7px;
                 background-color: $graysix;
                 border: none;
                 font-size: 15px;
@@ -29,6 +28,8 @@
                 text-indent: 4px;
                 font-family: 'Inconsolata', monospace;
                 border: 1px solid $orange;
+                margin: 7px;
+                border-radius: 5px;
                 &:focus{
                     outline: 0;
                 }
@@ -59,11 +60,11 @@
         }
     
         &:after {
-            // content: '▾';
+            content: '▾';
             position: absolute;
             top: 1px;
-            right: 13px;
-            z-index: 0;
+            right: 10px;
+            z-index: 1;
             color: $orange;
             line-height: 9vh;
             font-size: 30px;
@@ -193,6 +194,11 @@ input::placeholder{
             }
         
     }
+    }
+}
+@media (min-width: 768px) {
+    .bg-search {
+        width: 700px;
     }
 }
 

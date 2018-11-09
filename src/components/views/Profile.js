@@ -11,11 +11,13 @@ class Profile extends Component {
     this.state= {
         followers: [0],
         following: [0],
-        posts: 0
+        post: 0,
+        posts: []
     }
   }
   async componentDidMount(){
     try {
+      this.Counts();
       let userRes = await axios.get("/api/auth/setUser")
       if (userRes.data.developertype === "Web Development") {
         return (document.getElementById("myH1").style.color = '#00A4F3')
@@ -29,7 +31,6 @@ class Profile extends Component {
          return (document.getElementById("myH1").style.color = '#00F3C9')
       }
       this.props.userData(userRes.data);
-      console.log("user", this.props.user)
       this.Counts();
     }
     catch(err) {
@@ -42,11 +43,15 @@ class Profile extends Component {
     Counts() {
       axios.get('/api/followers/count').then(wers => {
         axios.get('/api/following/count').then(wing => {
-          this.setState({
-            followers: wers.data[0].count,
-            following: wing.data[0].count,
-            posts: 0
-          });
+          axios.get('/api/post/count').then(post => {
+            console.log('wers', wers.data, 'wing', wing.data);
+            this.setState({
+              followers: wers.data[0].count,
+              following: wing.data[0].count,
+              post: post.data.length,
+              
+            });
+          })
         });
       });
     }
@@ -59,7 +64,7 @@ class Profile extends Component {
         </div>
         <div>
               <h5>Posts</h5>
-              <p>{this.state.posts}</p>
+              <p>{this.state.post}</p>
         </div>
         <div>
               <h5>Followers</h5>
