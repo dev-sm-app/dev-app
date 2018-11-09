@@ -59,15 +59,22 @@ module.exports = {
         req.session.destroy();
         res.redirect("http://localhost:3000/#/");
     },
-    updateUser: (req, res) => {
+    updateUser: async (req, res) => {
             const db = req.app.get('db');
-
-        db.update_info([req.session.user.id, req.body.first, req.body.last, req.body.dev, req.body.company, req.body.bio])
-        .then(user => res.status(200).send(user))
-        .catch(err => {
-            res.status(500).send()
-            console.log(err)
-        })
+            if(req.session.user) {
+                try {
+                    let user = await db.update_info([req.session.user.id, req.body.first, req.body.last, req.body.dev, req.body.company, req.body.bio])
+                    let updatedUser = await db.get_updated_user([req.session.user.id])
+                    req.session.user = updatedUser[0]
+                    res.status(200).send(user)
+                }catch(err) {
+                    console.log(err)
+                    res.sendStatus(500)
+                }
+            }
+            else {
+                res.sendStatus(401)
+            }
     },
     devEnvironment: (req, res, next) => {
         if(ENVIRONMENT === "dev") {
@@ -96,42 +103,48 @@ module.exports = {
         req.query.limit = Number(req.query.limit);
         req.query.page = Number(req.query.page);
 
-        db.my_friends(req.session.user.id).then(result => {
+        if(req.session.user) {
 
-            if(req.query.input && req.query.select === ''){
-                
-            } else if(req.query.input === '%%' && req.query.select){
-                 if(req.query.select === 'All'){
-                    db.select_all([req.session.user.id, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
-                    } else if(req.query.select === 'Web Development'){
-                    db.select_web([req.query.limit, req.query.page, req.session.user.id]).then(user => res.status(200).send({user, result})) 
-                    } else if(req.query.select === 'IOS Development'){
-                    db.select_ios([req.query.limit, req.query.page, req.session.user.id]).then(user => res.status(200).send({user, result}))
-                    } else if(req.query.select === 'Salesforce Development'){
-                    db.select_sales([req.query.limit, req.query.page, req.session.user.id ]).then(user => res.status(200).send({user, result})) 
-                    } else if(req.query.select === 'QA Engineer'){
-                    db.select_qa([req.query.limit, req.query.page, req.session.user.id]).then(user => res.status(200).send({user, result}))
-                    } else if(req.query.select === 'UX/UI Design'){
-                    db.select_ux([req.query.limit, req.query.page, req.session.user.id]).then(user => res.status(200).send({user, result}))
-                    }
-            }else if(req.query.select ==='All'){
-                db.input_all([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
-            }else if(req.query.select === 'Web Development'){
-                db.input_web([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result})) 
-            }else if(req.query.select === 'IOS Development'){
-                db.input_ios([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
-            }else if(req.query.select === 'Salesforce Development'){
-                db.input_sales([req.session.user.id, req.query.input, req.query.limit, req.query.page ]).then(user => res.status(200).send({user, result})) 
-            }else if(req.query.select === 'QA Engineer'){
-                db.input_qa([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
-            }else if(req.query.select === 'UX/UI Design'){
-                db.input_ux([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
- 
-            }
-        }).catch(err => {
-            res.status(500)
-            console.log(err)
-        })
+            db.my_friends(req.session.user.id).then(result => {
+    
+                if(req.query.input && req.query.select === ''){
+                    
+                } else if(req.query.input === '%%' && req.query.select){
+                     if(req.query.select === 'All'){
+                        db.select_all([req.session.user.id, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
+                        } else if(req.query.select === 'Web Development'){
+                        db.select_web([req.query.limit, req.query.page, req.session.user.id]).then(user => res.status(200).send({user, result})) 
+                        } else if(req.query.select === 'IOS Development'){
+                        db.select_ios([req.query.limit, req.query.page, req.session.user.id]).then(user => res.status(200).send({user, result}))
+                        } else if(req.query.select === 'Salesforce Development'){
+                        db.select_sales([req.query.limit, req.query.page, req.session.user.id ]).then(user => res.status(200).send({user, result})) 
+                        } else if(req.query.select === 'QA Engineer'){
+                        db.select_qa([req.query.limit, req.query.page, req.session.user.id]).then(user => res.status(200).send({user, result}))
+                        } else if(req.query.select === 'UX/UI Design'){
+                        db.select_ux([req.query.limit, req.query.page, req.session.user.id]).then(user => res.status(200).send({user, result}))
+                        }
+                }else if(req.query.select ==='All'){
+                    db.input_all([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
+                }else if(req.query.select === 'Web Development'){
+                    db.input_web([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result})) 
+                }else if(req.query.select === 'IOS Development'){
+                    db.input_ios([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
+                }else if(req.query.select === 'Salesforce Development'){
+                    db.input_sales([req.session.user.id, req.query.input, req.query.limit, req.query.page ]).then(user => res.status(200).send({user, result})) 
+                }else if(req.query.select === 'QA Engineer'){
+                    db.input_qa([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
+                }else if(req.query.select === 'UX/UI Design'){
+                    db.input_ux([req.session.user.id, req.query.input, req.query.limit, req.query.page]).then(user => res.status(200).send({user, result}))
+     
+                }
+            }).catch(err => {
+                res.status(500)
+                console.log(err)
+            })
+        }
+        else {
+            res.status(401).send("Need to be logged in")
+        }
     },
     getFriends: (req, res) => {
         const db = req.app.get('db');

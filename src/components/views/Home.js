@@ -29,6 +29,11 @@ class Home extends Component {
     try {
       let userRes = await axios.get("/api/auth/setUser")
         this.props.userData(userRes.data);
+        console.log("user", this.props.user)
+        if(!this.props.user.firstname || !this.props.user.lastname || !this.props.user.developertype) {
+          alert("Please edit your profile and fill out the fields")
+          this.props.history.push("/profile")
+      }
     }
     catch(err) {
       if(err.response.status === 401) {
@@ -52,16 +57,17 @@ class Home extends Component {
   }
 
   createPost (post) {
-    this.setState({
-      posts: [post, ...this.state.posts], 
-      postDescription: '',
-      postPicture: '',
-      code: "",
-      mode: "javascript"
-    })
-    axios.post('/api/post', {post})
-    this.handleCloseModal()
-  }
+    
+      axios.post('/api/post', {post})
+      this.setState({
+        posts: [post, ...this.state.posts], 
+        postDescription: '',
+        postPicture: '',
+        code: "",
+        mode: "javascript"
+      })
+      this.handleCloseModal()
+    }
 
   handleInput(e) {
     this.setState({

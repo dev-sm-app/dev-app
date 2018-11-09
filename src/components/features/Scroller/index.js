@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {updateFriendName, updateCurrentlyMessaging} from './../../../ducks/reducer';
+import {updateFriendName, updateCurrentlyMessaging, userData} from './../../../ducks/reducer';
 
 
 
@@ -23,9 +23,26 @@ class index extends Component {
 
         }
     }
-    componentWillMount(){
+    async componentWillMount(){
         this.loadUsers();
          window.addEventListener('scroll', this.invokeScroll)
+    }
+    async componentDidMount() {
+        try {
+            let userRes = await axios.get("/api/auth/setUser")
+            this.props.userData(userRes.data);
+            if(!this.props.user.firstname || !this.props.user.lastname || !this.props.user.developertype) {
+                alert("Please edit your profile and fill out the fields")
+                this.props.history.push("/profile")
+            }
+        }
+        catch(err) {
+            console.log(err)
+            if(err.response.status === 401) {
+              alert("You need to login")
+              this.props.history.push("/")
+            }
+        }
     }
     invokeScroll = (e) => {
         this.handleScroll(e)
@@ -141,4 +158,10 @@ class index extends Component {
   }
 }
 
-export default connect(null, {updateFriendName, updateCurrentlyMessaging})(withRouter(index));
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, {updateFriendName, updateCurrentlyMessaging, userData})(withRouter(index));

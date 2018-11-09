@@ -27,17 +27,14 @@ class SearchScroll extends Component {
              this.setState({friend: false})  
     }
 
-  directMessage = async (e) => {
-        console.log("before")
-        await axios.post('/api/recents', {
-              id: e.id
-        })
-        console.log("after")
-        this.props.updateFriendName(`${e.firstname} ${e.lastname[0]}`);
-        this.props.updateCurrentlyMessaging(e);
-        this.props.history.push('/messages')
-  }
-
+    directMessage = async (e) => {
+      console.log("before")
+      await axios.post('/api/recents', {id: e.id})
+      console.log("after")
+      this.props.updateFriendName(`${e.firstname} ${e.lastname[0]}`);
+      this.props.updateCurrentlyMessaging(e);
+      this.props.history.push('/messages')
+    }
      
   render() {
 

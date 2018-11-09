@@ -34,6 +34,10 @@ class Messages extends Component {
     try {
       let userRes = await axios.get("/api/auth/setUser")
         this.props.userData(userRes.data);
+        if(!this.props.user.firstname || !this.props.user.lastname || !this.props.user.developertype) {
+          alert("Please edit your profile and fill out the fields")
+          this.props.history.push("/profile")
+      }
     }
     catch(err) {
       if(err.response.status === 401) {
@@ -47,6 +51,13 @@ class Messages extends Component {
     });
     this.socket = io("http://localhost:3030");
     this.socket.on("message sent", this.updateMessages);
+    if(this.props.currentlyMessaging.id) {
+      this.joinRoom(this.props.currentlyMessaging.id, `${this.props.currentlyMessaging.firstname} ${this.props.currentlyMessaging.lastname[0]}`)
+      let messages = await axios.get(`/api/messages?userId=${this.props.user.id}&friendId=${this.props.currentlyMessaging.id}`)
+      this.setState({
+        messages: messages.data
+      })
+    }
   }
 
   async componentDidUpdate(prevProps) {
@@ -156,7 +167,6 @@ class Messages extends Component {
 
     axios.post(`${REACT_APP_CLOUDINARY_URL}`, formData)
     .then(res => {
-      console.log(res.data)
       this.setState({
         messagepicture: res.data.secure_url
       })
@@ -164,7 +174,6 @@ class Messages extends Component {
   }
 
   render() {
-    console.log("url", this.state.messagepicture)
     if (this.state.recents.length) {
       var recents = this.state.recents.map(recent => {
         return (
