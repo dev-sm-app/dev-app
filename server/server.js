@@ -59,7 +59,6 @@ app.delete("/api/post/:id", post.deletePost)
 app.get("/api/recents", mess.getRecents)
 app.get("/api/messages", mess.getMessages)
 app.post("/api/sendmessage", mess.sendMessage)
-app.get("/api/recents", mess.getRecents)
 app.post('/api/recents', mess.addRecent)
 
 

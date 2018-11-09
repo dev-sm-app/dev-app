@@ -16,41 +16,39 @@ module.exports = {
         db.send_message([Number(userid), Number(friendid), authorpicture, message, messagepicture, messagedate, code, mode])
         .then(() => res.status(200))
     },
-    getRecents: async(req, res) => {
-        const db = req.app.get("db")
+    getRecents: async (req, res) => {
+            const db = req.app.get("db")
 
-        if(req.session.user) {
-            const recents = await db.get_recents([req.session.user.id])
-            const filteredRecents = recents.filter(contact => !(contact.id === req.session.user.id))
-            res.status(200).send(filteredRecents)
-        }
-        else {
-            res.status(401).send("Need to be logged in")
-        }
-    },
-    addRecent: async (req, res) => {
-        const db = req.app.get('db');
-
-        try {
-            if(req.session.user) {
-                const recents = db.get_recents([req.session.user.id])
-                const filteredRecents = recents.filter(contact => !(contact.id === req.session.user.id))
-                const index = filteredRecents.findIndex((contact) => contact.id === req.session.user.id && contact.friendid === req.body.id)
-                if(index >= 0) {
-                    await db.update_last_messaged([`${Date.now()}`, req.session.user.id, req.body.id])
-                    res.status(200)
-    
-                }
-                else {
-                    await db.add_recents([req.session.user.id, req.body.id, `${Date.now()}`])
-                    res.status(200)
-                }
-            }
-            else {
+            if (req.session.user) {
+                const recentsOne = await db.get_recents([req.session.user.id])
+                const recentsTwo = await db.get_recents_two([req.session.user.id])
+                res.status(200).send([...recentsOne, ...recentsTwo])
+            } else {
                 res.status(401).send("Need to be logged in")
             }
-        } catch(err) {
-            console.log(err)
+        },
+        addRecent: async (req, res) => {
+            const db = req.app.get('db');
+
+            try {
+                if (req.session.user) {
+                    const recents = await db.get_recents([req.session.user.id])
+                    const filteredRecents = recents.filter(contact => !(contact.id === req.session.user.id))
+                    const index = filteredRecents.findIndex((contact) => contact.id === req.session.user.id && contact.friendid === req.body.id)
+                    console.log(index)
+                    if (index === -1) {
+                        await db.update_last_messaged([`${Date.now()}`, req.session.user.id, req.body.id])
+                        res.sendStatus(200)
+
+                    } else {
+                        await db.add_recents([req.session.user.id, req.body.id, `${Date.now()}`])
+                        res.sendStatus(200)
+                    }
+                } else {
+                    res.status(401).send("Need to be logged in")
+                }
+            } catch (err) {
+                console.log(err)
+            }
         }
-    }
 }

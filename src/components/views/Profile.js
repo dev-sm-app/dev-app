@@ -17,6 +17,7 @@ class Profile extends Component {
   }
   async componentDidMount(){
     try {
+      this.Counts();
       let userRes = await axios.get("/api/auth/setUser")
       if (userRes.data.developertype === "Web Development") {
         return (document.getElementById("myH1").style.color = '#00A4F3')
@@ -30,7 +31,6 @@ class Profile extends Component {
          return (document.getElementById("myH1").style.color = '#00F3C9')
       }
       this.props.userData(userRes.data);
-      this.Counts();
     }
     catch(err) {
       if(err.response.status === 401) {

@@ -41,6 +41,7 @@ export default class Friendroutes extends Component {
         }), this.getFriends());
     }
 
+
   render() {
      const btnStyle = {
          bottom: '12vh',

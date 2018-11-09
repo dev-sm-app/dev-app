@@ -109,6 +109,7 @@ class ProfileRoutes extends Component {
         return (
           <div className='info-boxes'>
           <PR />
+          <div id='dead-space'></div>
           </div>
         )
       } else if(this.state.page === 3){
